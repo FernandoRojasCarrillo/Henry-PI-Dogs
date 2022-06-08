@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
 
-require('./db.js');
+// require('./db.js');
 
 const server = express();
 
@@ -12,6 +12,7 @@ server.name = 'API';
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
+// server.use(express.json());
 server.use(cookieParser());
 server.use(morgan('dev'));
 server.use((req, res, next) => {
@@ -33,3 +34,7 @@ server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 });
 
 module.exports = server;
+
+// https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901
+// https://api.thedogapi.com/v1/breeds/search?q={working}?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901
+
