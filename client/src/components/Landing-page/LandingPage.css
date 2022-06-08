@@ -1,0 +1,56 @@
+.landin-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit:contain;
+  background-image: url('./image.jpg');
+  background-position: contain;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.landing-main {
+  display: flex;
+  height: 80vh;
+  width: 80vw;
+  align-items: flex-end;
+  justify-content: center;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+.landing-main-button {
+  display: flex;
+  padding: 0px 20px 5px 20px;
+  background-color: rgba(0,0,0,0.8);
+  border-radius: 20px;
+  margin-bottom: 80px;
+  width:fit-content;
+  align-self: center;
+}
+
+.landing-main-button:hover {
+  background-color: rgba(0,0,0,1);
+}
+
+.landing-button {
+  background-image: linear-gradient( 63.1deg,  rgba(5,23,111,1) 16.4%, rgba(24,95,240,1) 64.5% );    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  border: none;
+  font-weight:bold ;
+  font-size: 30px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.landing-button:hover {
+
+}
+
+/* @phone: ~"(max-width:700px)"; */
+/* @media (max-width:700px) {
+
+} */
