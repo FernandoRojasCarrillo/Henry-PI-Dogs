@@ -7,24 +7,32 @@ module.exports = (sequelize) => {
     'Dog', 
     {
       id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
+      },
+      image: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      temperament: {
+        type: DataTypes.STRING,
+        defaultValue: "alegre"
+      },
       height: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       weight: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      yearsOfLife: {
-        type: DataTypes.INTEGER,
+      life_span: {
+        type: DataTypes.STRING,
       }
     }
   );

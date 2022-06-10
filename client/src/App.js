@@ -1,5 +1,6 @@
 import { Route } from 'react-router-dom';
 import './App.css';
+import Detail from './components/Detail/Detail';
 import Home from './components/Home/Home';
 import LandingPage from './components/Landing-page/LandingPage';
 
@@ -11,8 +12,12 @@ function App() {
         <LandingPage/>
       </Route>
 
-      <Route path={'/home'}>
+      <Route exact path={'/home'}>
         <Home/>
+      </Route>
+
+      <Route path={'/detail'} >
+        <Detail/>
       </Route>
     </div>
   );

@@ -5,12 +5,13 @@ module.exports = (sequelize) => {
     'Temperament',
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        allowNull: false,
       },
       name: {
         type: DataTypes.STRING,
+        defaultValue: "feliz",
         allowNull: false,
       }
     }

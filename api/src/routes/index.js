@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const axios = require('axios');
-const { Temperament } = require('../db.js');
+const { Temperament, Dog, Op } = require('../db.js');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -10,7 +10,7 @@ const router = Router();
 const createDog = (image, name, temperament, weight ) => {
 
   const Dog = {
-    image: `https://cdn2.thedogapi.com/images/${image}`,
+    image: `https://cdn2.thedogapi.com/images/${image}.jpg`,
     name,
     temperament,
     weight
@@ -32,16 +32,30 @@ router.get('/dogs', async (req, res, next) => {
       data.map(dog => {
         dogsSearchByName.push(createDog(dog.reference_image_id, dog.name, dog.temperament, dog.weight));
       })
-      return res.json(dogsSearchByName);
     }else{
       return res.status(404).send({msg_error: 'No se encontraron dogs por ese nombre'});
     };
+    const filterDogs = await Dog.findAll({where: {name: {[Op.iLike]: `%${name}%`}}});
+    filterDogs.length ? 
+    filterDogs.map((d) => {
+      dogsSearchByName.push(createDog(d.image, d.name, d.temperament, d.weight));
+    }) : false;
+    return res.json(dogsSearchByName);
   } catch (error) {
     console.log(error);
   }
 })
 
-router.post('/dogs', (req, res) => {})
+router.post('/dogs', async (req, res) => {
+  const { image, name, temperament, height, weight, life_span } = req.body;
+  if(!image || !name || !temperament || !height || !weight || !life_span) return res.status(404).send({msg_error: 'Faltan datos obligatorios'});
+  const newDog = await Dog.create(req.body);
+  try {
+    res.status(201).json(newDog);
+  } catch (error) {
+    console.log(error);
+  }
+})
 
 router.get('/dogs', async (req, res) => {
   const { data } = await axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901');
@@ -52,11 +66,15 @@ router.get('/dogs', async (req, res) => {
       data.map(dog => {
         dogs.push(createDog(dog.image.id, dog.name, dog.temperament, dog.weight))
       })
-      return res.json(dogs)
       
     }else{
       return res.status(404).send({msg_error: 'Error no hay datos'})
     }
+    const DbDogs = await Dog.findAll();
+    DbDogs.length ? DbDogs.map( (d) => {
+      dogs.push(createDog(d.image, d.name, d.temperament, d.weight))
+    }) : false;
+    return res.json(dogs)
   } catch (error) {
     console.log(error)
   }
@@ -90,11 +108,17 @@ router.get('/dogs/:idRaza', (req, res) => {
 })
 
 router.get('/temperaments', async (req, res) => {
-  axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901')
-  .then(response => {
-    if(response.data.length){
+  
+    const AllTemperaments = await Temperament.findAll();
+  
+  if(!AllTemperaments.length) {
+
+    const Temperamentos = [];
+    const { data } = await axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901')
+  
+    if(data.length){
       let Temp ;
-      response.data.map(tem => {
+      data.map(tem => {
         Temp += (tem.temperament);
       })
       let result = Temp.split(',')
@@ -103,25 +127,24 @@ router.get('/temperaments', async (req, res) => {
 
       // const ability = await Ability.create(req.body);
       // return res.status(201).json(ability);
+      for (let i = 0; i < Temperamento.length; i++) {
 
-      let tempID = 1001;
-      let some = Temperamento.map(tem => {
-        Temperament.create(
-          {
-            id: tempID ++,
-            name: tem
-          }
-        )
-      })
-
-      let AllTeperaments = Temperament.findAll();
+          const Tem = await Temperament.create(
+            {
+              name: Temperamento[i]
+            }
+          )
+          Temperamentos.push(Tem)
+      }
       
-      return res.json(AllTeperaments);
     }else {
       return res.status(404).send({msg_error: 'No hay temperamentos encontrados'});
     }
-  })
-  .catch((err) =>console.log(err));
+    return res.json(Temperamentos);
+    
+  }else {
+    return res.json(AllTemperaments);
+  }
 })
 
 module.exports = router;

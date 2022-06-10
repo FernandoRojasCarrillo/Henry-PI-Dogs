@@ -1,19 +1,19 @@
-import { GET_DOGS } from '../actions';
+import { GET_ALL_DOGS } from '../actions';
 
 const inisialState = {
-  allDogs: []
+  AllDogs: [],
+  getDogDetail: {}
 }
 
 export default function Reducer(state=inisialState, action) {
   switch (action.type) {
-    case GET_DOGS:
+    case GET_ALL_DOGS:
       return{
         ...state,
-        allDogs: action.payload
+        AllDogs: action.payload
       }
     default:
-      return {
-        state
-      }
+      return state;
+      
   }
 }
