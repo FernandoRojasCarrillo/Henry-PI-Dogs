@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getAllDogs } from '../../redux/actions';
 import './NavBar.css';
 
 export default function NavBar() {
 
-  const HandleClick = () => {
+  const [ input, setInput ] = useState('');
+  const dispatch = useDispatch();
 
+  const HandleChange = (e) => {
+    e.preventDefault();
+    setInput(e.target.value)
   }
 
   return (
@@ -15,12 +21,17 @@ export default function NavBar() {
       </div>
 
       <div>
-        <input className='search-box-inp' type='text' placeholder='Search dog by name'/>
-        <button className='search-box-btn' onClick={() => HandleClick()} >Search</button>
+        <input 
+          onChange={(e)=>HandleChange(e)}
+          className='search-box-inp' 
+          type='text' 
+          placeholder='Search dog by name'
+        />
+        <button className='search-box-btn' >Search</button>
       </div>
 
       <div>
-        <button className='btn-reload'  onClick={() => HandleClick()}>Reload All Dogs</button>
+        <button className='btn-reload'  onClick={() => dispatch(getAllDogs())}>Reload All Dogs</button>
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import { Route } from 'react-router-dom';
 import './App.css';
+import CreateDog from './components/CreateDog/CreateDog';
 import Detail from './components/Detail/Detail';
 import Home from './components/Home/Home';
 import LandingPage from './components/Landing-page/LandingPage';
@@ -18,6 +19,10 @@ function App() {
 
       <Route path={'/detail'} >
         <Detail/>
+      </Route>
+
+      <Route path={'/create'} >
+        <CreateDog/>
       </Route>
     </div>
   );

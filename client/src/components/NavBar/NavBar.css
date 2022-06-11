@@ -13,15 +13,30 @@
   justify-content: center;
   height: 40px;
   width: 150px;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0 0 0/80%);
   border-radius: 20px;
+  cursor: pointer;
+}
+
+.create-dog-box:hover {
+  background-color: rgba(255 255 255/80%);
+}
+
+.create-dog-box:active {
+  transform:translateY(2px);
+  transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .5s;
 }
 
 .create-dog {
-  background-color: rgba(0,0,0,1);
+  background-color: rgba(255 255 255/80%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
 
+.create-dog:hover {
+  background-color: rgba(0 0 0/80%);
+  font-weight: bold;
 }
 
 .search-box-inp {
@@ -39,8 +54,15 @@
   width: 100px;
   border: none;
   border-radius: 0 10px 10px 0 ;
-  background-color: rgba(0,0,0,0.5);
+  color: rgb(255 255 255/80%);
+  background-color: rgba(0 0 0/90%);
   font-weight: bold;
+  cursor: pointer;
+}
+
+.search-box-btn:hover {
+  color: rgb(0 0 0/80%);
+  background-color: rgba(255 255 255/80%);
 }
 
 .btn-reload {
@@ -48,7 +70,19 @@
   height: 40px;
   width: 150px;
   border: none;
-  background-color: rgba(0,0,0,0.5);
-  color: white;
+  background-color: rgba(0 0 0/80%);
+  color: rgb(255 255 255/80%);
   border-radius: 20px;
+  cursor: pointer;
+}
+
+.btn-reload:hover {
+  background-color: rgb(255 255 255/80%);
+  color: rgb(0 0 0/80%);
+  font-weight: bold;
+}
+
+.btn-reload:active {
+  transform:translateY(2px);
+  transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .5s;
 }
