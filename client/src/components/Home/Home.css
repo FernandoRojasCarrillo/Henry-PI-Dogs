@@ -42,6 +42,7 @@
 .paginado {
   border-radius: 30px ;
   display: flex;
+  min-width: 100%;
   border: 2px solid rgb(0 0 0);
   align-items: center;
   justify-content:center;
@@ -91,6 +92,9 @@
   background-color: rgb( 255 255 255/80%);
 }
 
+.block {
+  display: none;
+}
 
 .container-dogs {
   display:flex;
