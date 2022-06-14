@@ -6,7 +6,7 @@ import Loading from '../Loading/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import 
 {
-  getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward
+  getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward, FilterByAlphabeticalOder
 }  
 from '../../redux/actions';
 
@@ -18,13 +18,25 @@ export default function Home(){
   let  ShowDogs = useSelector(state => state.ShowDogs);
   let  Current = useSelector(state => state.Current);
   let  AllDogs = useSelector(state => state.AllDogs);
+  let change = false;
+  
   
   useEffect( ()=>{
-    dispatch(getAllDogs())
+      if(Current === 0) {
+      dispatch(getAllDogs())
+    }
   },[])
 
-  const value = Math.ceil(AllDogs.length / 8)
+  const HandleClick = () => {
+    dispatch(FilterByAlphabeticalOder('A-Z'))
+    change = !change;
+  }
 
+  const HandleChange = () => {
+    change = !change;
+  }
+
+  const value = Math.ceil(AllDogs.length / 8)
 
   return (
     <div className="app-container-img" >
@@ -36,7 +48,29 @@ export default function Home(){
 
           <div className='container-buttons' >
             <button >Filter By</button>
-            <button>Oder By</button>
+
+            <div className='container-filter' >
+              <div className={ change === true ? 'ocultar' : 'filter' } >
+                <button className='oder-by' onClick={() => HandleChange()}>Oder By Name</button>
+              </div>
+                <div className={ change === false ? 'ocultar' : 'filter'} >
+                  <button className='btn-filter' onClick={() => HandleClick()} >A - Z</button>
+                  {/* <button className='btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >A - Z</button> */}
+                </div>
+              <div className={ change === false ? 'ocultar' : 'filter'} >
+                <button className='btn-filter' onClick={() => HandleClick()} >Z - A</button>
+              </div>
+            </div>
+
+            <div className='container-filter' >
+              <div className={ change === true ? 'ocultar' : 'filter' } ><button className='oder-by' >Oder By wieght</button></div>
+                <div className={ change === false ? 'ocultar' : 'filter'} >
+                  <button className='btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >A - Z</button>
+                </div>
+              <div className={ change === false ? 'ocultar' : 'filter'} >
+                <button className='btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('Z-A'))} >Z - A</button>
+              </div>
+            </div>
           </div>
 
           <div className='container-dogs' >
@@ -79,6 +113,7 @@ export default function Home(){
               ShowDogs.map((dog) =>
                 <DogCard
                   key={dog.id}
+                  id={dog.id}
                   image={dog.image} 
                   name={dog.name}
                   weight={dog.weight.imperial}

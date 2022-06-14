@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAllDogs } from '../../redux/actions';
+import { getAllDogs, SearchByName, ClearAllDogs } from '../../redux/actions';
 import './NavBar.css';
 
 export default function NavBar() {
@@ -12,6 +12,17 @@ export default function NavBar() {
   const HandleChange = (e) => {
     e.preventDefault();
     setInput(e.target.value)
+  }
+
+  const HandleClick = ()=>{
+    dispatch(ClearAllDogs())
+    dispatch(SearchByName(input))
+    setInput('')
+  }
+
+  const HandleClickGetAll = ()=>{
+    dispatch(ClearAllDogs())
+    dispatch(getAllDogs())
   }
 
   return (
@@ -27,11 +38,11 @@ export default function NavBar() {
           type='text' 
           placeholder='Search dog by name'
         />
-        <button className='search-box-btn' >Search</button>
+        <button onClick={() => HandleClick()} className='search-box-btn' >Search</button>
       </div>
 
       <div>
-        <button className='btn-reload'  onClick={() => dispatch(getAllDogs())}>Reload All Dogs</button>
+        <button className='btn-reload'  onClick={() => HandleClickGetAll()}>Reload All Dogs</button>
       </div>
     </div>
   )

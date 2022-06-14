@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './DogCard.css';
 
-export default function DogCard({image, name, weight, temperaments}) {
+export default function DogCard({id, image, name, weight, temperaments}) {
 
 
   return (
     <div className='container-card' >
       <div className='container-img' >
-        <Link to={'/detail'}>
+        <Link to={`/detail/${id}`}>
           <img className='image' src={ image } alt='nombre'/>
         </Link>
       </div>

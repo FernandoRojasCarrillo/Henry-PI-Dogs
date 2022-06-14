@@ -1,8 +1,11 @@
 import axios from 'axios';
 export const GET_ALL_DOGS = 'GET_ALL_DOGS';
+export const GET_DOG_BY_ID = 'GET_DOG_BY_ID';
 export const GET_AND_SHOW_ALL_DOGS = 'GET_AND_SHOW_ALL_DOGS';
 export const MOVE_FORWARD = 'MOVE_FORWARD';
 export const MOVE_BACKWARD = 'MOVE_BACKWARD';
+export const FILTER_BY_ALPHABETICAL_ORDER = 'FILTER_BY_ALPHABETICAL_ORDER';
+export const CLEAR_ALL_DOGS = 'CLEAR_ALL_DOGS';
 
 export function getAllDogs () {
   return function (dispatch) {
@@ -15,6 +18,30 @@ export function getAllDogs () {
         })
     })
     .catch(err => console.log(err));
+  }
+}
+
+export function SearchByName(name) {
+  return function (dispatch) {
+    axios(`http://localHost:3000/dogs?name=${name}`)
+    .then((response) => {
+      return dispatch({
+        type: GET_ALL_DOGS,
+        payload: response.data
+      })
+    })
+  }
+}
+
+export function GetDogsById(id) {
+  return function (dispatch) {
+    axios(`http://localhost:3000/dogs/${id}`)
+    .then((response) => {
+      return dispatch({
+        type:GET_DOG_BY_ID,
+        payload: response.data
+      })
+    })
   }
 }
 
@@ -34,6 +61,19 @@ export function MoveForward() {
 export function MoveBachward() {
   return {
     type: MOVE_BACKWARD
+  }
+}
+
+export function FilterByAlphabeticalOder(value) {
+  return {
+    type: FILTER_BY_ALPHABETICAL_ORDER,
+    payload: value
+  }
+}
+
+export function ClearAllDogs() {
+  return {
+    type: CLEAR_ALL_DOGS
   }
 }
 

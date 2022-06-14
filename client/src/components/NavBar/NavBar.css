@@ -40,6 +40,7 @@
 }
 
 .search-box-inp {
+  outline: none;
   height: 40px;
   width: 250px;
   border: none;

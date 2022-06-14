@@ -39,6 +39,60 @@
   justify-content: space-around;
 }
 
+.container-filter {
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  min-width: 100px;
+  background-color: rgb(255 255 255/40%);
+  color: rgb(0 0 0 );
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.container-filter:hover {
+  box-shadow: 0 10px 20px 5px rgb(0 0 0/70%);
+}
+
+.oder-by {
+  height: 20px;
+  width: 140px;
+  margin: 0 8px;
+  background-color: transparent;
+  border: none;
+  font-size: 17px;
+  font-weight: bold;
+  color: rgb(0 0 0 /90%);
+  cursor: pointer;
+}
+
+.filter {
+  display: flex;
+  height: 40px;
+  min-width: 100px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ocultar {
+  display: none;
+}
+
+.btn-filter {
+  height: 60%;
+  width: 60%;
+  border:  none;
+  background-color: rgb(255 255 255/95%);
+  font-size:15px;
+  font-weight:bold;
+  color: rgb( 0 0 0);
+  border-radius:5px;
+  align-self: center;
+  justify-self: center;
+  box-shadow: 0 5px 10px 0 rgba(0 0 0/90%);
+}
+
 .paginado {
   border-radius: 30px ;
   display: flex;
