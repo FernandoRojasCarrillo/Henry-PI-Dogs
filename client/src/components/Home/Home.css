@@ -24,82 +24,115 @@
   margin: 0 0 0 2.5%;
   border-radius: 20px;
   padding-top: 30px;
+  justify-content:center;
 }
 
 
 .container-buttons {
+  position: relative;
   display: flex;
-  height: 50px;
+  height: 40px;
   margin-left: 1.5%;
   width: 97%;
   background-color: transparent;
   border: 5px solid rgb(0 0 0 /90%);
   border-radius: 10px;
-  align-items: center;
+  padding: 5px 0;
   justify-content: space-around;
 }
 
 .container-filter {
-  align-items: center;
   justify-content: center;
-  min-height: 40px;
-  min-width: 100px;
-  background-color: rgb(255 255 255/40%);
+  align-items: center;
+  min-height: 30px;
+  width: 125px;
+  background-color: rgb(255 255 255/70%);
   color: rgb(0 0 0 );
   border-radius: 8px;
   cursor: pointer;
 }
 
-.container-filter:hover {
-  box-shadow: 0 10px 20px 5px rgb(0 0 0/70%);
-}
-
 .oder-by {
-  height: 20px;
-  width: 140px;
-  margin: 0 8px;
-  background-color: transparent;
+  position: absolute;
+  height: 30px;
+  width: 100px;
+  margin-left: 12px;
   border: none;
+  background-color:transparent;
   font-size: 17px;
   font-weight: bold;
-  color: rgb(0 0 0 /90%);
   cursor: pointer;
 }
 
-.filter {
-  display: flex;
-  height: 40px;
-  min-width: 100px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+.buttons-filter {
+  background-color: transparent;
+  margin-top: 35px;
+  height: 100px;
+  width: 125px;
 }
 
-.ocultar {
+.buttons-filter {
   display: none;
+  position: absolute;
 }
 
 .btn-filter {
-  height: 60%;
-  width: 60%;
-  border:  none;
-  background-color: rgb(255 255 255/95%);
-  font-size:15px;
-  font-weight:bold;
-  color: rgb( 0 0 0);
-  border-radius:5px;
-  align-self: center;
-  justify-self: center;
-  box-shadow: 0 5px 10px 0 rgba(0 0 0/90%);
+  position: absolute;
+  padding: 5px;
+  height: 40px;
+  width: 100%;
+  border:1px solid rgb(0 0 0);
+  border-radius: 8px;
+  background-color: rgb(255 255 255/70%);
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sub-btn-filter {
+  height: 30px;
+  width: 80px;
+  background-color: rgb( 255 255 255/80%);
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.Weight {
+  margin-top: 40px;
+}
+
+.buttons-filter-name {
+  display: none;
+  position: absolute;
+}
+
+.W {
+  margin-top: 40px;
+}
+
+
+.buttons-filter-name > li {
+  margin-left: 150px;
+}
+
+
+li:hover > ul {
+  display: block;
 }
 
 .paginado {
+  /* position: absolute; */
   border-radius: 30px ;
   display: flex;
-  min-width: 100%;
+  min-height: 60px;
+  max-width: 97%;
   border: 2px solid rgb(0 0 0);
   align-items: center;
   justify-content:center;
+  margin: 15px 0 0 1.5%;
 }
 
 .btn-buttons {
@@ -149,6 +182,14 @@
 .block {
   display: none;
 }
+
+/* .container-menu {
+  position: absolute;
+  display: flex;
+  height: 400px;
+  width: 200px;
+  background-color:rgb(255 255 255/60%);
+} */
 
 .container-dogs {
   display:flex;

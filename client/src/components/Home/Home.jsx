@@ -18,7 +18,6 @@ export default function Home(){
   let  ShowDogs = useSelector(state => state.ShowDogs);
   let  Current = useSelector(state => state.Current);
   let  AllDogs = useSelector(state => state.AllDogs);
-  let change = false;
   
   
   useEffect( ()=>{
@@ -26,16 +25,6 @@ export default function Home(){
       dispatch(getAllDogs())
     }
   },[])
-
-  const HandleClick = () => {
-    dispatch(FilterByAlphabeticalOder('A-Z'))
-    change = !change;
-  }
-
-  const HandleChange = () => {
-    change = !change;
-  }
-
   const value = Math.ceil(AllDogs.length / 8)
 
   return (
@@ -50,30 +39,27 @@ export default function Home(){
             <button >Filter By</button>
 
             <div className='container-filter' >
-              <div className={ change === true ? 'ocultar' : 'filter' } >
-                <button className='oder-by' onClick={() => HandleChange()}>Oder By Name</button>
-              </div>
-                <div className={ change === false ? 'ocultar' : 'filter'} >
-                  <button className='btn-filter' onClick={() => HandleClick()} >A - Z</button>
-                  {/* <button className='btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >A - Z</button> */}
-                </div>
-              <div className={ change === false ? 'ocultar' : 'filter'} >
-                <button className='btn-filter' onClick={() => HandleClick()} >Z - A</button>
-              </div>
-            </div>
-
-            <div className='container-filter' >
-              <div className={ change === true ? 'ocultar' : 'filter' } ><button className='oder-by' >Oder By wieght</button></div>
-                <div className={ change === false ? 'ocultar' : 'filter'} >
-                  <button className='btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >A - Z</button>
-                </div>
-              <div className={ change === false ? 'ocultar' : 'filter'} >
-                <button className='btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('Z-A'))} >Z - A</button>
-              </div>
+              <ul className={'filter-name' } >
+                <li><button className='oder-by'>Order By</button>
+                  <ul className='buttons-filter' >
+                    <li><button className='btn-filter' >Order by Name</button>
+                      <ul className='buttons-filter-name' >
+                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >A - Z</button></li>
+                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('Z-A'))} >Z - A</button></li>
+                      </ul>
+                    </li>
+                    <li><button className='btn-filter Weight' >Order by Weight</button>
+                      <ul className='buttons-filter-name W' >
+                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >Greater</button></li>
+                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >smaller</button></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
             </div>
           </div>
 
-          <div className='container-dogs' >
             {
               ShowDogs.length ?
               (
@@ -108,6 +94,10 @@ export default function Home(){
                 </div>
               ): (<div></div>)
             }
+          <div className='container-menu' >
+
+          </div>
+          <div className='container-dogs' >
             {
               ShowDogs.length ? 
               ShowDogs.map((dog) =>

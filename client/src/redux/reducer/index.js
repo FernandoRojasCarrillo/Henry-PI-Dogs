@@ -65,18 +65,18 @@ export default function Reducer(state=inisialState, action) {
         Current: state.Current === 1 ? Math.ceil(state.AllDogs.length/8)  : state.Current - 1
       }
     case FILTER_BY_ALPHABETICAL_ORDER:
-      // let Array = state.AllDogs;
-      // for (let j = 0; j <Array.length ; j++) { //you can also use "for in", so you don't need the variable "len"
+      let Array = [...state.AllDogs] ;
+      for (let j = 0; j <Array.length ; j++) { //you can also use "for in", so you don't need the variable "len"
    
-      //   for (let i = 0; i <Array.length -1; i++) {
-      //     if (Array[i].name > Array[i + 1].name) {
-      //         let aux = Array[i];
-      //         Array[i] = Array[i + 1];
-      //         Array[i + 1] = aux;
-      //     }
-      //   }
-      // }
-      let dogs = [...state.AllDogs.reverse()];
+        for (let i = 0; i <Array.length -1; i++) {
+          if (Array[i].name > Array[i + 1].name) {
+              let aux = Array[i];
+              Array[i] = Array[i + 1];
+              Array[i + 1] = aux;
+          }
+        }
+      }
+      let dogs = action.payload === 'A-Z' ? Array : Array.reverse();
       let show = [];
       while(dogs.length){
         let ArrayOfDogs = [];
@@ -89,10 +89,10 @@ export default function Reducer(state=inisialState, action) {
       }
       return {
         ...state,
-        Current: 1,
-        AllDogs: state.AllDogs.reverse(),
+        AllDogs: state.AllDogs,
+        Current: state.Current,
         AuxDogs: [...show],
-        ShowDogs: state.AllDogs.reverse().slice(0,8) 
+        ShowDogs: [...show[state.Current - 1]]
       }
     case CLEAR_ALL_DOGS:
       return {
