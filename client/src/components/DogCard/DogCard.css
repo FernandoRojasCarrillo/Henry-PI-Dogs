@@ -1,8 +1,7 @@
 .container-card {
-  position: relative;
   height: 400px;
   width: 280px;
-  background-color:transparent;
+  background-color: rgb(0 0 0/10%);
   justify-content:center;
   backdrop-filter: blur(7px);
   border: 3px solid rgb(0 0 0/70%);
@@ -12,6 +11,7 @@
 
 
 .container-img {
+  display: flex;
   width: 280px;
   height: 200px;
   background-color: rgb(0 0 0/70%);

@@ -25,7 +25,8 @@ export default function Home(){
       dispatch(getAllDogs())
     }
   },[])
-  const value = Math.ceil(AllDogs.length / 8)
+  const value = Math.ceil(AllDogs.length / 8);
+  let Dogs = AllDogs.slice(0,Math.ceil(AllDogs.length / 8));
 
   return (
     <div className="app-container-img" >
@@ -33,10 +34,13 @@ export default function Home(){
       <div className="app-container-back" >
 
         <NavBar/>
+        
+        
         <div className='main-container' >
 
           <div className='container-buttons' >
-            <button >Filter By</button>
+            <label for='filterBy' >Filter By</label>
+            <input type='checkbox' id='filterBy' />
 
             <div className='container-filter' >
               <ul className={'filter-name' } >
@@ -64,7 +68,7 @@ export default function Home(){
               ShowDogs.length ?
               (
                 <div className='paginado' >
-                  <button onClick={() => dispatch(MoveBachward())} className='btn-buttons' >Back</button>
+                  <button className={ value === 1 ? 'block' : 'btn-buttons' } onClick={() => dispatch(MoveBachward())}>Back</button>
                   <div className='container-paginado ' >
                     
                     <button className={ value + 1 <= 1 ? 'block' :  Current === 1 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(1))} >1</button>
@@ -89,14 +93,13 @@ export default function Home(){
                     <button className={ value + 1 <= 20 ? 'block' : Current === 20 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(20))} >20</button>
                     <button className={ value + 1 <= 21 ? 'block' : Current === 21 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(21))} >21</button>
                     <button className={ value + 1 <= 22 ? 'block' : Current === 22 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(22))} >22</button>
+                    <button className={ value + 1 <= 23 ? 'block' : Current === 23 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(23))} >23</button>
+                    <button className={ value + 1 <= 24 ? 'block' : Current === 24 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(24))} >24</button>
                   </div>
-                  <button onClick={() => dispatch(MoveForward())}  className='btn-buttons' >Ahead</button>
+                  <button  className={ value === 1 ? 'block' : 'btn-buttons' }  onClick={() => dispatch(MoveForward())}>Ahead</button>
                 </div>
               ): (<div></div>)
             }
-          <div className='container-menu' >
-
-          </div>
           <div className='container-dogs' >
             {
               ShowDogs.length ? 
@@ -112,6 +115,10 @@ export default function Home(){
               ) : <Loading/>
             }
           </div>
+
+        </div>
+        <div className='left-menu' >
+          <label for='filterBy' >X</label>
 
         </div>
       </div>

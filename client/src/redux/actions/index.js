@@ -6,6 +6,7 @@ export const MOVE_FORWARD = 'MOVE_FORWARD';
 export const MOVE_BACKWARD = 'MOVE_BACKWARD';
 export const FILTER_BY_ALPHABETICAL_ORDER = 'FILTER_BY_ALPHABETICAL_ORDER';
 export const CLEAR_ALL_DOGS = 'CLEAR_ALL_DOGS';
+export const FILTER_BY_WEIGTH = 'FILTER_BY_WEIGTH';
 
 export function getAllDogs () {
   return function (dispatch) {
@@ -74,6 +75,12 @@ export function FilterByAlphabeticalOder(value) {
 export function ClearAllDogs() {
   return {
     type: CLEAR_ALL_DOGS
+  }
+}
+
+export function FilterByWeigth() {
+  return {
+    type: FILTER_BY_WEIGTH
   }
 }
 

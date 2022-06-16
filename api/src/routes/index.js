@@ -7,14 +7,15 @@ const { Temperament, Dog, Op } = require('../db.js');
 
 const router = Router();
 
-const createDog = ( id, image, name, temperament, weight ) => {
+const createDog = ( id, image, name, temperament, weight, breed ) => {
 
   const Dog = {
     id,
     image: `https://cdn2.thedogapi.com/images/${image}.jpg`,
     name,
     temperament,
-    weight
+    weight,
+    breed
   }
   return Dog;
 }
@@ -31,7 +32,7 @@ router.get('/dogs', async (req, res, next) => {
     let dogsSearchByName = [];
     if(data.length) {
       data.map(dog => {
-        dogsSearchByName.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight));
+        dogsSearchByName.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight, dog.breed_group));
       })
     }else{
       return res.status(404).send({msg_error: 'No se encontraron dogs por ese nombre'});
@@ -65,7 +66,7 @@ router.get('/dogs', async (req, res) => {
     if(data.length) {
 
       data.map(dog => {
-        dogs.push(createDog(dog.id, dog.image.id, dog.name, dog.temperament, dog.weight))
+        dogs.push(createDog(dog.id, dog.image.id, dog.name, dog.temperament, dog.weight, dog.breed_group))
       })
       
     }else{
@@ -73,7 +74,7 @@ router.get('/dogs', async (req, res) => {
     }
     const DbDogs = await Dog.findAll();
     DbDogs.length ? DbDogs.map( (d) => {
-      dogs.push(createDog(d.id, d.image, d.name, d.temperament, d.weight))
+      dogs.push(createDog(d.id, d.image, d.name, d.temperament, d.weight, breed_group))
     }) : false;
     return res.json(dogs)
   } catch (error) {

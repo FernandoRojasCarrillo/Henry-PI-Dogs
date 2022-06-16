@@ -6,7 +6,8 @@ import
     MOVE_BACKWARD,
     FILTER_BY_ALPHABETICAL_ORDER,
     CLEAR_ALL_DOGS,
-    GET_DOG_BY_ID
+    GET_DOG_BY_ID,
+    FILTER_BY_WEIGTH
   } 
 from '../actions';
 
