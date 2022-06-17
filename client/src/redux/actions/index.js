@@ -35,14 +35,9 @@ export function SearchByName(name) {
 }
 
 export function GetDogsById(id) {
-  return function (dispatch) {
-    axios(`http://localhost:3000/dogs/${id}`)
-    .then((response) => {
-      return dispatch({
-        type:GET_DOG_BY_ID,
-        payload: response.data
-      })
-    })
+  return {
+    type:GET_DOG_BY_ID,
+    payload: id
   }
 }
 

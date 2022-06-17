@@ -14,10 +14,11 @@ export default function NavBar() {
     setInput(e.target.value)
   }
 
-  const HandleClick = ()=>{
-    dispatch(ClearAllDogs())
-    dispatch(SearchByName(input))
-    setInput('')
+  const HandleSubmit = (e)=>{
+    e.preventDefault();
+    input ? dispatch(ClearAllDogs()) : alert('El input de busqueda esta vacío')
+    input && dispatch(SearchByName(input)) 
+    setInput('');
   }
 
   const HandleClickGetAll = ()=>{
@@ -32,13 +33,27 @@ export default function NavBar() {
       </div>
 
       <div>
-        <input 
+        {/* <input 
           onChange={(e)=>HandleChange(e)}
           className='search-box-inp' 
           type='text' 
           placeholder='Search dog by name'
         />
-        <button onClick={() => HandleClick()} className='search-box-btn' >Search</button>
+        <button onClick={() => HandleClick()} className='search-box-btn' >Search</button> */}
+        <form className='container' onSubmit={(e) => HandleSubmit(e)} >
+          <input
+             className='search-box-inp'
+             type="text"
+             placeholder="Buscar cuidad"
+             value={input}
+             onChange={(e) => HandleChange(e)}
+          />
+          <input 
+              className='search-box-btn'
+              type='submit' 
+              value='Search'
+          />
+        </form>
       </div>
 
       <div>

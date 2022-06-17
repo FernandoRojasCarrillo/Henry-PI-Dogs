@@ -43,7 +43,7 @@ export default function Reducer(state=inisialState, action) {
     case GET_DOG_BY_ID:
       return {
         ...state,
-        getDogDetail: [action.payload]
+        getDogDetail: state.AllDogs.filter((dog) => dog.id === parseInt(action.payload))
       }
     case GET_AND_SHOW_ALL_DOGS:
       return {
@@ -94,6 +94,36 @@ export default function Reducer(state=inisialState, action) {
         Current: state.Current,
         AuxDogs: [...show],
         ShowDogs: [...show[state.Current - 1]]
+      }
+    case FILTER_BY_WEIGTH:
+      let Array2 = [...state.AllDogs] ;
+      for (let j = 0; j < Array2.length; j++) {
+        for (let i = 0; i < Array2.length - 1; i++) {
+          if(Array2[i].weight.imperial > Array2[i + 1].weight.imperial) {
+            let aux = Array2[i];
+            Array2[i] = Array2[i + 1];
+            Array2[i + 1] = aux
+          }
+        }
+      }
+
+      let DogsSort = action.payload === 'Des' ? Array2 : Array2.reverse();
+      let ShowSort = [];
+      while(DogsSort.length){
+        let ArrayOfDogs = [];
+        let c = 8;
+        while(c > 0 && DogsSort.length > 0) {
+          c --
+          ArrayOfDogs.push(DogsSort.shift());
+        }
+        ShowSort.push(ArrayOfDogs);
+      }
+      return {
+        ...state,
+        AllDogs: state.AllDogs,
+        Current: state.Current,
+        AuxDogs: [...ShowSort],
+        ShowDogs: [...ShowSort[state.Current - 1]]
       }
     case CLEAR_ALL_DOGS:
       return {

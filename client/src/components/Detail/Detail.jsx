@@ -21,7 +21,7 @@ export default function Detail() {
         getDogDetail.length ? getDogDetail.map((dog) => 
           <div className='main-container-detail' >
             <div className='container-image' >
-              <img className='img' src={ dog.image} alt={ dog.name} />
+              <img className='img' src={ `${dog.image}.png` ? `${dog.image}.png` : `${dog.image}.jpg`} alt={ dog.name} />
               <div className='container-detail' >
                 <ul>
                   <li>{ dog.name}</li>

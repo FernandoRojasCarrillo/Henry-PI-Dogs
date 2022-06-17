@@ -18,10 +18,7 @@ module.exports = (sequelize) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      temperament: {
-        type: DataTypes.STRING,
-        defaultValue: "alegre"
+        defaultValue: 'https://www.teahub.io/viewwp/ThhTJh_1920x1080-how-to-install-4k-dogs/',
       },
       height: {
         type: DataTypes.STRING,
@@ -32,6 +29,9 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       life_span: {
+        type: DataTypes.STRING,
+      },
+      breed_group: {
         type: DataTypes.STRING,
       }
     }

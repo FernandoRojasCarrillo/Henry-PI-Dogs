@@ -6,7 +6,7 @@ import Loading from '../Loading/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import 
 {
-  getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward, FilterByAlphabeticalOder
+  getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward, FilterByAlphabeticalOder, FilterByWeigth
 }  
 from '../../redux/actions';
 
@@ -26,7 +26,7 @@ export default function Home(){
     }
   },[])
   const value = Math.ceil(AllDogs.length / 8);
-  let Dogs = AllDogs.slice(0,Math.ceil(AllDogs.length / 8));
+  // let Dogs = AllDogs.slice(0,Math.ceil(AllDogs.length / 8));
 
   return (
     <div className="app-container-img" >
@@ -54,8 +54,8 @@ export default function Home(){
                     </li>
                     <li><button className='btn-filter Weight' >Order by Weight</button>
                       <ul className='buttons-filter-name W' >
-                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >Greater</button></li>
-                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >smaller</button></li>
+                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByWeigth('Des'))} >Des</button></li>
+                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByWeigth('Asc'))} >Asc</button></li>
                       </ul>
                     </li>
                   </ul>

@@ -7,15 +7,18 @@ const { Temperament, Dog, Op } = require('../db.js');
 
 const router = Router();
 
-const createDog = ( id, image, name, temperament, weight, breed ) => {
+const createDog = ( id, image, name, temperament,height, weight, breed,life_span ) => {
 
   const Dog = {
     id,
-    image: `https://cdn2.thedogapi.com/images/${image}.jpg`,
+    image: `https://cdn2.thedogapi.com/images/${image}`,
     name,
     temperament,
     weight,
-    breed
+    height,
+    breed,
+    life_span
+
   }
   return Dog;
 }
@@ -30,32 +33,64 @@ router.get('/dogs', async (req, res, next) => {
   const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901`);
   try {
     let dogsSearchByName = [];
+
+    const filterDogs = await Dog.findAll( {include: Temperament},{where: {name: {[Op.iLike]: `%${name}%`}}});
+    filterDogs.length ? 
+    filterDogs.map((d) => {
+      let Temp = [];
+      d.Temperaments.map(t => {
+        Temp.push(t.name)
+      })
+      let temp = Temp.join(',').trim()
+      const Dog = {
+        id: d.id,
+        image: d.image,
+        name: d.name,
+        weight: d.weight,
+        height: d.height,
+        breed_group: d.breed_group,
+        life_span: d.life_span,
+        temperament: temp,
+      }
+      dogsSearchByName.push(Dog);
+    }) : false;
+
     if(data.length) {
       data.map(dog => {
-        dogsSearchByName.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight, dog.breed_group));
+        dogsSearchByName.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight, dog.height, dog.breed_group, dog.life_span));
       })
     }else{
       return res.status(404).send({msg_error: 'No se encontraron dogs por ese nombre'});
     };
-    const filterDogs = await Dog.findAll({where: {name: {[Op.iLike]: `%${name}%`}}});
-    filterDogs.length ? 
-    filterDogs.map((d) => {
-      dogsSearchByName.push(createDog(d.id, d.image, d.name, d.temperament, d.weight));
-    }) : false;
+    
     return res.json(dogsSearchByName);
   } catch (error) {
     console.log(error);
   }
 })
 
+
+
 router.post('/dogs', async (req, res) => {
-  const { image, name, temperament, height, weight, life_span } = req.body;
-  if(!image || !name || !temperament || !height || !weight || !life_span) return res.status(404).send({msg_error: 'Faltan datos obligatorios'});
-  const newDog = await Dog.create(req.body);
   try {
-    res.status(201).json(newDog);
+    const { image, name, height, weight, life_span, breed_group, temperament } = req.body;
+    if(!image || !name || !temperament || !height || !weight || !breed_group || !life_span) return res.status(404).send({msg_error: 'Faltan datos obligatorios'});
+    const newDog = await Dog.create({
+      image: image,
+      name: name,
+      height: height,
+      weight: weight,
+      life_span: life_span,
+      breed_group: breed_group
+    });
+//  const project = await Project.findOne({ where: { title: 'My Title' } });
+    const tempsFromDB = await Temperament.findAll({where: {name: {[Op.in] : temperament}}});
+    await newDog.addTemperament(tempsFromDB)
+    const dogDreated = await Dog.findAll({include: Temperament})
+    res.status(201).send(dogDreated);
   } catch (error) {
     console.log(error);
+    res.status(404).send('There is an Error');
   }
 })
 
@@ -63,19 +98,36 @@ router.get('/dogs', async (req, res) => {
   const { data } = await axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901');
   try {
     let dogs = [];
+    const DbDogs = await Dog.findAll({include: Temperament});
+    DbDogs.length ? DbDogs.map( (d) => {
+      let Temp = [];
+      d.Temperaments.map(t => {
+        Temp.push(t.name)
+      })
+      let temp = Temp.join(', ')
+      const Dog = {
+        id: d.id,
+        image: d.image,
+        name: d.name,
+        weight: d.weight,
+        height: d.height,
+        breed_group: d.breed_group,
+        life_span: d.life_span,
+        temperament: temp,
+      }
+      dogs.push(Dog)
+    }) : false;
+
     if(data.length) {
 
       data.map(dog => {
-        dogs.push(createDog(dog.id, dog.image.id, dog.name, dog.temperament, dog.weight, dog.breed_group))
+        dogs.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight, dog.height, dog.breed_group, dog.life_span))
       })
       
     }else{
       return res.status(404).send({msg_error: 'Error no hay datos'})
     }
-    const DbDogs = await Dog.findAll();
-    DbDogs.length ? DbDogs.map( (d) => {
-      dogs.push(createDog(d.id, d.image, d.name, d.temperament, d.weight, breed_group))
-    }) : false;
+    
     return res.json(dogs)
   } catch (error) {
     console.log(error)
