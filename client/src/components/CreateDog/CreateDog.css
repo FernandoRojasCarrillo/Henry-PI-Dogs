@@ -1,0 +1,30 @@
+.formulario {
+  display: flex;
+  /* height: 85vh;
+  width: 91vw; */
+  padding: 20px;
+  background-image: linear-gradient( to top, #bebee7, #c1d4f7, #c2f3f0);
+  /* margin: 0 2.5vw; */
+  align-items: column;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.input {
+  display: flex;
+  padding: 5px;
+  padding-left: 10px;
+  margin: 10px;
+  height: 20px;
+  width: 200px;
+  font-size: 15px;
+  border: 1px solid rgb(0 0 0/90%);
+  border-radius: 3px;
+}
+
+.title {
+  margin-left: 120px;
+  font-size: 17px;
+  font-weight: bold;
+  color: rgb(0 0 0/80%)
+}

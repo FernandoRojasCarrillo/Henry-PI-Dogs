@@ -6,7 +6,8 @@ import Loading from '../Loading/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import 
 {
-  getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward, FilterByAlphabeticalOder, FilterByWeigth
+  getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward, FilterByAlphabeticalOder, FilterByWeigth, 
+  FilterByTemperament, FilterByBreed
 }  
 from '../../redux/actions';
 
@@ -39,8 +40,8 @@ export default function Home(){
         <div className='main-container' >
 
           <div className='container-buttons' >
-            <label for='filterBy' >Filter By</label>
-            <input type='checkbox' id='filterBy' />
+            <button onClick={() => dispatch(FilterByBreed('working'))} for='filterBy' >Filter By</button>
+            {/* <input type='checkbox' id='filterBy' /> */}
 
             <div className='container-filter' >
               <ul className={'filter-name' } >

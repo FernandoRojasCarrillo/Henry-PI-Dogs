@@ -7,7 +7,10 @@ import
     FILTER_BY_ALPHABETICAL_ORDER,
     CLEAR_ALL_DOGS,
     GET_DOG_BY_ID,
-    FILTER_BY_WEIGTH
+    FILTER_BY_WEIGTH,
+    GET_ALL_TEMPERAMENT,
+    FILTER_BY_BREED,
+    DOG_CREATED
   } 
 from '../actions';
 
@@ -16,7 +19,8 @@ const inisialState = {
   AllDogs: [],
   AuxDogs: [],
   ShowDogs: [],
-  getDogDetail: []
+  getDogDetail: [],
+  Temperaments: []
 }
 
 export default function Reducer(state=inisialState, action) {
@@ -97,17 +101,20 @@ export default function Reducer(state=inisialState, action) {
       }
     case FILTER_BY_WEIGTH:
       let Array2 = [...state.AllDogs] ;
-      for (let j = 0; j < Array2.length; j++) {
+      let cambio = true
+      while(cambio === true) {
+        cambio = false
         for (let i = 0; i < Array2.length - 1; i++) {
-          if(Array2[i].weight.imperial > Array2[i + 1].weight.imperial) {
+          if(Array2[i].weight.metric > Array2[i + 1].weight.metric) {
             let aux = Array2[i];
             Array2[i] = Array2[i + 1];
             Array2[i + 1] = aux
+            cambio = true;
           }
         }
       }
 
-      let DogsSort = action.payload === 'Des' ? Array2 : Array2.reverse();
+      let DogsSort = action.payload === 'Asc' ? Array2 : Array2.reverse();
       let ShowSort = [];
       while(DogsSort.length){
         let ArrayOfDogs = [];
@@ -131,6 +138,34 @@ export default function Reducer(state=inisialState, action) {
         ShowDogs: [],
         AllDogs: []
       }
+    case GET_ALL_TEMPERAMENT:
+      return {
+        ...state,
+        Temperaments: action.payload
+      }
+    case FILTER_BY_BREED :
+      const DogsFIlter = [...state.AllDogs.filter((dog) => dog.breed_group.include(action.payload))]
+      let ShowFIlter = [];
+      while(DogsFIlter.length){
+        let ArrayOfDogs = [];
+        let c = 8; 
+        while(c > 0 && DogsFIlter.length > 0) {
+          c --
+          ArrayOfDogs.push(DogsFIlter.shift());
+        }
+        ShowFIlter.push(ArrayOfDogs);
+      }
+      return {
+        ...state,
+        Current: 1,
+        AuxDogs: [...ShowFIlter],
+        ShowDogs: [...ShowFIlter[1]]
+      }
+    case DOG_CREATED: {
+      return {
+        ...state
+      }
+    }
     default:
       return state;
       

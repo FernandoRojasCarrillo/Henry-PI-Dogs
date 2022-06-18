@@ -9,10 +9,7 @@ export default function DogCard({id, image, name, weight, temperaments}) {
     <div className='container-card' >
       <div className='container-img' >
         <Link to={`/detail/${id}`}>
-          {
-            image ? <img className='image' src={ `${image}.jpg` } alt={`${image}.png` }/> :
-            <img src='./img-por-defecto.jpg' alt={name} />
-          }
+          <img className='image' src={ `${image}.png ` } /> || <img className='image' src={ `${image}.jpg` } />  
         </Link>
       </div>
       <ul className='container-info'>

@@ -7,6 +7,9 @@ export const MOVE_BACKWARD = 'MOVE_BACKWARD';
 export const FILTER_BY_ALPHABETICAL_ORDER = 'FILTER_BY_ALPHABETICAL_ORDER';
 export const CLEAR_ALL_DOGS = 'CLEAR_ALL_DOGS';
 export const FILTER_BY_WEIGTH = 'FILTER_BY_WEIGTH';
+export const GET_ALL_TEMPERAMENT = 'GET_ALL_TEMPERAMENT';
+export const FILTER_BY_BREED = 'FILTER_BY_BREED';
+export const DOG_CREATED = 'DOG_CREATED';
 
 export function getAllDogs () {
   return function (dispatch) {
@@ -17,6 +20,18 @@ export function getAllDogs () {
           type: GET_ALL_DOGS,
           payload: response.data
         })
+    })
+    .catch(err => console.log(err));
+  }
+}
+
+export function CreateNewDog (dog) {
+  return function (dispatch) {
+    axios.post('http://localhost:3000/dogs', dog )
+    .then((response) => {
+      return dispatch({
+        type: DOG_CREATED,
+      })
     })
     .catch(err => console.log(err));
   }
@@ -73,9 +88,29 @@ export function ClearAllDogs() {
   }
 }
 
-export function FilterByWeigth() {
+export function FilterByWeigth(value) {
   return {
-    type: FILTER_BY_WEIGTH
+    type: FILTER_BY_WEIGTH,
+    payload: value
+  }
+}
+
+export function GetAllTemperament(val){
+  return function (dispatch) {
+    axios('http://localhost:3000/temperaments')
+    .then(response => {
+      return dispatch ({
+        type: GET_ALL_TEMPERAMENT,
+        payload: response.data
+      })
+    })
+  }
+}
+
+export function FilterByBreed(val) {
+  return {
+    type: FILTER_BY_BREED,
+    payload: val
   }
 }
 
