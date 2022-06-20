@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { CreateNewDog, GetAllTemperament } from '../../redux/actions';
+import { CreateNewDog } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import './CreateDog.css'
+import ValidationForm from './Validations';
 
 
 export default function CreateDog() {
 
+  const [ value , setValue ] = useState(true);
+  const [ Errors, setErrors ] = useState([]);
   const [DogCreated, setDogCreated] = useState({
     image: null,
     name: '',
@@ -22,7 +25,7 @@ export default function CreateDog() {
 
   const HandleClick = (e) => {
     e.preventDefault();
-    dispatch(GetAllTemperament())
+    setValue( !value )
   }
 
   const HandleClickTemp = (e) => {
@@ -35,7 +38,14 @@ export default function CreateDog() {
     setDogCreated({
       ...DogCreated,
       [e.target.name]:e.target.value
+      
     })
+    setErrors(
+      ValidationForm({
+        ...DogCreated,
+        [e.target.name]:e.target.value
+      })
+    )
     console.log(DogCreated)
   }
 
@@ -56,62 +66,116 @@ export default function CreateDog() {
 
   return (
     <div className='formulario' >
-      <form>
-          <span className='title' >Name</span>
+      <form className='container-form' >
+        <div className='form_group' >
+          <input 
+            className='input'
+            type="text" 
+            onChange={(e)=>handleChange(e)} 
+            name='image' 
+            value={DogCreated.image} 
+            placeholder=' '
+          />
+          <label className='form_label' >Url Image</label>
+          <span className='form_line' ></span>
+        </div>
+
+        <div className='form_group' >
           <input 
             className='input'
             type="text" 
             onChange={(e)=>handleChange(e)} 
             name='name' 
             value={DogCreated.name} 
-            placeholder='Dog Name'
+            placeholder=' '
           />
-          <span className='title' >Min Height</span>
+          <label className='form_label' >Dog Name</label>
+          <span className='form_line' ></span>
+          {Errors.name && (
+            <p className='danger' >{Errors.name}</p>
+          )}
+        </div>
+
+        <div className='form_group' >
           <input 
             className='input'
             type="text" 
             onChange={(e)=>handleChange(e)} 
             name='min_height' 
             value={DogCreated.min_height} 
-            placeholder='Min Height' 
+            placeholder=' ' 
           />
-          <span className='title' >Max Height</span>
+          <label className='form_label' >Min Height</label>
+          <span className='form_line' ></span>
+          {Errors.min_height && (
+            <p className='danger' >{Errors.min_height}</p>
+          )}
+        </div>
+
+        <div className='form_group' >
           <input 
             className='input'
             type="text" 
             onChange={(e)=>handleChange(e)} 
             name='max_height' 
             value={DogCreated.max_height} 
-            placeholder='Max Height'
+            placeholder=' '
           />
-          <span className='title' >Min Weight</span>
+          <label className='form_label' >Max Height</label>
+          <span className='form_line' ></span>
+          {Errors.max_height && (
+            <p className='danger' >{Errors.max_height}</p>
+          )}
+        </div>
+
+        <div className='form_group' >
           <input 
             className='input'
             type="text" 
             onChange={(e)=>handleChange(e)} 
             name='min_weight' 
             value={DogCreated.min_weight} 
-            placeholder='Min Weight'
+            placeholder=' '
           />
-          <span className='title' >Max Weight</span>
+          <label className='form_label' >Min weight</label>
+          <span className='form_line' ></span>
+          {Errors.min_weight && (
+            <p className='danger' >{Errors.min_weight}</p>
+          )}
+        </div>
+
+        <div className='form_group' >
           <input 
             className='input'
             type="text" 
             onChange={(e)=>handleChange(e)} 
             name='max_weight' 
             value={DogCreated.max_weight} 
-            placeholder='Max Weight'
+            placeholder=' '
           />
-          <span className='title' >Life Span</span>
+          <label className='form_label' >Max weight</label>
+          <span className='form_line' ></span>
+          {Errors.max_weight && (
+            <p className='danger' >{Errors.max_weight}</p>
+          )}
+        </div>
+
+        <div className='form_group' >
           <input 
             className='input' 
             type="text" 
             onChange={(e)=>handleChange(e)} 
             name='life_span' 
             value={DogCreated.life_span} 
-            placeholder='Life Span'
+            placeholder=' '
           />
-          <span className='title' >Breed</span>
+          <label className='form_label' >Life Expectancy</label>
+          <span className='form_line' ></span>
+          {Errors.life_span && (
+            <p className='danger' >{Errors.life_span}</p>
+          )}
+        </div>
+
           <input 
             className='input'
             type="text" 
@@ -120,15 +184,42 @@ export default function CreateDog() {
             value={DogCreated.breed_group} 
             placeholder='Breed'
           />
+
           {/* Posibilidad de seleccionar/agregar uno o más temperamentos */}
-          <input type='button' onClick={(e) => HandleClick(e)} value='Temperaments'/> 
-          {
-            Temperaments.length ? Temperaments.map((tem) => 
-              <input onClick={(e) => HandleClickTemp(e)} type='button' value={tem.name} />
-            ) : <div></div>
-          }
+          <input className='button_temperaments' type='button' onClick={(e) => HandleClick(e)} value='Temperaments'/> 
+          
+            <div className={ value === true ? 'Block' : 'container_temperaments'} >
+              {
+                Temperaments.map((tem) => 
+                  <button className={ value === true ? 'Block' : 'temperament'} onClick={(e) => HandleClickTemp(e)} >{tem.name}</button> 
+                ) 
+              }
+            </div>
+           
          {/* Botón/Opción para crear una nueva raza de perro */}
-         <input onClick={(e) => HandleSubmit(e)} type='button' value='Submit'/>
+
+          <input
+          className = {
+            !DogCreated.name ||
+            !DogCreated.min_height ||
+            !DogCreated.max_height ||
+            !DogCreated.min_weight ||
+            !DogCreated.max_weight ||
+            !DogCreated.life_span ||
+            !DogCreated.breed_group ||
+            Errors.name ||
+            Errors.min_height ||
+            Errors.max_height ||
+            Errors.min_weight ||
+            Errors.max_weight ||
+            Errors.life_span ||
+            Errors.breed_group ? 'Block' : 'SubmitButton'
+          }
+            onClick={(e) => 
+            HandleSubmit(e)} 
+            type='button' 
+            value='Create Dog'
+          />
       </form>
     </div>
   )

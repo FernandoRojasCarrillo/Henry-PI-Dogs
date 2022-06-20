@@ -83,7 +83,7 @@ router.post('/dogs', async (req, res) => {
       life_span: life_span,
       breed_group: breed_group
     });
-//  const project = await Project.findOne({ where: { title: 'My Title' } });
+   //const project = await Project.findOne({ where: { title: 'My Title' } });
     const tempsFromDB = await Temperament.findAll({where: {name: {[Op.in] : temperament}}});
     await newDog.addTemperament(tempsFromDB)
     const dogDreated = await Dog.findAll({include: Temperament})
@@ -176,29 +176,50 @@ router.get('/temperaments', async (req, res) => {
         Temp += (tem.temperament);
       })
       let result = Temp.split(',')
-      let set = new Set(result);
+      let reduce = result.join('')
+
+      // let palabra = 'HolaComoEstasHoyMartesPrimeroDeJulio ';
+      let resultado = [];
+      // let len = palabra.length;
+      let word ;
+      
+      for (let i = 0; i < reduce.length; i++) {
+        if(reduce[i].charCodeAt() < 95 && reduce[i].charCodeAt() !== 32) {
+          resultado.push(word)
+          word = reduce[i]
+        }
+        if(reduce[i].charCodeAt() >= 95 && reduce[i].charCodeAt() !== 32) {
+          word = word + reduce[i];
+        }
+        console.log();
+      }
+      resultado.shift()
+
+      let set = new Set(resultado);
       let Temperamento = [...set];
 
       // const ability = await Ability.create(req.body);
-      // return res.status(201).json(ability);
+      
+      
       for (let i = 0; i < Temperamento.length; i++) {
-
-          const Tem = await Temperament.create(
-            {
-              name: Temperamento[i]
+        
+        const Tem = await Temperament.create(
+          {
+            name: Temperamento[i]
             }
           )
           Temperamentos.push(Tem)
       }
       
+      // return res.json(resultado);
     }else {
       return res.status(404).send({msg_error: 'No hay temperamentos encontrados'});
     }
-    return res.json(Temperamentos);
-    
+    return res.status(201).json(Temperamentos);
   }else {
     return res.json(AllTemperaments);
   }
 })
+
 
 module.exports = router;

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import 
 {
   getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward, FilterByAlphabeticalOder, FilterByWeigth, 
-  FilterByTemperament, FilterByBreed
+  FilterByTemperament, FilterByBreed, GetAllTemperament
 }  
 from '../../redux/actions';
 
@@ -24,6 +24,7 @@ export default function Home(){
   useEffect( ()=>{
       if(Current === 0) {
       dispatch(getAllDogs())
+      dispatch(GetAllTemperament())
     }
   },[])
   const value = Math.ceil(AllDogs.length / 8);

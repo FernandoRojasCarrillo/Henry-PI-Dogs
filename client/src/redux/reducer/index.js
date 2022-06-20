@@ -10,7 +10,8 @@ import
     FILTER_BY_WEIGTH,
     GET_ALL_TEMPERAMENT,
     FILTER_BY_BREED,
-    DOG_CREATED
+    DOG_CREATED,
+    GET_ALL_BREEDS
   } 
 from '../actions';
 
@@ -20,7 +21,8 @@ const inisialState = {
   AuxDogs: [],
   ShowDogs: [],
   getDogDetail: [],
-  Temperaments: []
+  Temperaments: [],
+  Breeds: []
 }
 
 export default function Reducer(state=inisialState, action) {
@@ -142,6 +144,20 @@ export default function Reducer(state=inisialState, action) {
       return {
         ...state,
         Temperaments: action.payload
+      }
+    case GET_ALL_BREEDS:
+
+      let breeds ;
+      state.AllDogs.map(dog => {
+        return breeds += ' ' + (dog.breed);
+      })
+      let result = breeds.split(',')
+      let set = new Set(result);
+      let AllBreeds = [...set];
+
+      return {
+        ...state,
+        Breeds: [...AllBreeds]
       }
     case FILTER_BY_BREED :
       const DogsFIlter = [...state.AllDogs.filter((dog) => dog.breed_group.include(action.payload))]

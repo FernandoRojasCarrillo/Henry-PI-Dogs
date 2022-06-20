@@ -8,6 +8,7 @@ export const FILTER_BY_ALPHABETICAL_ORDER = 'FILTER_BY_ALPHABETICAL_ORDER';
 export const CLEAR_ALL_DOGS = 'CLEAR_ALL_DOGS';
 export const FILTER_BY_WEIGTH = 'FILTER_BY_WEIGTH';
 export const GET_ALL_TEMPERAMENT = 'GET_ALL_TEMPERAMENT';
+export const GET_ALL_BREEDS = 'GET_ALL_BREEDS';
 export const FILTER_BY_BREED = 'FILTER_BY_BREED';
 export const DOG_CREATED = 'DOG_CREATED';
 
@@ -104,6 +105,12 @@ export function GetAllTemperament(val){
         payload: response.data
       })
     })
+  }
+}
+
+export function GetAllBreeds() {
+  return {
+    type: GET_ALL_BREEDS,
   }
 }
 
