@@ -11,6 +11,8 @@ export const GET_ALL_TEMPERAMENT = 'GET_ALL_TEMPERAMENT';
 export const GET_ALL_BREEDS = 'GET_ALL_BREEDS';
 export const FILTER_BY_BREED = 'FILTER_BY_BREED';
 export const DOG_CREATED = 'DOG_CREATED';
+export const ADD_NEW_BREED = 'ADD_NEW_BREED';
+export const FILTER_BY_TEMPERAMENT = 'FILTER_BY_TEMPERAMENT';
 
 export function getAllDogs () {
   return function (dispatch) {
@@ -96,7 +98,7 @@ export function FilterByWeigth(value) {
   }
 }
 
-export function GetAllTemperament(val){
+export function GetAllTemperament(){
   return function (dispatch) {
     axios('http://localhost:3000/temperaments')
     .then(response => {
@@ -109,8 +111,27 @@ export function GetAllTemperament(val){
 }
 
 export function GetAllBreeds() {
+  return async function (dispatch) {
+    const { data } = await axios.get('http://localhost:3000/dogs')
+    return dispatch ({
+      type: GET_ALL_BREEDS,
+      payload: data
+    })
+  
+  }
+}
+
+export function FilterByTemperament(temp) {
   return {
-    type: GET_ALL_BREEDS,
+    type: FILTER_BY_TEMPERAMENT,
+    payload: temp
+  }
+}
+
+export function AddNewBreed(breed) {
+  return {
+    type: ADD_NEW_BREED,
+    payload: breed
   }
 }
 

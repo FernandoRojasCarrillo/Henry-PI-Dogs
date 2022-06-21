@@ -57,7 +57,7 @@ router.get('/dogs', async (req, res, next) => {
 
     if(data.length) {
       data.map(dog => {
-        dogsSearchByName.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight, dog.height, dog.breed_group, dog.life_span));
+        dogsSearchByName.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight.imperial, dog.height.imperial, dog.breed_group, dog.life_span));
       })
     }else{
       return res.status(404).send({msg_error: 'No se encontraron dogs por ese nombre'});
@@ -121,7 +121,7 @@ router.get('/dogs', async (req, res) => {
     if(data.length) {
 
       data.map(dog => {
-        dogs.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight, dog.height, dog.breed_group, dog.life_span))
+        dogs.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight.metric, dog.height.metric, dog.breed_group, dog.life_span))
       })
       
     }else{
@@ -184,12 +184,15 @@ router.get('/temperaments', async (req, res) => {
       let word ;
       
       for (let i = 0; i < reduce.length; i++) {
-        if(reduce[i].charCodeAt() < 95 && reduce[i].charCodeAt() !== 32) {
+        if(reduce[i].charCodeAt() < 95 && reduce[i - 1].charCodeAt() === 45 ) {
+          word = word + reduce[i];
+        }
+        else if(reduce[i].charCodeAt() >= 95 || reduce[i].charCodeAt() === 45 ) {
+          word = word + reduce[i];
+        }
+        else if(reduce[i].charCodeAt() < 95 && reduce[i].charCodeAt() > 64) {
           resultado.push(word)
           word = reduce[i]
-        }
-        if(reduce[i].charCodeAt() >= 95 && reduce[i].charCodeAt() !== 32) {
-          word = word + reduce[i];
         }
         console.log();
       }

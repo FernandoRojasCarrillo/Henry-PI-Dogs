@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { CreateNewDog } from '../../redux/actions';
+import React, { useEffect, useState } from 'react';
+import { AddNewBreed, CreateNewDog, GetAllBreeds, GetAllTemperament } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import './CreateDog.css'
 import ValidationForm from './Validations';
@@ -7,7 +7,8 @@ import ValidationForm from './Validations';
 
 export default function CreateDog() {
 
-  const [ value , setValue ] = useState(true);
+  const [ buttonTemp , setButtonTemp ] = useState(true);
+  const [ buttonBreed , setButtonBreed ] = useState(true);
   const [ Errors, setErrors ] = useState([]);
   const [DogCreated, setDogCreated] = useState({
     image: null,
@@ -18,19 +19,46 @@ export default function CreateDog() {
     max_weight: '',
     life_span: '',
     breed_group: '',
-    temperaments: []
+    temperaments: [],
+    new_dog: ''
   })
   const Temperaments = useSelector((state) => state.Temperaments);
+  const Breeds = useSelector((state) => state.Breeds);
   const dispatch = useDispatch();
 
-  const HandleClick = (e) => {
+  useEffect(()=> {
+    dispatch(GetAllTemperament())
+    dispatch(GetAllBreeds())
+  },[])
+
+  const HandleClickBtnTemp = (e) => {
     e.preventDefault();
-    setValue( !value )
+    setButtonBreed(true)
+    setButtonTemp( !buttonTemp )
+  }
+
+  const HandleClickBtnBreed = (e) => {
+    e.preventDefault();
+    setButtonTemp(true)
+    setButtonBreed(!buttonBreed)
   }
 
   const HandleClickTemp = (e) => {
     e.preventDefault();
     DogCreated.temperaments.push(e.target.value)
+  }
+
+  const HandleClickBreed = (e) => {
+    e.preventDefault();
+    setDogCreated({
+      ...DogCreated,
+      breed_group: e.target.value
+    })
+  }
+
+  const CreateDog = (e) => {
+    e.preventDefault();
+    dispatch(AddNewBreed(DogCreated.new_dog))
   }
 
   const handleChange = (e) => {
@@ -41,10 +69,13 @@ export default function CreateDog() {
       
     })
     setErrors(
-      ValidationForm({
+      ValidationForm(
+        {
         ...DogCreated,
         [e.target.name]:e.target.value
-      })
+        },
+        Breeds
+      )
     )
     console.log(DogCreated)
   }
@@ -176,22 +207,44 @@ export default function CreateDog() {
           )}
         </div>
 
+        <div className='form_group' >
           <input 
-            className='input'
+            className='input' 
             type="text" 
             onChange={(e)=>handleChange(e)} 
-            name='breed_group' 
-            value={DogCreated.breed_group} 
-            placeholder='Breed'
+            name='new_dog' 
+            value={DogCreated.new_dog} 
+            placeholder=' '
           />
+          {Errors.new_dog && (
+            <p className='danger' >{Errors.new_dog}</p>
+          )}
+          <input 
+            className={ !DogCreated.new_dog || Errors.new_dog ? 'Block' : 'btn_crea_dog' }
+            onClick={(e) => CreateDog(e)}
+            type='button' 
+            value='Create ' 
+          />
+          <label className='form_label' >Create New Breed</label>
+          <span className='form_line' ></span>
+        </div>
+
+          <input className='button_breeds' type='button' onClick={(e) => HandleClickBtnBreed(e)} value='Breeds' />
+            <div className={ buttonBreed === true ? 'Block' : 'container_Breeds'} >
+              {
+                Breeds.map((breed) => 
+                  <input type='button' className={ buttonBreed === true ? 'Block' : 'breeds'} onClick={(e) => HandleClickBreed(e) } value={breed} />
+                )
+              }
+            </div>
 
           {/* Posibilidad de seleccionar/agregar uno o más temperamentos */}
-          <input className='button_temperaments' type='button' onClick={(e) => HandleClick(e)} value='Temperaments'/> 
+          <input className='button_temperaments' type='button' onClick={(e) => HandleClickBtnTemp(e)} value='Temperaments'/> 
           
-            <div className={ value === true ? 'Block' : 'container_temperaments'} >
+            <div className={ buttonTemp === true ? 'Block' : 'container_temperaments'} >
               {
                 Temperaments.map((tem) => 
-                  <button className={ value === true ? 'Block' : 'temperament'} onClick={(e) => HandleClickTemp(e)} >{tem.name}</button> 
+                  <input type='button' className={ buttonTemp === true ? 'Block' : 'temperament'} onClick={(e) => HandleClickTemp(e)} value={tem.name}  />
                 ) 
               }
             </div>

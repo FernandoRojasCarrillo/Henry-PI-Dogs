@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from '../NavBar/NavBar';
 import './Home.css';
 import DogCard from '../DogCard/DogCard';
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import 
 {
   getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward, FilterByAlphabeticalOder, FilterByWeigth, 
-  FilterByTemperament, FilterByBreed, GetAllTemperament
+  FilterByTemperament, FilterByBreed, GetAllBreeds, GetAllTemperament
 }  
 from '../../redux/actions';
 
@@ -16,19 +16,45 @@ export default function Home(){
 
 
   const dispatch = useDispatch();
-  let  ShowDogs = useSelector(state => state.ShowDogs);
-  let  Current = useSelector(state => state.Current);
-  let  AllDogs = useSelector(state => state.AllDogs);
+  const [ filterByBreed, setFilterByBreed ] = useState(true)
+  const [ filterByTemperament, setFilterByTemperament ] = useState(true)
+  const  ShowDogs = useSelector(state => state.ShowDogs);
+  const  Current = useSelector(state => state.Current);
+  const  AllDogs = useSelector(state => state.AllDogs);
+  const  Breeds = useSelector(state => state.Breeds);
+  const  Temperaments = useSelector(state => state.Temperaments);
   
   
   useEffect( ()=>{
-      if(Current === 0) {
+    if(Current === 0) {
       dispatch(getAllDogs())
+      dispatch(GetAllBreeds())
       dispatch(GetAllTemperament())
     }
   },[])
   const value = Math.ceil(AllDogs.length / 8);
-  // let Dogs = AllDogs.slice(0,Math.ceil(AllDogs.length / 8));
+  let Dogs = [...AllDogs.slice(0, 10)];
+
+  const FilterByBred = () => {
+    setFilterByBreed(!filterByBreed);
+    setFilterByTemperament(true);
+  }
+  
+  const FilterByTemp = () => {
+    setFilterByTemperament(!filterByTemperament);
+    setFilterByBreed(true);
+  }
+  
+  const BtnFilterByBreed = (breed) => {
+    dispatch(FilterByBreed(breed))
+    setFilterByBreed(true);
+  }
+
+  const BtnFilterByTemp = (temp) => {
+    dispatch(FilterByTemperament(temp))
+    setFilterByBreed(true);
+    setFilterByTemperament(true);
+  }
 
   return (
     <div className="app-container-img" >
@@ -41,23 +67,26 @@ export default function Home(){
         <div className='main-container' >
 
           <div className='container-buttons' >
-            <button onClick={() => dispatch(FilterByBreed('working'))} for='filterBy' >Filter By</button>
-            {/* <input type='checkbox' id='filterBy' /> */}
+            <button className='btn_navbar' onClick={() => FilterByTemp()} >Filter By Temperament</button>
+            <button className='btn_navbar' onClick={() => FilterByBred()} >Filter By Breed</button>
 
-            <div className='container-filter' >
-              <ul className={'filter-name' } >
+            <button className='btn_navbar' >Favorites</button>
+            <button className='btn_navbar' >Dogs Created</button>
+
+            <div className='container-order' >
+              <ul className={'order-name' } >
                 <li><button className='oder-by'>Order By</button>
-                  <ul className='buttons-filter' >
-                    <li><button className='btn-filter' >Order by Name</button>
-                      <ul className='buttons-filter-name' >
-                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >A - Z</button></li>
-                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByAlphabeticalOder('Z-A'))} >Z - A</button></li>
+                  <ul className='buttons-order' >
+                    <li><button className='btn-order' >Order by Name</button>
+                      <ul className='buttons-order-name' >
+                        <li><button className='sub-btn-order' onClick={() => dispatch(FilterByAlphabeticalOder('A-Z'))} >A - Z</button></li>
+                        <li><button className='sub-btn-order' onClick={() => dispatch(FilterByAlphabeticalOder('Z-A'))} >Z - A</button></li>
                       </ul>
                     </li>
-                    <li><button className='btn-filter Weight' >Order by Weight</button>
-                      <ul className='buttons-filter-name W' >
-                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByWeigth('Des'))} >Des</button></li>
-                        <li><button className='sub-btn-filter' onClick={() => dispatch(FilterByWeigth('Asc'))} >Asc</button></li>
+                    <li><button className='btn-order Weight' >Order by Weight</button>
+                      <ul className='buttons-order-name W' >
+                        <li><button className='sub-btn-order' onClick={() => dispatch(FilterByWeigth('Des'))} >Des</button></li>
+                        <li><button className='sub-btn-order' onClick={() => dispatch(FilterByWeigth('Asc'))} >Asc</button></li>
                       </ul>
                     </li>
                   </ul>
@@ -72,7 +101,7 @@ export default function Home(){
                 <div className='paginado' >
                   <button className={ value === 1 ? 'block' : 'btn-buttons' } onClick={() => dispatch(MoveBachward())}>Back</button>
                   <div className='container-paginado ' >
-                    
+
                     <button className={ value + 1 <= 1 ? 'block' :  Current === 1 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(1))} >1</button>
                     <button className={ value + 1 <= 2 ? 'block' :  Current === 2 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(2))} >2</button>
                     <button className={ value + 1 <= 3 ? 'block' :  Current === 3 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(3))} >3</button>
@@ -96,7 +125,7 @@ export default function Home(){
                     <button className={ value + 1 <= 21 ? 'block' : Current === 21 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(21))} >21</button>
                     <button className={ value + 1 <= 22 ? 'block' : Current === 22 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(22))} >22</button>
                     <button className={ value + 1 <= 23 ? 'block' : Current === 23 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(23))} >23</button>
-                    <button className={ value + 1 <= 24 ? 'block' : Current === 24 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(24))} >24</button>
+                    <button className={ value + 1 <= 24 ? 'block' : Current === 24 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(24))} >24</button> 
                   </div>
                   <button  className={ value === 1 ? 'block' : 'btn-buttons' }  onClick={() => dispatch(MoveForward())}>Ahead</button>
                 </div>
@@ -111,7 +140,7 @@ export default function Home(){
                   id={dog.id}
                   image={dog.image} 
                   name={dog.name}
-                  weight={dog.weight.imperial}
+                  weight={dog.weight}
                   temperaments={dog.temperament}
                 />
               ) : <Loading/>
@@ -119,8 +148,22 @@ export default function Home(){
           </div>
 
         </div>
-        <div className='left-menu' >
-          <label for='filterBy' >X</label>
+        <div className={ filterByBreed === true ? 'Block' : "container_breeds"}>
+          {
+            Breeds.map((breed) => 
+              <button className='btn_breed' onClick={() => BtnFilterByBreed(breed)}>{breed}</button> 
+            )
+          }
+        </div>
+        <div className={ filterByTemperament === true ? 'Block' : 'left_menu'} >
+          <div className="container_temps">
+            {
+              Temperaments.map((temp) =>
+                <button className='btn_temps' onClick={() => BtnFilterByTemp(temp.name)} >{temp.name}</button>
+              )
+            }
+            <button className='filterBy' >Close</button>
+          </div>
 
         </div>
       </div>

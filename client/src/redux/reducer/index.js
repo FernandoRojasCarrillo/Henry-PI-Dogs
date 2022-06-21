@@ -10,14 +10,17 @@ import
     FILTER_BY_WEIGTH,
     GET_ALL_TEMPERAMENT,
     FILTER_BY_BREED,
+    FILTER_BY_TEMPERAMENT,
     DOG_CREATED,
-    GET_ALL_BREEDS
+    GET_ALL_BREEDS,
+    ADD_NEW_BREED
   } 
 from '../actions';
 
 const inisialState = {
   Current: 0,
   AllDogs: [],
+  BackupDogs: [],
   AuxDogs: [],
   ShowDogs: [],
   getDogDetail: [],
@@ -43,6 +46,7 @@ export default function Reducer(state=inisialState, action) {
         ...state,
         Current: 1,
         AllDogs: action.payload,
+        BackupDogs: action.payload,
         AuxDogs: [...Show],
         ShowDogs: action.payload.slice(0,8) || action.payload.slice(0,action.payload.length)
       }
@@ -107,7 +111,7 @@ export default function Reducer(state=inisialState, action) {
       while(cambio === true) {
         cambio = false
         for (let i = 0; i < Array2.length - 1; i++) {
-          if(Array2[i].weight.metric > Array2[i + 1].weight.metric) {
+          if(Array2[i].weight > Array2[i + 1].weight) {
             let aux = Array2[i];
             Array2[i] = Array2[i + 1];
             Array2[i + 1] = aux
@@ -147,35 +151,80 @@ export default function Reducer(state=inisialState, action) {
       }
     case GET_ALL_BREEDS:
 
-      let breeds ;
-      state.AllDogs.map(dog => {
-        return breeds += ' ' + (dog.breed);
-      })
-      let result = breeds.split(',')
-      let set = new Set(result);
+      let breeds = [] ;
+      for (let i = 0; i < action.payload.length; i++) {
+        
+        if(!action.payload[i].breed || action.payload[i].breed === ""){
+          continue;
+        }
+        breeds.push(action.payload[i].breed);
+      }
+      
+      let set = new Set(breeds);
       let AllBreeds = [...set];
 
       return {
         ...state,
-        Breeds: [...AllBreeds]
+        Breeds: AllBreeds
       }
     case FILTER_BY_BREED :
-      const DogsFIlter = [...state.AllDogs.filter((dog) => dog.breed_group.include(action.payload))]
-      let ShowFIlter = [];
-      while(DogsFIlter.length){
+      const DogsFilter = []
+      const allDogs = [];
+      state.BackupDogs.map((dog) => {
+        if(dog.breed === action.payload) {
+          DogsFilter.push(dog)
+          allDogs.push(dog)
+        }
+      })
+      let ShowFilter = [];
+      while(DogsFilter.length){
         let ArrayOfDogs = [];
         let c = 8; 
-        while(c > 0 && DogsFIlter.length > 0) {
+        while(c > 0 && DogsFilter.length > 0) {
           c --
-          ArrayOfDogs.push(DogsFIlter.shift());
+          ArrayOfDogs.push(DogsFilter.shift());
         }
-        ShowFIlter.push(ArrayOfDogs);
+        ShowFilter.push(ArrayOfDogs);
       }
       return {
         ...state,
+        AllDogs: [...allDogs],
         Current: 1,
-        AuxDogs: [...ShowFIlter],
-        ShowDogs: [...ShowFIlter[1]]
+        AuxDogs: [...ShowFilter],
+        ShowDogs: [...ShowFilter[0]]
+      }
+    case FILTER_BY_TEMPERAMENT:
+      const dogsFilter = [];
+      const AllDogs = [];
+      for (let i = 0; i < state.BackupDogs.length; i++) {
+        
+        if(state.BackupDogs[i].temperament.includes("Adventurous")) {
+          dogsFilter.push(state.BackupDogs[i])
+          AllDogs.push(state.BackupDogs[i])
+        }
+      }
+      let showFilter = [];
+      while(DogsFilter.length){
+        let ArrayOfDogs = [];
+        let c = 8; 
+        while(c > 0 && DogsFilter.length > 0) {
+          c --
+          ArrayOfDogs.push(DogsFilter.shift());
+        }
+        showFilter.push(ArrayOfDogs);
+      }
+
+      return {
+        ...state,
+        AllDogs: [...AllDogs],
+        Current: 1,
+        AuxDogs: [...showFilter],
+        ShowDogs: [...showFilter[0]]
+      }
+    case ADD_NEW_BREED:
+      return {
+        ...state,
+        Breeds: [...state.Breeds, action.payload]
       }
     case DOG_CREATED: {
       return {
