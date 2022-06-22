@@ -7,11 +7,11 @@ const { Temperament, Dog, Op } = require('../db.js');
 
 const router = Router();
 
-const createDog = ( id, image, name, temperament,height, weight, breed,life_span ) => {
+const createDog = ( id, image, extention,  name, temperament,height, weight, breed,life_span ) => {
 
   const Dog = {
     id,
-    image: `https://cdn2.thedogapi.com/images/${image}`,
+    image: `https://cdn2.thedogapi.com/images/${image}.${extention}`,
     name,
     temperament,
     weight,
@@ -30,8 +30,9 @@ const createDog = ( id, image, name, temperament,height, weight, breed,life_span
 router.get('/dogs', async (req, res, next) => {
   const { name } = req.query;
   if(!name) return next()
-  const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901`);
+  
   try {
+    const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901`);
     let dogsSearchByName = [];
 
     const filterDogs = await Dog.findAll( {include: Temperament},{where: {name: {[Op.iLike]: `%${name}%`}}});
@@ -56,9 +57,17 @@ router.get('/dogs', async (req, res, next) => {
     }) : false;
 
     if(data.length) {
-      data.map(dog => {
-        dogsSearchByName.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight.imperial, dog.height.imperial, dog.breed_group, dog.life_span));
-      })
+      for (let i = 0; i < data.length; i++) {
+        let imageExtention = '';
+        try {
+          await axios.get(`https://cdn2.thedogapi.com/images/${data[i].reference_image_id}.jpg`)
+          imageExtention = 'jpg'
+        } catch (error) {
+          imageExtention = 'png'
+        }
+        dogsSearchByName.push(createDog(data[i].id, data[i].reference_image_id,imageExtention, data[i].name, data[i].temperament, data[i].weight.imperial, data[i].height.imperial, data[i].breed_group, data[i].life_span));
+      }
+      // return res.json(imageExtention);
     }else{
       return res.status(404).send({msg_error: 'No se encontraron dogs por ese nombre'});
     };
@@ -66,6 +75,7 @@ router.get('/dogs', async (req, res, next) => {
     return res.json(dogsSearchByName);
   } catch (error) {
     console.log(error);
+    return res.json({mesage: 'error',});
   }
 })
 
@@ -95,8 +105,8 @@ router.post('/dogs', async (req, res) => {
 })
 
 router.get('/dogs', async (req, res) => {
-  const { data } = await axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901');
   try {
+    const { data } = await axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901');
     let dogs = [];
     const DbDogs = await Dog.findAll({include: Temperament});
     DbDogs.length ? DbDogs.map( (d) => {
@@ -119,9 +129,9 @@ router.get('/dogs', async (req, res) => {
     }) : false;
 
     if(data.length) {
-
       data.map(dog => {
-        dogs.push(createDog(dog.id, dog.reference_image_id, dog.name, dog.temperament, dog.weight.metric, dog.height.metric, dog.breed_group, dog.life_span))
+        let img = dog.image.url.slice(-3)
+        dogs.push(createDog(dog.id, dog.reference_image_id, img, dog.name, dog.temperament, dog.weight.metric, dog.height.metric, dog.breed_group, dog.life_span))
       })
       
     }else{
@@ -129,8 +139,10 @@ router.get('/dogs', async (req, res) => {
     }
     
     return res.json(dogs)
+    // return res.json(img)
   } catch (error) {
     console.log(error)
+    return res.status(404).json({mesange: 'error'})
   }
 })
 
@@ -222,6 +234,30 @@ router.get('/temperaments', async (req, res) => {
   }else {
     return res.json(AllTemperaments);
   }
+})
+
+router.get('/dogsFilterByTemperament', async (req, res) => {
+  const { value } = req.query;
+  const { data } = await axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901');
+  let dogsFilter = [];
+  data.map((dog) => {
+
+    let val = dog.temperament ? dog.temperament.split(',') : ''
+    let valor = [];
+    for (let i = 0; i < val.length; i++) {
+      valor.push(val[i].trim())
+    }
+    if(valor.includes(`${value}`)) {
+      dogsFilter.push(dog)
+    }
+  })
+    
+  // }
+  // if(dogsFilter.length) {
+  // }else {
+  //   res.send('error')
+  // }
+  res.send(dogsFilter);
 })
 
 

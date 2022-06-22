@@ -13,6 +13,7 @@ export const FILTER_BY_BREED = 'FILTER_BY_BREED';
 export const DOG_CREATED = 'DOG_CREATED';
 export const ADD_NEW_BREED = 'ADD_NEW_BREED';
 export const FILTER_BY_TEMPERAMENT = 'FILTER_BY_TEMPERAMENT';
+export const CHANGE_LOADING = 'CHANGE_LOADING';
 
 export function getAllDogs () {
   return function (dispatch) {
@@ -41,15 +42,24 @@ export function CreateNewDog (dog) {
 }
 
 export function SearchByName(name) {
-  return function (dispatch) {
-    axios(`http://localHost:3000/dogs?name=${name}`)
-    .then((response) => {
-      return dispatch({
+  return async function (dispatch) {
+      try {
+      const { data } = await axios(`http://localHost:3000/dogs?name=${name}`)
+      if(data) {
+        return dispatch({
+          type: GET_ALL_DOGS,
+          payload: data  
+        })
+      }
+    }catch (error) {
+      console.log(error);
+      return {
         type: GET_ALL_DOGS,
-        payload: response.data
-      })
-    })
+        payload: {mesage: 'error'}
+      }
+    } 
   }
+  
 }
 
 export function GetDogsById(id) {
@@ -141,6 +151,7 @@ export function FilterByBreed(val) {
     payload: val
   }
 }
+
 
 // export function getAllDogsTwo() {
 //   return {

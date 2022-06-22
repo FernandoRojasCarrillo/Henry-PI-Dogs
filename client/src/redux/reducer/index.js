@@ -13,7 +13,8 @@ import
     FILTER_BY_TEMPERAMENT,
     DOG_CREATED,
     GET_ALL_BREEDS,
-    ADD_NEW_BREED
+    ADD_NEW_BREED,
+    CHANGE_LOADING
   } 
 from '../actions';
 
@@ -31,7 +32,7 @@ const inisialState = {
 export default function Reducer(state=inisialState, action) {
   switch (action.type) {
     case GET_ALL_DOGS:
-      let Dogs = [...action.payload];
+      let Dogs = [...action.payload ]
       let Show = [];
       while(Dogs.length){
         let ArrayOfDogs = [];
@@ -45,10 +46,10 @@ export default function Reducer(state=inisialState, action) {
       return{
         ...state,
         Current: 1,
-        AllDogs: action.payload,
-        BackupDogs: action.payload,
+        AllDogs: action.payload ,
+        BackupDogs: state.BackupDogs.length ? [...state.BackupDogs] : [...action.payload],
         AuxDogs: [...Show],
-        ShowDogs: action.payload.slice(0,8) || action.payload.slice(0,action.payload.length)
+        ShowDogs: [...Show[0]]
       }
     case GET_DOG_BY_ID:
       return {
@@ -196,20 +197,28 @@ export default function Reducer(state=inisialState, action) {
     case FILTER_BY_TEMPERAMENT:
       const dogsFilter = [];
       const AllDogs = [];
-      for (let i = 0; i < state.BackupDogs.length; i++) {
-        
-        if(state.BackupDogs[i].temperament.includes("Adventurous")) {
-          dogsFilter.push(state.BackupDogs[i])
-          AllDogs.push(state.BackupDogs[i])
+      const input = action.payload.toLowerCase();
+      state.BackupDogs.map((dog) => {
+
+        let val = dog.temperament ? dog.temperament.split(',') : ''
+        let valor = [];
+        for (let i = 0; i < val.length; i++) {
+          valor.push(val[i].toLowerCase().trim())
         }
-      }
-      let showFilter = [];
-      while(DogsFilter.length){
+        if(valor.includes(input)) {
+          dogsFilter.push(dog)
+          AllDogs.push(dog)
+        }
+
+      })
+
+      const showFilter = [];
+      while(dogsFilter.length){
         let ArrayOfDogs = [];
         let c = 8; 
-        while(c > 0 && DogsFilter.length > 0) {
+        while(c > 0 && dogsFilter.length > 0) {
           c --
-          ArrayOfDogs.push(DogsFilter.shift());
+          ArrayOfDogs.push(dogsFilter.shift());
         }
         showFilter.push(ArrayOfDogs);
       }

@@ -23,6 +23,7 @@ export default function Home(){
   const  AllDogs = useSelector(state => state.AllDogs);
   const  Breeds = useSelector(state => state.Breeds);
   const  Temperaments = useSelector(state => state.Temperaments);
+
   
   
   useEffect( ()=>{
@@ -32,8 +33,10 @@ export default function Home(){
       dispatch(GetAllTemperament())
     }
   },[])
+
   const value = Math.ceil(AllDogs.length / 8);
-  let Dogs = [...AllDogs.slice(0, 10)];
+  // let Dogs = [...AllDogs.slice(0, 10)];
+  
 
   const FilterByBred = () => {
     setFilterByBreed(!filterByBreed);
@@ -133,17 +136,24 @@ export default function Home(){
             }
           <div className='container-dogs' >
             {
-              ShowDogs.length ? 
-              ShowDogs.map((dog) =>
-                <DogCard
-                  key={dog.id}
-                  id={dog.id}
-                  image={dog.image} 
-                  name={dog.name}
-                  weight={dog.weight}
-                  temperaments={dog.temperament}
-                />
-              ) : <Loading/>
+              AllDogs.length ? 
+                  
+                ShowDogs.map((dog) =>
+                  <DogCard
+                    key={dog.id}
+                    id={dog.id}
+                    image={dog.image} 
+                    name={dog.name}
+                    weight={dog.weight}
+                    temperaments={dog.temperament}
+                  />
+                )
+              :
+              <>
+                {
+                  <Loading/>
+                }
+              </>
             }
           </div>
 
@@ -166,6 +176,7 @@ export default function Home(){
           </div>
 
         </div>
+
       </div>
     </div>
   )
