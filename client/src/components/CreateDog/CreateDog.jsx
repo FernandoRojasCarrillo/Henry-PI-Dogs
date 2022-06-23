@@ -3,6 +3,7 @@ import { AddNewBreed, CreateNewDog, GetAllBreeds, GetAllTemperament } from '../.
 import { useDispatch, useSelector } from 'react-redux';
 import './CreateDog.css'
 import ValidationForm from './Validations';
+import NavigationPanel from '../NavigationPanel/NavogationPanel';
 
 
 export default function CreateDog() {
@@ -274,6 +275,7 @@ export default function CreateDog() {
             value='Create Dog'
           />
       </form>
+      <NavigationPanel/>
     </div>
   )
 }

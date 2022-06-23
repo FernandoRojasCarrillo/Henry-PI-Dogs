@@ -14,13 +14,16 @@ import
     DOG_CREATED,
     GET_ALL_BREEDS,
     ADD_NEW_BREED,
-    CHANGE_LOADING
+    CHANGE_LOADING,
+    ADD_TO_FAVORITES,
+    REMOVE_TO_FAVORITES
   } 
 from '../actions';
 
 const inisialState = {
   Current: 0,
   AllDogs: [],
+  Favorites: [],
   BackupDogs: [],
   AuxDogs: [],
   ShowDogs: [],
@@ -235,11 +238,20 @@ export default function Reducer(state=inisialState, action) {
         ...state,
         Breeds: [...state.Breeds, action.payload]
       }
-    case DOG_CREATED: {
+    case DOG_CREATED:
       return {
         ...state
       }
-    }
+    case ADD_TO_FAVORITES:
+      return {
+        ...state,
+        Favorites: [ ...state.Favorites, action.payload]
+      }
+    case REMOVE_TO_FAVORITES:
+      return {
+        ...state,
+        Favorites: state.Favorites.filter((dog) => dog.id !== action.payload )
+      }
     default:
       return state;
       

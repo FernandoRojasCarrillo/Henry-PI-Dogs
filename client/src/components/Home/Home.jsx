@@ -10,6 +10,7 @@ import
   FilterByTemperament, FilterByBreed, GetAllBreeds, GetAllTemperament
 }  
 from '../../redux/actions';
+import { Link } from 'react-router-dom';
 
 
 export default function Home(){
@@ -73,8 +74,9 @@ export default function Home(){
             <button className='btn_navbar' onClick={() => FilterByTemp()} >Filter By Temperament</button>
             <button className='btn_navbar' onClick={() => FilterByBred()} >Filter By Breed</button>
 
-            <button className='btn_navbar' >Favorites</button>
-            <button className='btn_navbar' >Dogs Created</button>
+            <Link to='/favorites' >
+              <button className='btn_navbar' >Favorites</button>
+            </Link>
 
             <div className='container-order' >
               <ul className={'order-name' } >
@@ -96,13 +98,16 @@ export default function Home(){
                 </li>
               </ul>
             </div>
+
+            <button className='btn_navbar' >Dogs Created</button>
+
           </div>
 
             {
               ShowDogs.length ?
               (
                 <div className='paginado' >
-                  <button className={ value === 1 ? 'block' : 'btn-buttons' } onClick={() => dispatch(MoveBachward())}>Back</button>
+                  <button className={ value === 1 ? 'block' : 'btn-buttons1' } onClick={() => dispatch(MoveBachward())}></button>
                   <div className='container-paginado ' >
 
                     <button className={ value + 1 <= 1 ? 'block' :  Current === 1 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(1))} >1</button>
@@ -130,7 +135,7 @@ export default function Home(){
                     <button className={ value + 1 <= 23 ? 'block' : Current === 23 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(23))} >23</button>
                     <button className={ value + 1 <= 24 ? 'block' : Current === 24 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(24))} >24</button> 
                   </div>
-                  <button  className={ value === 1 ? 'block' : 'btn-buttons' }  onClick={() => dispatch(MoveForward())}>Ahead</button>
+                  <button  className={ value === 1 ? 'block' : 'btn-buttons2' }  onClick={() => dispatch(MoveForward())}></button>
                 </div>
               ): (<div></div>)
             }
@@ -146,6 +151,7 @@ export default function Home(){
                     name={dog.name}
                     weight={dog.weight}
                     temperaments={dog.temperament}
+                    dog={dog}
                   />
                 )
               :

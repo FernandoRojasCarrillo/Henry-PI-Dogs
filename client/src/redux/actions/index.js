@@ -14,6 +14,8 @@ export const DOG_CREATED = 'DOG_CREATED';
 export const ADD_NEW_BREED = 'ADD_NEW_BREED';
 export const FILTER_BY_TEMPERAMENT = 'FILTER_BY_TEMPERAMENT';
 export const CHANGE_LOADING = 'CHANGE_LOADING';
+export const ADD_TO_FAVORITES = 'ADD_TO_FAVORITES';
+export const REMOVE_TO_FAVORITES = 'REMOVE_TO_FAVORITES';
 
 export function getAllDogs () {
   return function (dispatch) {
@@ -149,6 +151,20 @@ export function FilterByBreed(val) {
   return {
     type: FILTER_BY_BREED,
     payload: val
+  }
+}
+
+export function AddToFavorites(dog) {
+  return {
+    type: ADD_TO_FAVORITES,
+    payload: dog
+  }
+}
+
+export function RemoveToFavorites(id) {
+  return {
+    type: REMOVE_TO_FAVORITES,
+    payload: id
   }
 }
 

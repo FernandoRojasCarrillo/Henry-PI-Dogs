@@ -7,11 +7,11 @@ const { Temperament, Dog, Op } = require('../db.js');
 
 const router = Router();
 
-const createDog = ( id, image, extention,  name, temperament,height, weight, breed,life_span ) => {
+const createDog = ( id, image=null , extention,  name, temperament,height, weight, breed,life_span ) => {
 
   const Dog = {
     id,
-    image: `https://cdn2.thedogapi.com/images/${image}.${extention}`,
+    image: image ? `https://cdn2.thedogapi.com/images/${image}.${extention}` : null,
     name,
     temperament,
     weight,
@@ -58,14 +58,16 @@ router.get('/dogs', async (req, res, next) => {
 
     if(data.length) {
       for (let i = 0; i < data.length; i++) {
-        let imageExtention = '';
-        try {
-          await axios.get(`https://cdn2.thedogapi.com/images/${data[i].reference_image_id}.jpg`)
-          imageExtention = 'jpg'
-        } catch (error) {
-          imageExtention = 'png'
+        let imageExtention = 'jpg';
+        if(data[i].reference_image_id){
+          try {
+            await axios.get(`https://cdn2.thedogapi.com/images/${data[i].reference_image_id}.jpg`)
+            imageExtention = 'jpg'
+          } catch (error) {
+            imageExtention = 'png'
+          }
         }
-        dogsSearchByName.push(createDog(data[i].id, data[i].reference_image_id,imageExtention, data[i].name, data[i].temperament, data[i].weight.imperial, data[i].height.imperial, data[i].breed_group, data[i].life_span));
+        dogsSearchByName.push(createDog(data[i].id, data[i].reference_image_id ? data[i].reference_image_id : null,imageExtention, data[i].name, data[i].temperament, data[i].weight.imperial, data[i].height.imperial, data[i].breed_group, data[i].life_span));
       }
       // return res.json(imageExtention);
     }else{

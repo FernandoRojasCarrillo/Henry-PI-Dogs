@@ -44,7 +44,7 @@
 }
 
 .main-container {
-  height: 180vh;
+  min-height: 90vh;
   width: 95%;
   background-color: rgb(0 0 0 /70%);
   margin: 0 0 0 2.5%;
@@ -195,16 +195,32 @@ li:hover > ul {
   margin: 15px 0 0 1.5%;
 }
 
-.btn-buttons {
+.btn-buttons1 {
   cursor: pointer;
   align-items: center;
-  justify-content:center;
-  height: 30px;
+  justify-content:flex-end;
+  height: 40px;
+  width: 40px;
   padding: 0 10px 0 10px;
   background-color: rgb( 255 255 255/50%);
   color: rgb( 0 0 0);
   font-weight: bold;
-  border-radius: 40px ;
+  clip-path: polygon(40% 0%, 40% 15%, 100% 15%, 100% 85%, 40% 85%, 40% 100%, 0% 50%);
+  border: none;
+}
+
+.btn-buttons2 {
+  cursor: pointer;
+  align-items: center;
+  justify-content:flex-start;
+  height: 40px;
+  width: 40px;
+  padding: 0 10px 0 10px;
+  background-color: rgb( 255 255 255/50%);
+  color: rgb( 0 0 0);
+  font-weight: bold;
+  clip-path: polygon(0 15%, 60% 15%, 60% 0%, 100% 50%, 60% 100%, 60% 85%, 0 86%);
+  border: none;
 }
 
 .container-paginado {
