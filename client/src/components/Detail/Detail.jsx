@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetDogsById } from '../../redux/actions';
+import { ClearDogDetail, GetDogsById } from '../../redux/actions';
 import { Link, useParams } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import './Detail.css';
@@ -13,6 +13,9 @@ export default function Detail() {
 
   useEffect(() => {
     dispatch(GetDogsById(dogId))
+    return () => {
+      dispatch(ClearDogDetail())
+    }
   },[])
 
   return (
@@ -28,9 +31,9 @@ export default function Detail() {
                   <li>Temperaments</li>
                   <li>{ dog.temperament}</li>
                   <li>Height</li>
-                  <li>{ dog.height.metric}</li>
+                  <li>{ dog.height}</li>
                   <li>weight</li>
-                  <li>{ dog.weight.metric}</li>
+                  <li>{ dog.weight}</li>
                   <li>Life Expectancy</li>
                   <li>{ dog.life_span}</li>
                   <li className='btn-go-back' >
@@ -40,7 +43,10 @@ export default function Detail() {
               </div>
             </div>
           </div>
-        ) : <Loading/>
+        ) : 
+        <div className='main-container-detail' >
+          <Loading/>
+        </div>
         
           
       }

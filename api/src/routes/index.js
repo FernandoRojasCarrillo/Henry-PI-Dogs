@@ -30,12 +30,12 @@ const createDog = ( id, image=null , extention,  name, temperament,height, weigh
 router.get('/dogs', async (req, res, next) => {
   const { name } = req.query;
   if(!name) return next()
+  const DogsSearchByName = [];
   
   try {
     const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901`);
-    let dogsSearchByName = [];
 
-    const filterDogs = await Dog.findAll( {include: Temperament},{where: {name: {[Op.iLike]: `%${name}%`}}});
+    const filterDogs = await Dog.findAll( {include: Temperament},{where: {name: {[Op.iLike]: `%${name}`}}});
     filterDogs.length ? 
     filterDogs.map((d) => {
       let Temp = [];
@@ -53,30 +53,34 @@ router.get('/dogs', async (req, res, next) => {
         life_span: d.life_span,
         temperament: temp,
       }
-      dogsSearchByName.push(Dog);
+      DogsSearchByName.push(Dog);
     }) : false;
 
     if(data.length) {
       for (let i = 0; i < data.length; i++) {
         let imageExtention = 'jpg';
-        if(data[i].reference_image_id){
-          try {
-            await axios.get(`https://cdn2.thedogapi.com/images/${data[i].reference_image_id}.jpg`)
-            imageExtention = 'jpg'
-          } catch (error) {
-            imageExtention = 'png'
-          }
-        }
-        dogsSearchByName.push(createDog(data[i].id, data[i].reference_image_id ? data[i].reference_image_id : null,imageExtention, data[i].name, data[i].temperament, data[i].weight.imperial, data[i].height.imperial, data[i].breed_group, data[i].life_span));
+        // if(data[i].reference_image_id){
+        //   try {
+        //     await axios.get(`https://cdn2.thedogapi.com/images/${data[i].reference_image_id}.jpg`)
+        //     imageExtention = 'jpg'
+        //   } catch (error) {
+        //     imageExtention = 'png'
+        //   }
+        // }
+        DogsSearchByName.push(createDog(data[i].id, data[i].reference_image_id ? data[i].reference_image_id : null,imageExtention, data[i].name, data[i].temperament, data[i].weight.imperial, data[i].height.imperial, data[i].breed_group, data[i].life_span));
       }
       // return res.json(imageExtention);
     }else{
-      return res.status(404).send({msg_error: 'No se encontraron dogs por ese nombre'});
+      return res.status(404).send([{ name: 'error', msg_error: 'No se encontraron dogs por ese nombre'}]);
     };
     
-    return res.json(dogsSearchByName);
   } catch (error) {
     console.log(error);
+    return res.json({mesage: 'error',});
+  }
+  if(DogsSearchByName.length) {
+    return res.json(DogsSearchByName);
+  }else{
     return res.json({mesage: 'error',});
   }
 })
@@ -86,9 +90,9 @@ router.get('/dogs', async (req, res, next) => {
 router.post('/dogs', async (req, res) => {
   try {
     const { image, name, height, weight, life_span, breed_group, temperament } = req.body;
-    if(!image || !name || !temperament || !height || !weight || !breed_group || !life_span) return res.status(404).send({msg_error: 'Faltan datos obligatorios'});
+    if(!name || !temperament || !height || !weight || !breed_group || !life_span) return res.status(404).send({msg_error: 'Faltan datos obligatorios'});
     const newDog = await Dog.create({
-      image: image,
+      image: image ? image : null,
       name: name,
       height: height,
       weight: weight,
@@ -119,7 +123,7 @@ router.get('/dogs', async (req, res) => {
       let temp = Temp.join(', ')
       const Dog = {
         id: d.id,
-        image: d.image,
+        image: d.image ? d.image : null,
         name: d.name,
         weight: d.weight,
         height: d.height,

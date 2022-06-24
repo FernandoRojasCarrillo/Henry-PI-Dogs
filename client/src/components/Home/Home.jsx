@@ -142,18 +142,22 @@ export default function Home(){
           <div className='container-dogs' >
             {
               AllDogs.length ? 
-                  
+                ShowDogs[0].name !== 'error' ?
                 ShowDogs.map((dog) =>
                   <DogCard
                     key={dog.id}
                     id={dog.id}
-                    image={dog.image} 
+                    image={dog.image ? dog.image : null} 
                     name={dog.name}
                     weight={dog.weight}
                     temperaments={dog.temperament}
                     dog={dog}
                   />
-                )
+                ): <div className='container_error' >
+                    <div className='error_message' >
+                      <span>No dogs with that name have been found</span>
+                    </div>
+                  </div> 
               :
               <>
                 {

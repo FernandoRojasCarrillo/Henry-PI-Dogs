@@ -3,8 +3,10 @@
   flex-wrap: wrap;
   min-height: 100vh;
   padding: 20px 20px 40px 20px;
-  background-image: linear-gradient( to top, #bebee7, #c1d4f7, #c2f3f0);
-  background-attachment: fixed;
+  background-image: url('./Background_image.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   justify-content: center;
   border-radius: 5px;
 }
@@ -14,16 +16,16 @@
   justify-content: center;
   min-height: 80vh;
   width: 360px;
-  background-color: transparent;
+  background-color: rgb(255 255 255 / 10%);
   padding: 40px;
   border-radius: 10px;
   box-shadow: 5px 10px 20px 5px rgb(0 0 0 / 30%);
-  backdrop-filter: blur(2px)
+  backdrop-filter: blur(5px)
 }
 
 .form_group {
   position: relative;
-  --color: #5757577e;
+  --color: rgb(23 23 23 / 80%);
   justify-content: center;
 }
 
@@ -42,14 +44,11 @@
   border-bottom: 1px solid var(--color);
 }
 
-.input:focus {
-  background-color: transparent;
-}
-
 .form_label {
   margin: 5px 0 0 0;
   color: var(--color);
   position: absolute;
+  font-weight: bold;
   top: -10px;
   left: 5px;
 }

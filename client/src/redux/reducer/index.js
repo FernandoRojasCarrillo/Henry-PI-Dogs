@@ -16,7 +16,8 @@ import
     ADD_NEW_BREED,
     CHANGE_LOADING,
     ADD_TO_FAVORITES,
-    REMOVE_TO_FAVORITES
+    REMOVE_TO_FAVORITES,
+    CLEAR_DOG_DETAIL
   } 
 from '../actions';
 
@@ -35,7 +36,8 @@ const inisialState = {
 export default function Reducer(state=inisialState, action) {
   switch (action.type) {
     case GET_ALL_DOGS:
-      let Dogs = [...action.payload ]
+      let Dogs = action.payload[0].name !== 'error' ? [...action.payload] : []
+      console.log(Dogs);
       let Show = [];
       while(Dogs.length){
         let ArrayOfDogs = [];
@@ -49,15 +51,15 @@ export default function Reducer(state=inisialState, action) {
       return{
         ...state,
         Current: 1,
-        AllDogs: action.payload ,
+        AllDogs: action.payload[0].name === 'error' ? action.payload : [...action.payload] ,
         BackupDogs: state.BackupDogs.length ? [...state.BackupDogs] : [...action.payload],
-        AuxDogs: [...Show],
-        ShowDogs: [...Show[0]]
+        AuxDogs: Show.length ? [...Show] : [],
+        ShowDogs: Show.length ? [...Show[0]] : action.payload , 
       }
     case GET_DOG_BY_ID:
       return {
         ...state,
-        getDogDetail: state.AllDogs.filter((dog) => dog.id === parseInt(action.payload))
+        getDogDetail: state.AllDogs.filter((dog) => dog.id.toString() === action.payload.toString() )
       }
     case GET_AND_SHOW_ALL_DOGS:
       return {
@@ -147,6 +149,11 @@ export default function Reducer(state=inisialState, action) {
         ...state,
         ShowDogs: [],
         AllDogs: []
+      }
+    case CLEAR_DOG_DETAIL:
+      return {
+        ...state,
+        getDogDetail: []
       }
     case GET_ALL_TEMPERAMENT:
       return {

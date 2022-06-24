@@ -8,6 +8,7 @@ import NavigationPanel from '../NavigationPanel/NavogationPanel';
 
 export default function CreateDog() {
 
+
   const [ buttonTemp , setButtonTemp ] = useState(true);
   const [ buttonBreed , setButtonBreed ] = useState(true);
   const [ Errors, setErrors ] = useState([]);
@@ -84,7 +85,7 @@ export default function CreateDog() {
   const HandleSubmit = (e) => {
     e.preventDefault();
     const Dog = {
-      image: 'Url',
+      image: DogCreated.image ? DogCreated.image : null ,
       name: DogCreated.name,
       height: `${DogCreated.min_height} - ${DogCreated.max_height}`,
       weight: `${DogCreated.min_weight} - ${DogCreated.max_weight}`,

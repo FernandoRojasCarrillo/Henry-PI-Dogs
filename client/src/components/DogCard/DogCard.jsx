@@ -13,8 +13,9 @@ export default function DogCard({id, image, name, weight, temperaments, dog}) {
     <div className='container-card' >
       <div className='container-img' >
         <Link to={`/detail/${id}`}>
-          <img className='image' src= {`${image}` } alt={name} />
+        <img className='image' src= {image ? image : 'https://cdn2.thedogapi.com/images/dW5UucTIW.jpg' } alt={name} />
         </Link>
+        <div className={image ? 'block' : 'text_default'} > Image by default</div>
       </div>
       <ul className='container-titulo'>
         <li className='targeta-titulo'>{ name }

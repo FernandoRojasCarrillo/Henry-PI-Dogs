@@ -6,6 +6,7 @@ export const MOVE_FORWARD = 'MOVE_FORWARD';
 export const MOVE_BACKWARD = 'MOVE_BACKWARD';
 export const FILTER_BY_ALPHABETICAL_ORDER = 'FILTER_BY_ALPHABETICAL_ORDER';
 export const CLEAR_ALL_DOGS = 'CLEAR_ALL_DOGS';
+export const CLEAR_DOG_DETAIL = 'CLEAR_DOG_DETAIL';
 export const FILTER_BY_WEIGTH = 'FILTER_BY_WEIGTH';
 export const GET_ALL_TEMPERAMENT = 'GET_ALL_TEMPERAMENT';
 export const GET_ALL_BREEDS = 'GET_ALL_BREEDS';
@@ -45,21 +46,40 @@ export function CreateNewDog (dog) {
 
 export function SearchByName(name) {
   return async function (dispatch) {
-      try {
-      const { data } = await axios(`http://localHost:3000/dogs?name=${name}`)
-      if(data) {
-        return dispatch({
-          type: GET_ALL_DOGS,
-          payload: data  
-        })
-      }
-    }catch (error) {
-      console.log(error);
-      return {
+
+    fetch(`http://localHost:3000/dogs?name=${name}`)
+    .then(response => response.json())
+    .then(json => {
+      console.log(json);
+      return dispatch({
         type: GET_ALL_DOGS,
-        payload: {mesage: 'error'}
-      }
-    } 
+        payload: json
+      })
+    })
+    .catch(err =>{
+      console.log(err)
+      // return dispatch({
+      //   type: GET_ALL_DOGS,
+      //   payload: [{msg_error: 'error'}]
+      // })
+
+    });
+
+    //   try {
+    //   const  response  = await fetch(`http://localHost:3000/dogs?name=${name}`)
+    //   if(response.data) {
+    //     console.log(response);
+    //   }else{
+    //     console.log(response);
+    //   }
+    //     
+    // }catch (error) {
+    //   console.log(error);
+    //   return {
+    //     type: GET_ALL_DOGS,
+    //     payload: {mesage: 'error'}
+    //   }
+    // } 
   }
   
 }
@@ -100,6 +120,12 @@ export function FilterByAlphabeticalOder(value) {
 export function ClearAllDogs() {
   return {
     type: CLEAR_ALL_DOGS
+  }
+}
+
+export function ClearDogDetail() {
+  return {
+    type: CLEAR_DOG_DETAIL
   }
 }
 
