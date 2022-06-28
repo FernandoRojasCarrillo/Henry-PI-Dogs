@@ -68,13 +68,16 @@ export default function ValidationForm(input, Breeds) {
 
 
 
-  if(Breeds.includes(input.new_dog)) {
+  if(!input.new_dog) {
+    Errors.new_dog = ` `
+  }
+  else if(Breeds.includes(input.new_dog)) {
     Errors.new_dog = `The ${input.new_dog} breed already exists`
   }
-  if(!/([A-Z]){1}([a-z])/.test(input.new_dog)) {
+  else if(!/([A-Z]){1}([a-z])/.test(input.new_dog)) {
     Errors.new_dog = 'The First letter of the breed must be capitalized'
   }
-  if(input.new_dog.length > 20) {
+  else if(input.new_dog.length > 20) {
     Errors.new_dog = 'The breed can have a maximun 20 letters'
   }
   

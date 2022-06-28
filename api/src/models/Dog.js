@@ -32,6 +32,10 @@ module.exports = (sequelize) => {
       },
       breed_group: {
         type: DataTypes.STRING,
+      },
+      criadoPor: {
+        type: DataTypes.STRING,
+        defaultValue: 'Diego'
       }
     }
   );

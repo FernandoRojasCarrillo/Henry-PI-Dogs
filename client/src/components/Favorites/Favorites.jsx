@@ -23,7 +23,7 @@ export default function Favorites() {
               fav={fav}
             />
           )
-          : <div>There is not dogs added</div>
+          : <div className='message' >There is not dogs added</div>
         }
       </div>
       <NavigationPanel/>

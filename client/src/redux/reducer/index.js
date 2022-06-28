@@ -52,7 +52,7 @@ export default function Reducer(state=inisialState, action) {
         ...state,
         Current: 1,
         AllDogs: action.payload[0].name === 'error' ? action.payload : [...action.payload] ,
-        BackupDogs: state.BackupDogs.length ? [...state.BackupDogs] : [...action.payload],
+        BackupDogs: action.payload.length > state.BackupDogs.length ? [...action.payload] : state.BackupDogs ,
         AuxDogs: Show.length ? [...Show] : [],
         ShowDogs: Show.length ? [...Show[0]] : action.payload , 
       }
@@ -250,9 +250,10 @@ export default function Reducer(state=inisialState, action) {
         ...state
       }
     case ADD_TO_FAVORITES:
+      const Dog = state.Favorites.find((dog) => dog.id === action.payload.id)
       return {
         ...state,
-        Favorites: [ ...state.Favorites, action.payload]
+        Favorites: !Dog ? [ ...state.Favorites, action.payload] : state.Favorites
       }
     case REMOVE_TO_FAVORITES:
       return {

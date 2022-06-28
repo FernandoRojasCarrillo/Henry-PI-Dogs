@@ -50,7 +50,6 @@ export function SearchByName(name) {
     fetch(`http://localHost:3000/dogs?name=${name}`)
     .then(response => response.json())
     .then(json => {
-      console.log(json);
       return dispatch({
         type: GET_ALL_DOGS,
         payload: json
@@ -58,28 +57,7 @@ export function SearchByName(name) {
     })
     .catch(err =>{
       console.log(err)
-      // return dispatch({
-      //   type: GET_ALL_DOGS,
-      //   payload: [{msg_error: 'error'}]
-      // })
-
     });
-
-    //   try {
-    //   const  response  = await fetch(`http://localHost:3000/dogs?name=${name}`)
-    //   if(response.data) {
-    //     console.log(response);
-    //   }else{
-    //     console.log(response);
-    //   }
-    //     
-    // }catch (error) {
-    //   console.log(error);
-    //   return {
-    //     type: GET_ALL_DOGS,
-    //     payload: {mesage: 'error'}
-    //   }
-    // } 
   }
   
 }
@@ -194,130 +172,4 @@ export function RemoveToFavorites(id) {
   }
 }
 
-
-// export function getAllDogsTwo() {
-//   return {
-//     type: GET_ALL_DOGS_TWO
-//   }
-// }
-
-// export function getAllDogsThree() {
-//   return {
-//     type: GET_ALL_DOGS_THREE
-//   }
-// }
-
-// export function getAllDogsFour() {
-//   return {
-//     type: GET_ALL_DOGS_FOUR
-//   }
-// }
-
-// export function getAllDogsFive() {
-//   return {
-//     type: GET_ALL_DOGS_FIVE
-//   }
-// }
-
-// export function getAllDogsSix() {
-//   return {
-//     type: GET_ALL_DOGS_SIX
-//   }
-// }
-
-// export function getAllDogsSeven() {
-//   return {
-//     type: GET_ALL_DOGS_SEVEN
-//   }
-// }
-
-// export function getAllDogsEight(){
-//   return {
-//     type: GET_ALL_DOGS_EIGHT
-//   }
-// }
-
-// export function getAllDogsNine(){
-//   return {
-//     type: GET_ALL_DOGS_NINE
-//   }
-// }
-
-// export function getAllDogsTen(){
-//   return {
-//     type: GET_ALL_DOGS_TEN
-//   }
-// }
-
-// export function getAllDogsEleven(){
-//   return {
-//     type: GET_ALL_DOGS_ELEVEN
-//   }
-// }
-
-// export function getAllDogsTwelve(){
-//   return {
-//     type: GET_ALL_DOGS_TWELVE
-//   }
-// }
-
-// export function getAllDogsThirteen(){
-//   return {
-//     type: GET_ALL_DOGS_THIRTEEN
-//   }
-// }
-
-// export function getAllDogsFourteen(){
-//   return {
-//     type: GET_ALL_DOGS_FOURTEEN
-//   }
-// }
-
-// export function getAllDogsFifteen(){
-//   return {
-//     type: GET_ALL_DOGS_FIFTEEN
-//   }
-// }
-
-// export function getAllDogsSixteen(){
-//   return {
-//     type: GET_ALL_DOGS_SIXTEEN
-//   }
-// }
-
-// export function getAllDogsSeventeen(){
-//   return {
-//     type: GET_ALL_DOGS_SEVENTEEN
-//   }
-// }
-
-// export function getAllDogsEighteen(){
-//   return {
-//     type: GET_ALL_DOGS_EIGHTEEN
-//   }
-// }
-
-// export function getAllDogsNineteen(){
-//   return {
-//     type: GET_ALL_DOGS_NINETEEN
-//   }
-// }
-
-// export function getAllDogsTwenty(){
-//   return {
-//     type: GET_ALL_DOGS_TWENTY
-//   }
-// }
-
-// export function getAllDogsTwentyOne(){
-//   return {
-//     type: GET_ALL_DOGS_TWENTY_ONE
-//   }
-// }
-
-// export function getAllDogsTwentyTwo(){
-//   return {
-//     type: GET_ALL_DOGS_TWENTY_TWO
-//   }
-// }
 

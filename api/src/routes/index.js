@@ -35,13 +35,15 @@ router.get('/dogs', async (req, res, next) => {
   try {
     const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901`);
 
-    const filterDogs = await Dog.findAll( {include: Temperament},{where: {name: {[Op.iLike]: `%${name}`}}});
+    const filterDogs = await Dog.findAll( {where: {name: {[Op.iLike]: `${name}%`}}, include: Temperament});
     filterDogs.length ? 
     filterDogs.map((d) => {
       let Temp = [];
-      d.Temperaments.map(t => {
-        Temp.push(t.name)
-      })
+      if(d.Temperaments) {
+        d.Temperaments.map(t => {
+          Temp.push(t.name)
+        })
+      }
       let temp = Temp.join(',').trim()
       const Dog = {
         id: d.id,
@@ -51,7 +53,8 @@ router.get('/dogs', async (req, res, next) => {
         height: d.height,
         breed_group: d.breed_group,
         life_span: d.life_span,
-        temperament: temp,
+        temperament: temp ,
+        criadoPor: d.criadoPor
       }
       DogsSearchByName.push(Dog);
     }) : false;
@@ -130,6 +133,7 @@ router.get('/dogs', async (req, res) => {
         breed_group: d.breed_group,
         life_span: d.life_span,
         temperament: temp,
+        criadoPor: d.criadoPor
       }
       dogs.push(Dog)
     }) : false;

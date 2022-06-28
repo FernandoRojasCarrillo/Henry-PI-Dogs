@@ -16,17 +16,29 @@
   justify-content: center;
   min-height: 80vh;
   width: 360px;
-  background-color: rgb(255 255 255 / 10%);
+  background-color: rgb(255 255 255 / 15%);
   padding: 40px;
   border-radius: 10px;
   box-shadow: 5px 10px 20px 5px rgb(0 0 0 / 30%);
-  backdrop-filter: blur(5px)
+  backdrop-filter: blur(7px)
 }
 
 .form_group {
   position: relative;
   --color: rgb(23 23 23 / 80%);
   justify-content: center;
+}
+
+.tbn_select_image {
+  height: 50px;
+  width: 100%;
+  border: none;
+  font-size: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: rgb(255 255 255 / 30%);
+
 }
 
 .input {
@@ -42,6 +54,23 @@
   outline: none;
   background-color: transparent;
   border-bottom: 1px solid var(--color);
+}
+
+.btn_crea_dog {
+  height: 30px;
+  width: 100px;
+  justify-content: center;
+  align-items:center;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: rgb(0 0 0 / 50%);
+  color: rgb(255 255 255 / 70%);
+  cursor: pointer;
+}
+
+.btn_crea_dog:active {
+  background-color: rgb(0 0 0 / 80%);
 }
 
 .form_label {
@@ -153,13 +182,100 @@
   color: rgb( 0 0 0 / 80%);
   border-radius: 5px;
   border: none;
-  
+  cursor: pointer;
 }
 
 .SubmitButton:hover {
   background-color: transparent;
   color: rgb( 0 0 0 / 80%);
   box-shadow: 5px 10px 20px 0 rgb(0 0 0 / 50%);
+}
+
+.message_success {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items:center;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(0 0 0 / 50%);
+}
+
+.message {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  height: 400px;
+  width: 500px;
+  font-size: 28px;
+  border-radius: 20px;
+  background-color: rgb(255 255 255 / 50%);
+}
+
+.btn_message_success {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  top: 20px;
+  right: 20px;
+  font-size: 20px;
+  height:30px;
+  width: 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(0 0 0 / 70%);
+  color: rgb( 255 255 255 / 70%);
+  cursor: pointer;
+}
+
+.btn_message_success:active {
+  background-color: rgb(255 255 255 / 70%);
+  color: rgb( 0 0 0 / 90%);
+}
+
+.container_images {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  top: 20px;
+  left: 23vw;
+  padding: 20px;
+  min-height: 500px;
+  width: 700px;
+  border-radius: 20px;
+  background-color: rgb(255 255 255 / 40%);
+}
+
+.container_img_btn {
+  display: grid;
+  min-height: 120px;
+  margin: 10px;
+}
+
+.btn_select_img {
+  height: 25px;
+  width: 100%;
+  font-size: 15px;
+  margin-top: 5px;
+  border: none;
+  background-color: rgb(0 0 0 / 70%);
+  color: rgb( 255 255 255 / 70%);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn_select_img:active {
+  background-color: rgb(0 0 0);
+}
+
+.img_selected{
+  height: 100px;
+  width: 150px;
 }
 
 .temperament:hover {

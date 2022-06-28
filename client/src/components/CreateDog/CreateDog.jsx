@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AddNewBreed, CreateNewDog, GetAllBreeds, GetAllTemperament } from '../../redux/actions';
+import { AddNewBreed, ClearAllDogs, CreateNewDog, GetAllBreeds, getAllDogs, GetAllTemperament } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import './CreateDog.css'
 import ValidationForm from './Validations';
@@ -10,6 +10,8 @@ export default function CreateDog() {
 
 
   const [ buttonTemp , setButtonTemp ] = useState(true);
+  const [ successMessage , setSuccessMessage ] = useState(true);
+  const [ containerImg , setContainerImg ] = useState(true);
   const [ buttonBreed , setButtonBreed ] = useState(true);
   const [ Errors, setErrors ] = useState([]);
   const [DogCreated, setDogCreated] = useState({
@@ -61,6 +63,11 @@ export default function CreateDog() {
   const CreateDog = (e) => {
     e.preventDefault();
     dispatch(AddNewBreed(DogCreated.new_dog))
+    setDogCreated({
+      ...DogCreated,
+      new_dog: ''
+    })
+    
   }
 
   const handleChange = (e) => {
@@ -82,6 +89,20 @@ export default function CreateDog() {
     console.log(DogCreated)
   }
 
+  const SelectImage = (e) => {
+    e.preventDefault()
+    setDogCreated({
+      ...DogCreated,
+      image: e.target.name
+    })
+    setContainerImg(true)
+  }
+
+  const ShowImage = (e) => {
+    e.preventDefault()
+    setContainerImg(false)
+  }
+
   const HandleSubmit = (e) => {
     e.preventDefault();
     const Dog = {
@@ -94,24 +115,32 @@ export default function CreateDog() {
       temperament: [...DogCreated.temperaments]
     }
     dispatch(CreateNewDog(Dog))
-    console.log(Dog)
+    setDogCreated({
+      image: null,
+      name: '',
+      min_height: '',
+      max_height: '',
+      min_weight: '',
+      max_weight: '',
+      life_span: '',
+      breed_group: '',
+      temperaments: [],
+      new_dog: ''
+    })
+    setSuccessMessage(false)
+    dispatch(ClearAllDogs())
+    dispatch(getAllDogs())
   }
 
   return (
     <div className='formulario' >
       <form className='container-form' >
-        <div className='form_group' >
-          <input 
-            className='input'
-            type="text" 
-            onChange={(e)=>handleChange(e)} 
-            name='image' 
-            value={DogCreated.image} 
-            placeholder=' '
-          />
-          <label className='form_label' >Url Image</label>
-          <span className='form_line' ></span>
-        </div>
+        <button 
+          onClick={(e)=> ShowImage(e)}
+          className='tbn_select_image' 
+        >
+          Select image
+        </button>
 
         <div className='form_group' >
           <input 
@@ -276,6 +305,105 @@ export default function CreateDog() {
             value='Create Dog'
           />
       </form>
+      <div className={ successMessage === true ? 'Block' : 'message_success'} >
+        <div className='message' >
+          Dog created successfully
+          <button onClick={()=>setSuccessMessage(true)}  className='btn_message_success' >X</button>
+        </div>
+      </div>
+      <div className={ containerImg === true ? 'Block' : 'container_images'} >
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/dW5UucTIW.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/dW5UucTIW.jpg' 
+            value='Select' />
+        </div>
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/-HgpNnGXl.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/-HgpNnGXl.jpg' 
+            value='Select' />
+        </div>
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/26pHT3Qk7.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/26pHT3Qk7.jpg' 
+            value='Select' />
+        </div>
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/BJT0Jx5Nm.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/BJT0Jx5Nm.jpg' 
+            value='Select' />
+        </div>
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/SJJxjecEX.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/SJJxjecEX.jpg' 
+            value='Select' />
+        </div>
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/Sk4DXl54m.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/Sk4DXl54m.jpg' 
+            value='Select' />
+        </div>
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/HJ7Pzg5EQ.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/HJ7Pzg5EQ.jpg' 
+            value='Select' />
+        </div>
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/B12BnxcVQ.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/B12BnxcVQ.jpg' 
+            value='Select' />
+        </div>
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/SkJj7e547.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/SkJj7e547.jpg' 
+            value='Select' />
+        </div>
+        <div className='container_img_btn' >
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/rkXiGl9V7.jpg' />
+          <input 
+            className='btn_select_img'
+            onClick={(e)=>SelectImage(e)}
+            type='button' 
+            name='https://cdn2.thedogapi.com/images/rkXiGl9V7.jpg' 
+            value='Select' />
+        </div>
+
+      </div>
       <NavigationPanel/>
     </div>
   )
