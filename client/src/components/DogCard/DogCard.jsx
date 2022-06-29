@@ -4,10 +4,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { AddToFavorites, RemoveToFavorites } from '../../redux/actions';
 import './DogCard.css';
 
-export default function DogCard({id, image, name, weight, temperaments, dog}) {
+export default function DogCard({id, image, name, weight, temperaments, dog, fav_button}) {
 
   const dispatch = useDispatch();
   const Location = useLocation();
+
+
+  const AddToFavorite = () => {
+    dispatch(AddToFavorites(dog))
+  }
 
   return (
     <div className='container-card' >
@@ -27,8 +32,8 @@ export default function DogCard({id, image, name, weight, temperaments, dog}) {
             <li className='tageta-informacion' >{ temperaments ? temperaments : 'This dog has no temperaments'}</li>
           </ul>
         </li>
-        <button onClick={() => dispatch(AddToFavorites(dog))} className={ Location.pathname === "/favorites" ? 'block' : "btn_favorites"}></button>
-        <button onClick={() => dispatch(RemoveToFavorites(id))} className={ Location.pathname === "/home" ? 'block' : "btn_delete"}></button>
+        <button onClick={() => AddToFavorite()} className={ Location.pathname === "/favorites" ? 'block' : fav_button === true ? 'fav_active' : "btn_favorites"}></button>
+        <button onClick={() => dispatch(RemoveToFavorites(id))} className={ Location.pathname === "/home" || Location.pathname === "/created" ? 'block' : "btn_delete"}></button>
       </ul>
     </div>
   )

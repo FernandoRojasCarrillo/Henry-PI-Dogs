@@ -1,10 +1,11 @@
 import { Route } from 'react-router-dom';
 import './App.css';
-import CreateDog from './components/CreateDog/CreateDog';
-import Detail from './components/Detail/Detail';
-import Favorites from './components/Favorites/Favorites';
-import Home from './components/Home/Home';
-import LandingPage from './components/Landing-page/LandingPage';
+import CreateDog from './components/CreateDog/CreateDog.jsx';
+import Detail from './components/Detail/Detail.jsx';
+import DogsCreated from './components/DogsCreated/DogsCreated.jsx';
+import Favorites from './components/Favorites/Favorites.jsx';
+import Home from './components/Home/Home.jsx';
+import LandingPage from './components/Landing-page/LandingPage.jsx';
 
 function App() {
 
@@ -28,6 +29,10 @@ function App() {
 
       <Route path={'/favorites'} >
         <Favorites/>
+      </Route>
+
+      <Route path={'/created'} >
+        <DogsCreated/>
       </Route>
     </div>
   );

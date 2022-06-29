@@ -105,6 +105,17 @@
   background-color: rgb(255 255 255 / 80% );
 }
 
+.fav_active {
+  background-color: rgb(255 0 0 );
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 55px;
+  width: 55px;
+  clip-path: polygon(52% 28%, 65% 23%, 75% 31%, 73% 46%, 67% 54%, 52% 63%, 39% 55%, 32% 46%, 30% 31%, 40% 23%);
+  cursor: pointer;
+}
+
 .targeta-titulo {
   font-size: 20px;
   height: 100%;

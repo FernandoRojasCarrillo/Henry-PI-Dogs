@@ -99,7 +99,9 @@ export default function Home(){
               </ul>
             </div>
 
+          <Link to={'/created'} >
             <button className='btn_navbar' >Dogs Created</button>
+          </Link>
 
           </div>
 
@@ -152,6 +154,7 @@ export default function Home(){
                     weight={dog.weight}
                     temperaments={dog.temperament}
                     dog={dog}
+                    fav_button={dog.fav_button}
                   />
                 ): <div className='container_error' >
                     <div className='error_message' >

@@ -17,8 +17,8 @@ const createDog = ( id, image=null , extention,  name, temperament,height, weigh
     weight,
     height,
     breed,
-    life_span
-
+    life_span,
+    fav_button: false
   }
   return Dog;
 }
@@ -54,6 +54,7 @@ router.get('/dogs', async (req, res, next) => {
         breed_group: d.breed_group,
         life_span: d.life_span,
         temperament: temp ,
+        fav_button: false,
         criadoPor: d.criadoPor
       }
       DogsSearchByName.push(Dog);
@@ -87,8 +88,6 @@ router.get('/dogs', async (req, res, next) => {
     return res.json({mesage: 'error',});
   }
 })
-
-
 
 router.post('/dogs', async (req, res) => {
   try {
@@ -133,6 +132,7 @@ router.get('/dogs', async (req, res) => {
         breed_group: d.breed_group,
         life_span: d.life_span,
         temperament: temp,
+        fav_button: false,
         criadoPor: d.criadoPor
       }
       dogs.push(Dog)
@@ -154,6 +154,31 @@ router.get('/dogs', async (req, res) => {
     console.log(error)
     return res.status(404).json({mesange: 'error'})
   }
+})
+
+router.get('/dogsFromDB', async (req, res) => {
+  const DogsFromDataBase = await Dog.findAll({include: Temperament});
+  const DogsFromDB = [];
+  DogsFromDataBase.length ? DogsFromDataBase.map( (dog) => {
+    let Temp = [];
+    dog.Temperaments.map(t => {
+      Temp.push(t.name)
+    })
+    const Dog = {
+      id: dog.id,
+      image: dog.image ? dog.image : null,
+      name: dog.name,
+      weight: dog.weight,
+      height: dog.height,
+      breed_group: dog.breed_group,
+      life_span: dog.life_span,
+      temperament: Temp.join(', '),
+      fav_button: false,
+      criadoPor: dog.criadoPor
+    }
+    DogsFromDB.push(Dog)
+  }) : false;
+  res.json(DogsFromDB)
 })
 
 router.get('/dogs/:idRaza', (req, res) => {  
@@ -245,30 +270,4 @@ router.get('/temperaments', async (req, res) => {
     return res.json(AllTemperaments);
   }
 })
-
-router.get('/dogsFilterByTemperament', async (req, res) => {
-  const { value } = req.query;
-  const { data } = await axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901');
-  let dogsFilter = [];
-  data.map((dog) => {
-
-    let val = dog.temperament ? dog.temperament.split(',') : ''
-    let valor = [];
-    for (let i = 0; i < val.length; i++) {
-      valor.push(val[i].trim())
-    }
-    if(valor.includes(`${value}`)) {
-      dogsFilter.push(dog)
-    }
-  })
-    
-  // }
-  // if(dogsFilter.length) {
-  // }else {
-  //   res.send('error')
-  // }
-  res.send(dogsFilter);
-})
-
-
 module.exports = router;

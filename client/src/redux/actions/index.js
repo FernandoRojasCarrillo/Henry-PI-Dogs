@@ -1,5 +1,6 @@
 import axios from 'axios';
 export const GET_ALL_DOGS = 'GET_ALL_DOGS';
+export const GET_ALL_DOGS_FROM_DB = 'GET_ALL_DOGS_FROM_DB';
 export const GET_DOG_BY_ID = 'GET_DOG_BY_ID';
 export const GET_AND_SHOW_ALL_DOGS = 'GET_AND_SHOW_ALL_DOGS';
 export const MOVE_FORWARD = 'MOVE_FORWARD';
@@ -29,6 +30,16 @@ export function getAllDogs () {
         })
     })
     .catch(err => console.log(err));
+  }
+}
+
+export function getAllDogsFromDB () {
+  return async function (dispatch) {
+    const { data } = await axios('http://localhost:3000/dogsFromDB')
+    return dispatch({
+      type: GET_ALL_DOGS_FROM_DB,
+      payload: data
+    })
   }
 }
 

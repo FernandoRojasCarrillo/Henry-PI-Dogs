@@ -1,6 +1,7 @@
 import 
   { 
     GET_ALL_DOGS, 
+    GET_ALL_DOGS_FROM_DB,
     GET_AND_SHOW_ALL_DOGS,
     MOVE_FORWARD,
     MOVE_BACKWARD,
@@ -14,7 +15,6 @@ import
     DOG_CREATED,
     GET_ALL_BREEDS,
     ADD_NEW_BREED,
-    CHANGE_LOADING,
     ADD_TO_FAVORITES,
     REMOVE_TO_FAVORITES,
     CLEAR_DOG_DETAIL
@@ -24,6 +24,7 @@ from '../actions';
 const inisialState = {
   Current: 0,
   AllDogs: [],
+  AllDogsFromDataBase: [],
   Favorites: [],
   BackupDogs: [],
   AuxDogs: [],
@@ -55,6 +56,11 @@ export default function Reducer(state=inisialState, action) {
         BackupDogs: action.payload.length > state.BackupDogs.length ? [...action.payload] : state.BackupDogs ,
         AuxDogs: Show.length ? [...Show] : [],
         ShowDogs: Show.length ? [...Show[0]] : action.payload , 
+      }
+    case GET_ALL_DOGS_FROM_DB:
+      return {
+        ...state,
+        AllDogsFromDataBase: action.payload
       }
     case GET_DOG_BY_ID:
       return {
@@ -250,12 +256,19 @@ export default function Reducer(state=inisialState, action) {
         ...state
       }
     case ADD_TO_FAVORITES:
-      const Dog = state.Favorites.find((dog) => dog.id === action.payload.id)
+      const Dog = state.Favorites.find((dog) => dog.id === action.payload.id);
+      const ChangeDogToFav = state.AllDogs.find((dog) => dog.id === action.payload.id);
+      const RemoveDogs = Dog && state.Favorites.filter((dog) => dog.id !== Dog.id);
+      ChangeDogToFav.fav_button = !ChangeDogToFav.fav_button;
       return {
         ...state,
-        Favorites: !Dog ? [ ...state.Favorites, action.payload] : state.Favorites
+        Favorites: !Dog ? [ ...state.Favorites, action.payload] : RemoveDogs,
+        ShowDogs: [...state.AuxDogs[state.Current - 1]],
+        Current: state.Current
       }
     case REMOVE_TO_FAVORITES:
+      const ChangeDogToNormal = state.AllDogs.find((dog) => dog.id === action.payload);
+      ChangeDogToNormal.fav_button = false;
       return {
         ...state,
         Favorites: state.Favorites.filter((dog) => dog.id !== action.payload )
