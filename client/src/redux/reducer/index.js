@@ -264,7 +264,11 @@ export default function Reducer(state=inisialState, action) {
         ...state,
         Favorites: !Dog ? [ ...state.Favorites, action.payload] : RemoveDogs,
         ShowDogs: [...state.AuxDogs[state.Current - 1]],
-        Current: state.Current
+        Current: state.Current,
+        AllDogs: state.AllDogs,
+        AllDogsFromDataBase: [...state.AllDogsFromDataBase],
+        BackupDogs: state.BackupDogs,
+        AuxDogs: state.AuxDogs,
       }
     case REMOVE_TO_FAVORITES:
       const ChangeDogToNormal = state.AllDogs.find((dog) => dog.id === action.payload);

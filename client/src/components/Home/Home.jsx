@@ -67,7 +67,6 @@ export default function Home(){
 
         <NavBar/>
         
-        
         <div className='main-container' >
 
           <div className='container-buttons' >
@@ -99,9 +98,9 @@ export default function Home(){
               </ul>
             </div>
 
-          <Link to={'/created'} >
-            <button className='btn_navbar' >Dogs Created</button>
-          </Link>
+              <Link to={'/created'} >
+                <button className='btn_navbar' >Dogs Created</button>
+              </Link>
 
           </div>
 
@@ -112,6 +111,7 @@ export default function Home(){
                   <button className={ value === 1 ? 'block' : 'btn-buttons1' } onClick={() => dispatch(MoveBachward())}></button>
                   <div className='container-paginado ' >
 
+                    <button className='btn_pagina_phone' >{Current}</button>
                     <button className={ value + 1 <= 1 ? 'block' :  Current === 1 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(1))} >1</button>
                     <button className={ value + 1 <= 2 ? 'block' :  Current === 2 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(2))} >2</button>
                     <button className={ value + 1 <= 3 ? 'block' :  Current === 3 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(3))} >3</button>
@@ -188,7 +188,7 @@ export default function Home(){
             <button className='filterBy' >Close</button>
           </div>
 
-        </div>
+        </div> 
 
       </div>
     </div>

@@ -18,6 +18,7 @@
   cursor: pointer;
 }
 
+
 .create-dog-box:hover {
   background-color: rgba(255 255 255/80%);
 }
@@ -28,6 +29,7 @@
 }
 
 .create-dog {
+  display: block;
   background-color: rgba(255 255 255/80%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -49,9 +51,11 @@
   border-radius: 10px  0 0 10px ;
 }
 
+
+
 .search-box-btn {
   font-size: 17px;
-  height: 42px;
+  height: 40px;
   width: 100px;
   border: none;
   border-radius: 0 10px 10px 0 ;
@@ -77,6 +81,7 @@
   cursor: pointer;
 }
 
+
 .btn-reload:hover {
   background-color: rgb(255 255 255/80%);
   color: rgb(0 0 0/80%);
@@ -86,4 +91,33 @@
 .btn-reload:active {
   transform:translateY(2px);
   transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .5s;
+}
+
+@media screen and (max-width:400px) {
+  .navbar-container {
+    height: 60px;
+    width: 100vw;
+    padding: 0 8px;
+  }
+
+  .create-dog-box {
+    display: none;
+  }
+
+  .search-box-inp {
+    height: 35px;
+    width: 200px;
+    border-radius: 5px  0 0 5px ;
+  }
+
+  .search-box-btn {
+    height: 35px;
+    width: 80px;
+    border-radius: 0 5px 5px 0 ;
+  }
+
+  .btn-reload {
+    display: none;
+  }
+
 }

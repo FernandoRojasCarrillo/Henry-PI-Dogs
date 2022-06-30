@@ -106,7 +106,7 @@
 }
 
 .fav_active {
-  background-color: rgb(255 0 0 );
+  background-color: rgb(255 0 0 / 70% );
   position: absolute;
   top: 0;
   right: 0;
@@ -114,6 +114,14 @@
   width: 55px;
   clip-path: polygon(52% 28%, 65% 23%, 75% 31%, 73% 46%, 67% 54%, 52% 63%, 39% 55%, 32% 46%, 30% 31%, 40% 23%);
   cursor: pointer;
+}
+
+.fav_active:hover {
+  background-color: rgb(255 0 0);
+}
+
+.fav_active:active {
+  background-color: rgb(255 255 255 / 80%);
 }
 
 .targeta-titulo {
@@ -141,6 +149,60 @@ li:hover > ul {
 
 .block {
   display: none;
+}
+
+@media screen and (max-width: 400px) {
+  .container-card {
+    height: 280px;
+    width: 302px;
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+  }
+
+  .container-img {
+    position: relative;
+    display: flex;
+    width: 303px;
+    height: 230px;
+    background-color: rgb(0 0 0/70%);
+    border-radius: 10px 10px 0 0;
+  }
+
+  .image {
+    width: 303px;
+    height: 230px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .container-titulo {
+    width: 303px;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .container-info {
+    width: 263px;
+    min-height: 100px;
+    color: rgba(255 255 255/70%);
+  }
+
+  .tageta-informacion {
+    font-size: 16px;
+  }
+
+  .btn_favorites {
+    height: 45px;
+    width: 45px;
+  }
+
+  .fav_active {
+    height: 45px;
+    width: 45px;
+  }
+
+  .btn_delete {
+    height: 15px;
+    width: 15px;
+  }
 }
 
 /* ul {

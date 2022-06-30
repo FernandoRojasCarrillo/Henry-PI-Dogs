@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ClearDogDetail, GetDogsById } from '../../redux/actions';
 import { useHistory, useParams } from 'react-router-dom';
 import Loading from '../Loading/Loading';
+import NavigationPanel from '../NavigationPanel/NavogationPanel';
 import './Detail.css';
 
 export default function Detail() {
@@ -39,12 +40,11 @@ export default function Detail() {
                   <li>{ dog.life_span}</li>
                   <li>{dog.criadoPor && `Criado por`}</li>
                   <li>{ dog.criadoPor && dog.criadoPor}</li>
-                  <li className='btn-go-back' >
-                    <div className='btn-color' ><button onClick={() =>History.goBack()}>Go Back</button></div>
-                  </li>
+                  <button  className='btn-go-back' onClick={() =>History.goBack()}>Go Back</button>
                 </ul>
               </div>
             </div>
+            <NavigationPanel/>
           </div>
         ) : 
         <div className='main-container-detail' >
