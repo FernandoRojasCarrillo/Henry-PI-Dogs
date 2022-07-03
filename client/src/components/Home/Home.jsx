@@ -4,6 +4,7 @@ import './Home.css';
 import DogCard from '../DogCard/DogCard';
 import Loading from '../Loading/Loading';
 import { useDispatch, useSelector } from 'react-redux';
+import NavigationPanel from '../NavigationPanel/NavogationPanel.jsx'
 import 
 {
   getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward, FilterByAlphabeticalOder, FilterByWeigth, 
@@ -187,9 +188,8 @@ export default function Home(){
             }
             <button className='filterBy' >Close</button>
           </div>
-
         </div> 
-
+        <NavigationPanel/>
       </div>
     </div>
   )

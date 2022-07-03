@@ -11,7 +11,6 @@ module.exports = (sequelize) => {
       },
       name: {
         type: DataTypes.STRING,
-        defaultValue: "feliz",
         allowNull: false,
       }
     }

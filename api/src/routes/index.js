@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const axios = require('axios');
-const { Temperament, Dog, Op } = require('../db.js');
+const { Temperament, Dog, Op, API_KEY } = require('../db.js');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -33,7 +33,7 @@ router.get('/dogs', async (req, res, next) => {
   const DogsSearchByName = [];
   
   try {
-    const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901`);
+    const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=${API_KEY}`);
 
     const filterDogs = await Dog.findAll( {where: {name: {[Op.iLike]: `${name}%`}}, include: Temperament});
     filterDogs.length ? 
@@ -114,7 +114,7 @@ router.post('/dogs', async (req, res) => {
 
 router.get('/dogs', async (req, res) => {
   try {
-    const { data } = await axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901');
+    const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`);
     let dogs = [];
     const DbDogs = await Dog.findAll({include: Temperament});
     DbDogs.length ? DbDogs.map( (d) => {
@@ -183,7 +183,7 @@ router.get('/dogsFromDB', async (req, res) => {
 
 router.get('/dogs/:idRaza', (req, res) => {  
   const { idRaza } = req.params;
-  axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901')
+  axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)
   .then((response) => {
     if(response.data) {
 
@@ -215,7 +215,7 @@ router.get('/temperaments', async (req, res) => {
   if(!AllTemperaments.length) {
 
     const Temperamentos = [];
-    const { data } = await axios.get('https://api.thedogapi.com/v1/breeds?api_key=f541a79b-a04c-4663-ba4c-cd6ad9e8c901')
+    const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)
   
     if(data.length){
       let Temp ;

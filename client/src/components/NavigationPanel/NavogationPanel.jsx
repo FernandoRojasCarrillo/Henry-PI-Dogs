@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './NavigationPanel.css';
 
 export default function NavigationPanel() {
 
   const [ change, setChange ] = useState(true);
+  const Location = useLocation();
   
   const HandleCLick = () => {
     setChange(!change);
@@ -13,7 +14,7 @@ export default function NavigationPanel() {
 
   return (
     <div className={ change === false ? 'navigation_panel_active' : 'navigation_panel'} >
-      <button className={ change === false ? 'block' : 'Btn'} onClick={() => HandleCLick()}>Menu</button>
+      <button className={ change === false ? 'block' : Location.pathname === "/home" ? 'Btn_home' : 'Btn'} onClick={() => HandleCLick()}>Menu</button>
       <div className={ change === true ? 'panel' : 'active_panel'} >
         <div className='navigation' >
           <Link to={'/home'} >
