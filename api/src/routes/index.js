@@ -10,89 +10,54 @@ const { dirname } = require('path');
 const router = Router();
 const Temperaments = require('./Temperaments.js');
 
-// cloudinary.config({
-//   cloud_name: 'dcgbjtd2z',
-//   api_key: 318478426753779,
-//   api_secret: 'QaQMuaX1BZScEd1qv7kOV6NlejM'
-// })
+cloudinary.config({
+  cloud_name: 'dcgbjtd2z',
+  api_key: 318478426753779,
+  api_secret: 'QaQMuaX1BZScEd1qv7kOV6NlejM'
+})
 
 
-// const diskStorege = multer.diskStorage({
-//   destination: path.join(__dirname, '../images'),
-//   filename: (req, file, cb) => {
-//     cb(null, new Date().getTime() + path.extname(file.originalname))
-//   }
-// })
-
-
-
-// const fileUpload = multer({
-//   storage: diskStorege
-// }).single('image')
+const diskStorege = multer.diskStorage({
+  destination: path.join(__dirname, '../images'),
+  filename: (req, file, cb) => {
+    cb(null, new Date().getTime() + path.extname(file.originalname))
+  }
+})
 
 
 
+const fileUpload = multer({
+  storage: diskStorege
+}).single('image')
 
 
-// // Configurar los routers
-// // Ejemplo: router.use('/auth', authRouter);
 
-// router.post('/images/prueba', fileUpload, async (req, res) => {
-//   try {
+router.post('/Image', fileUpload, async (req, res) => {
+  try {
+    const result = await cloudinary.v2.uploader.upload(req.file.path)
+    const Image = result.secure_url
+    fs.unlinkSync(req.file.path)
+  
+    res.send(Image)
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+router.delete('/Image', async (req, res) => {
+  try {
     
-//     const result = await cloudinary.v2.uploader.upload(req.file.path)
-  
-//     // console.log(result);
-  
-//     const imageFromDb = await Image.create({
-//       title: 'titulo',
-//       description: 'descriotion',
-//       imageURL: result.secure_url
-//     })
+    const { public_id } = req.query;
+    const result = await cloudinary.v2.uploader.destroy(public_id);
+    console.log(result);
 
-//     fs.unlinkSync(req.file.path)
-  
-//     res.send(imageFromDb)
-//     console.log(imageFromDb);
-//   } catch (error) {
-//     console.log(error);
-//   }
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+})
 
 
-//   // imageFromDb ? res.send('image created') : res.send('error');
-
-//   // const images = fs.readdirSync(path.join(__dirname, '../images/'))
-//   // images.map((img) => {
-//   //   fs.unlinkSync(path.join(__dirname, `../images/${img}`));
-//   // })
-  
-// })
-
-// router.get('/images/prueba',  async (req, res) => {
-//   try {
-    
-//     const imagenes = await Image.findAll();
-  
-//     // const dbImages = fs.readdirSync(path.join(__dirname, '../dbImages/'))
-//     // const images = fs.readdirSync(path.join(__dirname, '../images/'))
-  
-//     res.json(imagenes)
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-// })
-
-// router.get('/images/prueba/delete', (req, res) => {
-//   const dbImages = fs.readdirSync(path.join(__dirname, '../dbImages/'))
-
-//   dbImages && dbImages.map((img) => {
-//     fs.unlinkSync(path.join(__dirname, `../dbImages/${img}`));
-//   })
-
-//   res.send('file cleared');
-
-// })
 
 const createDog = ( id, image=null , extention,  name, temperament,height, weight, breed,life_span ) => {
 
@@ -184,6 +149,17 @@ router.post('/dogs', async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(404).send('There is an Error');
+  }
+})
+
+router.delete('/dogs/:id_dog', async (req, res) => {
+  try {
+    
+    const { id_dog } = req.params;
+    await Dog.destroy({ where: { id: id_dog } })
+    res.send({msg: 'Dog delete successfuly'});
+  } catch (error) {
+    res.send({msg: 'There is an error'});
   }
 })
 

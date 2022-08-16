@@ -255,47 +255,6 @@
   color: rgb( 0 0 0 / 90%);
 }
 
-.container_images {
-  position: absolute;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  top: 20px;
-  left: 23vw;
-  padding: 20px;
-  min-height: 500px;
-  width: 700px;
-  border-radius: 20px;
-  background-color: rgb(255 255 255 / 40%);
-}
-
-.container_img_btn {
-  display: grid;
-  min-height: 120px;
-  margin: 10px;
-}
-
-.btn_select_img {
-  height: 25px;
-  width: 100%;
-  font-size: 15px;
-  margin-top: 5px;
-  border: none;
-  background-color: rgb(0 0 0 / 70%);
-  color: rgb( 255 255 255 / 70%);
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn_select_img:active {
-  background-color: rgb(0 0 0);
-}
-
-.img_selected{
-  height: 100px;
-  width: 150px;
-}
-
 .temperament:hover {
   font-weight: bold;
 }
@@ -314,6 +273,10 @@
 
 .danger {
   color: rgb(200 60 0 );
+}
+
+#file {
+  display: none;
 }
 
 @media screen and (max-width: 500px) {
@@ -356,16 +319,6 @@
   .form_label {
     color: rgb(0 0 0 / 90%);
     font-size:18px;
-  }
-
-  .container_images {
-    left: 3vw;
-    max-width: 83vw;
-  }
-
-  .img_selected{
-    height: 80px;
-    width: 120px;
   }
 
   .check_icon {

@@ -12,7 +12,6 @@ import
     GET_ALL_TEMPERAMENT,
     FILTER_BY_BREED,
     FILTER_BY_TEMPERAMENT,
-    DOG_CREATED,
     GET_ALL_BREEDS,
     ADD_NEW_BREED,
     ADD_TO_FAVORITES,
@@ -20,6 +19,7 @@ import
     CLEAR_DOG_DETAIL,
     GO_AHEAD_DETAIL,
     GO_BEGIND_DETAIL,
+    DELETE_DOG,
   } 
 from '../actions';
 
@@ -253,10 +253,6 @@ export default function Reducer(state=inisialState, action) {
         ...state,
         Breeds: [...state.Breeds, action.payload]
       }
-    case DOG_CREATED:
-      return {
-        ...state
-      }
     case ADD_TO_FAVORITES:
       const Dog = state.Favorites.find((dog) => dog.id === action.payload.id);
       const ChangeDogToFav = state.AllDogs.find((dog) => dog.id === action.payload.id);
@@ -306,6 +302,10 @@ export default function Reducer(state=inisialState, action) {
       return {
         ...state,
         getDogDetail: PreviousDog.length ? [...PreviousDog] : state.getDogDetail
+      }
+    case DELETE_DOG:
+      return {
+        ...state
       }
     default:
       return state;

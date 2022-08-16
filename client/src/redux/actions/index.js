@@ -12,7 +12,6 @@ export const FILTER_BY_WEIGTH = 'FILTER_BY_WEIGTH';
 export const GET_ALL_TEMPERAMENT = 'GET_ALL_TEMPERAMENT';
 export const GET_ALL_BREEDS = 'GET_ALL_BREEDS';
 export const FILTER_BY_BREED = 'FILTER_BY_BREED';
-export const DOG_CREATED = 'DOG_CREATED';
 export const ADD_NEW_BREED = 'ADD_NEW_BREED';
 export const FILTER_BY_TEMPERAMENT = 'FILTER_BY_TEMPERAMENT';
 export const CHANGE_LOADING = 'CHANGE_LOADING';
@@ -20,6 +19,7 @@ export const ADD_TO_FAVORITES = 'ADD_TO_FAVORITES';
 export const REMOVE_TO_FAVORITES = 'REMOVE_TO_FAVORITES';
 export const GO_AHEAD_DETAIL = 'GO_AHEAD_DETAIL';
 export const GO_BEGIND_DETAIL = 'GO_BEGIND_DETAIL';
+export const DELETE_DOG = 'GO_BEGIND_DETAIL';
 
 export function getAllDogs () {
   return function (dispatch) {
@@ -45,15 +45,24 @@ export function getAllDogsFromDB () {
   }
 }
 
-export function CreateNewDog (dog) {
-  return function (dispatch) {
-    axios.post('http://localhost:3000/dogs', dog )
-    .then((response) => {
-      return dispatch({
-        type: DOG_CREATED,
-      })
-    })
-    .catch(err => console.log(err));
+export function CreateNewDog (NewDog) {
+  return async function (dispatch) {
+
+    const { data } = await axios.post(`http://localhost:3000/Image`,NewDog.DogImage)
+
+    const newDog = {
+      image: data,
+      name: NewDog.DogInfo.name,
+      height: NewDog.DogInfo.height,
+      weight: NewDog.DogInfo.weight,
+      life_span: NewDog.DogInfo.life_span,
+      breed_group: NewDog.DogInfo.breed_group,
+      temperament: NewDog.DogInfo.temperament
+    }
+
+    console.log(newDog);
+
+    return await axios.post('http://localhost:3000/dogs', newDog );
   }
 }
 
@@ -197,6 +206,31 @@ export function GoBehindDetail(id) {
   return {
     type: GO_BEGIND_DETAIL,
     payload: id
+  }
+}
+
+export function DeleteDog(id_dog, image) {
+  return async function (dispatch) {
+    try {
+
+      console.log(id_dog);
+      console.log(id_dog);
+      if(image) {
+        try {
+          const public_id = image?.split('/')[7].split('.')[0]
+          axios.delete(`http://localhost:3000/Image?public_id=${public_id}`)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      
+      await axios.delete(`http://localhost:3000/dogs/${id_dog}`)
+      return dispatch({
+        type: DELETE_DOG,
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { AddToFavorites, RemoveToFavorites } from '../../redux/actions';
+import { AddToFavorites, RemoveToFavorites, DeleteDog } from '../../redux/actions';
+import { FaTrash } from 'react-icons/fa';
 import './DogCard.css';
 
 export default function DogCard({id, image, name, weight, temperaments, dog, fav_button}) {
@@ -23,6 +24,10 @@ export default function DogCard({id, image, name, weight, temperaments, dog, fav
         <Link to={`/detail/${id}`}>
           <div className={image ? 'block' : 'text_default'} > Image by default</div>
         </Link>
+        <FaTrash 
+          onClick={()=>dispatch(DeleteDog(id, image))}
+          className='Trash_can' 
+        />
       </div>
       <ul className='container-titulo'>
         <li className='targeta-titulo'>{ name }
