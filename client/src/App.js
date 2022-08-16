@@ -6,6 +6,9 @@ import DogsCreated from './components/DogsCreated/DogsCreated.jsx';
 import Favorites from './components/Favorites/Favorites.jsx';
 import Home from './components/Home/Home.jsx';
 import LandingPage from './components/Landing-page/LandingPage.jsx';
+import PrurebaGalery from './components/PruebaGalery/PrurebaGalery.jsx';
+import { ChatBot } from './components/ChatBot/ChatBot';
+
 
 function App() {
 
@@ -13,6 +16,10 @@ function App() {
     <div className="App">
       <Route exact path={'/'} >
         <LandingPage/>
+      </Route>
+
+      <Route path={'/home'} >
+        <ChatBot/>
       </Route>
 
       <Route exact path={'/home'}>
@@ -33,6 +40,10 @@ function App() {
 
       <Route path={'/created'} >
         <DogsCreated/>
+      </Route>
+
+      <Route path={'/prueba'} >
+        <PrurebaGalery/>
       </Route>
     </div>
   );

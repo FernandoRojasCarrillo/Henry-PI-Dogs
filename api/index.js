@@ -4,5 +4,5 @@ const { db } = require('./src/db.js');
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
-  db.sync({ force: true });
+  db.sync({ force: false });
 });

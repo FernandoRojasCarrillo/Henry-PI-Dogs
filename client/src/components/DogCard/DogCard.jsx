@@ -32,8 +32,21 @@ export default function DogCard({id, image, name, weight, temperaments, dog, fav
             <li className='tageta-informacion' >{ temperaments ? temperaments : 'This dog has no temperaments'}</li>
           </ul>
         </li>
-        <button onClick={() => AddToFavorite()} className={ Location.pathname === "/favorites" ? 'block' : fav_button === true ? 'fav_active' : "btn_favorites"}></button>
-        <button onClick={() => dispatch(RemoveToFavorites(id))} className={ Location.pathname === "/home" || Location.pathname === "/created" ? 'block' : "btn_delete"}></button>
+        <button 
+          onClick={() => AddToFavorite()} 
+          className={ 
+            Location.pathname === "/created" || 
+            Location.pathname === "/favorites" ? 'block' : 
+            fav_button === true ? 'fav_active' : "btn_favorites"
+          }
+        ></button>
+        <button 
+          onClick={() => dispatch(RemoveToFavorites(id))} 
+          className={ 
+            Location.pathname === "/home" || 
+            Location.pathname === "/created" ? 'block' : 
+            "btn_delete"}
+        ></button>
       </ul>
     </div>
   )

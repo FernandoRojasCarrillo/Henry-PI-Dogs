@@ -11,3 +11,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.react-chatbot-kit-chat-container {
+  position: fixed !important;
+  z-index: 7;
+  right: 3%;
+  top: 10%;
+}
+@media screen and (max-width: 768px){
+  .react-chatbot-kit-chat-container{
+    top: 15%;
+    height: 62vh !important;
+  }
+  .react-chatbot-kit-chat-message-container{
+    height: 50vh !important;
+  }
+  .react-chatbot-kit-chat-inner-container{
+    height: 60vh !important;
+  }
+}
+.react-chatbot-kit-chat-header {
+  background-color: #212529 !important;
+  color: rgb(255 255 255 / 80%) !important;
+}
+
+.react-chatbot-kit-chat-bot-avatar-container {
+  background-image: url("./Images/background-img-phone.jpg") !important;
+  background-size: cover;
+}
+.react-chatbot-kit-chat-bot-avatar-container p{
+  display: none;
+}
+.react-chatbot-kit-user-chat-message {
+  background-color: rgb(104,104,104) !important;
+  color: white !important;
+}
+.react-chatbot-kit-user-chat-message-arrow{
+  border-left-color: rgb(104,104,104)!important;
+}
+
+.swal2-backdrop-show{
+  z-index: 6 !important; 
+}

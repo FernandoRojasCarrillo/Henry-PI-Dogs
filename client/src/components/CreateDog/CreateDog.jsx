@@ -4,6 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import './CreateDog.css'
 import ValidationForm from './Validations';
 import NavigationPanel from '../NavigationPanel/NavogationPanel';
+import { Link } from 'react-router-dom';
+import { FcCheckmark } from 'react-icons/fc';
+import { MdCloseFullscreen } from 'react-icons/md';
+
+
 
 
 export default function CreateDog() {
@@ -33,7 +38,7 @@ export default function CreateDog() {
   useEffect(()=> {
     dispatch(GetAllTemperament())
     dispatch(GetAllBreeds())
-  },[])
+  },[dispatch])
 
   const HandleClickBtnTemp = (e) => {
     e.preventDefault();
@@ -115,18 +120,18 @@ export default function CreateDog() {
       temperament: [...DogCreated.temperaments]
     }
     dispatch(CreateNewDog(Dog))
-    setDogCreated({
-      image: null,
-      name: '',
-      min_height: '',
-      max_height: '',
-      min_weight: '',
-      max_weight: '',
-      life_span: '',
-      breed_group: '',
-      temperaments: [],
-      new_dog: ''
-    })
+    // setDogCreated({
+    //   image: null,
+    //   name: '',
+    //   min_height: '',
+    //   max_height: '',
+    //   min_weight: '',
+    //   max_weight: '',
+    //   life_span: '',
+    //   breed_group: '',
+    //   temperaments: [],
+    //   new_dog: ''
+    // })
     setSuccessMessage(false)
     dispatch(ClearAllDogs())
     dispatch(getAllDogs())
@@ -273,6 +278,7 @@ export default function CreateDog() {
           <input className='button_temperaments' type='button' onClick={(e) => HandleClickBtnTemp(e)} value='Temperaments'/> 
           
             <div className={ buttonTemp === true ? 'Block' : 'container_temperaments'} >
+              <MdCloseFullscreen onClick={()=>setButtonTemp(true)} className='close_tbn_temperaments' />
               {
                 Temperaments.map((tem) => 
                   <input type='button' className={ buttonTemp === true ? 'Block' : 'temperament'} onClick={(e) => HandleClickTemp(e)} value={tem.name}  />
@@ -280,7 +286,6 @@ export default function CreateDog() {
               }
             </div>
            
-         {/* Botón/Opción para crear una nueva raza de perro */}
 
           <input
           className = {
@@ -308,12 +313,20 @@ export default function CreateDog() {
       <div className={ successMessage === true ? 'Block' : 'message_success'} >
         <div className='message' >
           Dog created successfully
-          <button onClick={()=>setSuccessMessage(true)}  className='btn_message_success' >X</button>
+          <Link to='/created' >
+            <button 
+              onClick={()=>setSuccessMessage(true)}  
+              className='btn_message_success' 
+            >
+              Got it
+            </button>
+          </Link> 
+          <FcCheckmark className='check_icon' /> 
         </div>
       </div>
       <div className={ containerImg === true ? 'Block' : 'container_images'} >
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/dW5UucTIW.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/dW5UucTIW.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}
@@ -322,7 +335,7 @@ export default function CreateDog() {
             value='Select' />
         </div>
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/-HgpNnGXl.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/-HgpNnGXl.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}
@@ -331,7 +344,7 @@ export default function CreateDog() {
             value='Select' />
         </div>
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/26pHT3Qk7.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/26pHT3Qk7.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}
@@ -340,7 +353,7 @@ export default function CreateDog() {
             value='Select' />
         </div>
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/BJT0Jx5Nm.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/BJT0Jx5Nm.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}
@@ -349,7 +362,7 @@ export default function CreateDog() {
             value='Select' />
         </div>
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/SJJxjecEX.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/SJJxjecEX.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}
@@ -358,7 +371,7 @@ export default function CreateDog() {
             value='Select' />
         </div>
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/Sk4DXl54m.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/Sk4DXl54m.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}
@@ -367,7 +380,7 @@ export default function CreateDog() {
             value='Select' />
         </div>
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/HJ7Pzg5EQ.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/HJ7Pzg5EQ.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}
@@ -376,7 +389,7 @@ export default function CreateDog() {
             value='Select' />
         </div>
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/B12BnxcVQ.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/B12BnxcVQ.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}
@@ -385,7 +398,7 @@ export default function CreateDog() {
             value='Select' />
         </div>
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/SkJj7e547.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/SkJj7e547.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}
@@ -394,7 +407,7 @@ export default function CreateDog() {
             value='Select' />
         </div>
         <div className='container_img_btn' >
-          <img className='img_selected' src='https://cdn2.thedogapi.com/images/rkXiGl9V7.jpg' />
+          <img className='img_selected' src='https://cdn2.thedogapi.com/images/rkXiGl9V7.jpg' alt='dog_image' />
           <input 
             className='btn_select_img'
             onClick={(e)=>SelectImage(e)}

@@ -93,7 +93,12 @@
   transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .5s;
 }
 
-@media screen and (max-width:400px) {
+@media screen and (max-width:500px) {
+
+  .navbar-container {
+    display: none;
+  }
+  
   .navbar-container {
     height: 60px;
     width: 100vw;

@@ -12,13 +12,13 @@ export default function DogsCreated() {
 
   useEffect(() => {
     dispatch(getAllDogsFromDB())
-  },[])
+  },[dispatch])
 
   return (
     <div className='container_dogs_created' >
       <div className='container_dogs_card' >
         {
-          AllDogsFromDataBase.length ? AllDogsFromDataBase.map((dog) => 
+          AllDogsFromDataBase.length ? AllDogsFromDataBase.map((dog) => (
             <DogCard
               key={dog.id}
               id={dog.id}
@@ -28,9 +28,14 @@ export default function DogsCreated() {
               temperaments={dog.temperament}
               dog={dog}
             />
-          ) : <div className='message' >Not dogs created</div>
+          )) : <div className='message' >Not dogs created</div>
         }
       </div>
+      <h1
+        className='dogs_created_Favorite'
+      >
+        Dogs Created
+      </h1>
       <NavigationPanel/>
     </div>
   )

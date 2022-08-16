@@ -1,9 +1,10 @@
 .landin-image {
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   object-fit:contain;
-  background-image: url('./image.jpg');
+  background-image: url('../../Images/img-por-defecto.jpg');
   background-position: contain;
   background-size: cover;
   background-repeat: no-repeat;
@@ -11,57 +12,131 @@
   min-width: 100vw;
 }
 
+.wellcome_messsage {
+  position: absolute;
+  top: 10px;
+  left: 22vw;
+  font-size: 50px;
+  color: rgb(255 255 255 / 80%);
+}
+
 .landing-main {
+  position: relative;
   display: flex;
-  height: 80vh;
+  height: 95vh;
   width: 80vw;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient( to top, rgb(0 0 0 / 50%), rgb(0 0 0 / 20%) );
+  background-image: linear-gradient( to top, rgb(255 255 255 / 50%), rgb(255 255 255 / 20%) );
   border-radius: 10px;
 }
 
-.containe_landing {
-  display: grid;
-  justify-content: center;
-  height: 180px;
-  width: 500px;
-  font-size: 25px;
-  font-weight: bold;
-  color: rgba(255 255 255 / 70%);
-}
-
-.landing-main-button {
-  /* display: flex; */
-  padding: 0 20px 5px 20px;
-  background-color: rgba(0 0 0 / 80%);
+.Landing_Images_Computers {
+  position: absolute;
+  height: 90vh;
+  width: min-content;
+  opacity: 1;
+  visibility: visible;
   border-radius: 20px;
-  margin: 10px 0 10px 140px ;
-  width:fit-content;
-  align-self: center;
+  transition: all cubic-bezier(0.215, 0.610, 0.355, 1) 3s;
 }
 
-.landing-main-button:hover {
-  background-color: rgba(0 0 0);
+.Landing_Images_Phone {
+  display: none;
 }
 
 .landing-button {
   display: flex;
+  position: fixed;
+  bottom: 10vh;
+  left: 45vw;
   background-image: linear-gradient( 63.1deg,  rgba(5,23,111,1) 16.4%, rgba(24,95,240,1) 64.5% );    -webkit-text-fill-color: transparent;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   border: none;
   font-weight:bold ;
-  font-size: 30px;
+  font-size: 40px;
   cursor: pointer;
   text-decoration: none;
 }
 
-.landing-button:hover {
-
+.landing-button:active {
+  color: rgb(255 255 255 / 80%);
 }
 
-/* @phone: ~"(max-width:700px)"; */
-/* @media (max-width:700px) {
+.block_img_landing {
+  position: absolute;
+  height: 55vh;
+  width: min-content;
+  border-radius: 20px;
+  transition: all cubic-bezier(0.215, 0.610, 0.355, 1) 3s;
+  opacity: 0;
+  visibility: hidden;
+}
 
-} */
+.Arrows {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  top: 38vh;
+  cursor: pointer;
+  color: rgb(0 0 0 / 70%);
+}
+
+.Arrows_left {
+  left: 20px;
+}
+
+.Arrows_right {
+  right: 20px;
+}
+
+@media screen and (max-width: 500px) {
+  .landin-image {
+    background-position: center;
+    width: 100vw;
+  }
+
+  .wellcome_messsage {
+    position: absolute;
+    top: 10px;
+    left: 28vw;
+    font-size: 30px;
+    color: rgb(255 255 255 / 80%);
+  }
+
+  .landing-main {
+    width: 90vw;
+  }
+
+  .Landing_Images_Computers {
+    display: none;
+  }
+
+  .Landing_Images_Phone {
+    display: block;
+    position: absolute;
+    height: 70vh;
+    max-width: 80vw;
+    opacity: 1;
+    visibility: visible;
+    border-radius: 10px;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) 3s;
+  }
+
+  
+  .block_img_landing {
+    height: 50vh;
+    max-width: 80vw;
+  }
+
+  .Arrows {
+    height: 30px;
+    width: 30px;
+  }
+
+  .landing-button {
+    bottom: 8vh;
+    left: 30vw;
+  }
+}

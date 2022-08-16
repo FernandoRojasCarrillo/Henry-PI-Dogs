@@ -1,11 +1,98 @@
 const { Router } = require('express');
 const axios = require('axios');
-const { Temperament, Dog, Op, API_KEY } = require('../db.js');
-// Importar todos los routers;
-// Ejemplo: const authRouter = require('./auth.js');
-
-
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs-extra');
+const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary');
+const { Temperament, Dog, Image, Op, API_KEY } = require('../db.js');
+const { dirname } = require('path');
 const router = Router();
+const Temperaments = require('./Temperaments.js');
+
+// cloudinary.config({
+//   cloud_name: 'dcgbjtd2z',
+//   api_key: 318478426753779,
+//   api_secret: 'QaQMuaX1BZScEd1qv7kOV6NlejM'
+// })
+
+
+// const diskStorege = multer.diskStorage({
+//   destination: path.join(__dirname, '../images'),
+//   filename: (req, file, cb) => {
+//     cb(null, new Date().getTime() + path.extname(file.originalname))
+//   }
+// })
+
+
+
+// const fileUpload = multer({
+//   storage: diskStorege
+// }).single('image')
+
+
+
+
+
+// // Configurar los routers
+// // Ejemplo: router.use('/auth', authRouter);
+
+// router.post('/images/prueba', fileUpload, async (req, res) => {
+//   try {
+    
+//     const result = await cloudinary.v2.uploader.upload(req.file.path)
+  
+//     // console.log(result);
+  
+//     const imageFromDb = await Image.create({
+//       title: 'titulo',
+//       description: 'descriotion',
+//       imageURL: result.secure_url
+//     })
+
+//     fs.unlinkSync(req.file.path)
+  
+//     res.send(imageFromDb)
+//     console.log(imageFromDb);
+//   } catch (error) {
+//     console.log(error);
+//   }
+
+
+//   // imageFromDb ? res.send('image created') : res.send('error');
+
+//   // const images = fs.readdirSync(path.join(__dirname, '../images/'))
+//   // images.map((img) => {
+//   //   fs.unlinkSync(path.join(__dirname, `../images/${img}`));
+//   // })
+  
+// })
+
+// router.get('/images/prueba',  async (req, res) => {
+//   try {
+    
+//     const imagenes = await Image.findAll();
+  
+//     // const dbImages = fs.readdirSync(path.join(__dirname, '../dbImages/'))
+//     // const images = fs.readdirSync(path.join(__dirname, '../images/'))
+  
+//     res.json(imagenes)
+//   } catch (error) {
+//     console.log(error);
+//   }
+
+// })
+
+// router.get('/images/prueba/delete', (req, res) => {
+//   const dbImages = fs.readdirSync(path.join(__dirname, '../dbImages/'))
+
+//   dbImages && dbImages.map((img) => {
+//     fs.unlinkSync(path.join(__dirname, `../dbImages/${img}`));
+//   })
+
+//   res.send('file cleared');
+
+// })
 
 const createDog = ( id, image=null , extention,  name, temperament,height, weight, breed,life_span ) => {
 
@@ -23,12 +110,10 @@ const createDog = ( id, image=null , extention,  name, temperament,height, weigh
   return Dog;
 }
 
-// Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
 
 
 router.get('/dogs', async (req, res, next) => {
-  const { name } = req.query;
+  const { name }  = req.query;
   if(!name) return next()
   const DogsSearchByName = [];
   
@@ -63,21 +148,12 @@ router.get('/dogs', async (req, res, next) => {
     if(data.length) {
       for (let i = 0; i < data.length; i++) {
         let imageExtention = 'jpg';
-        // if(data[i].reference_image_id){
-        //   try {
-        //     await axios.get(`https://cdn2.thedogapi.com/images/${data[i].reference_image_id}.jpg`)
-        //     imageExtention = 'jpg'
-        //   } catch (error) {
-        //     imageExtention = 'png'
-        //   }
-        // }
         DogsSearchByName.push(createDog(data[i].id, data[i].reference_image_id ? data[i].reference_image_id : null,imageExtention, data[i].name, data[i].temperament, data[i].weight.imperial, data[i].height.imperial, data[i].breed_group, data[i].life_span));
       }
-      // return res.json(imageExtention);
     }else{
       return res.status(404).send([{ name: 'error', msg_error: 'No se encontraron dogs por ese nombre'}]);
     };
-    
+     
   } catch (error) {
     console.log(error);
     return res.json({mesage: 'error',});
@@ -101,7 +177,6 @@ router.post('/dogs', async (req, res) => {
       life_span: life_span,
       breed_group: breed_group
     });
-   //const project = await Project.findOne({ where: { title: 'My Title' } });
     const tempsFromDB = await Temperament.findAll({where: {name: {[Op.in] : temperament}}});
     await newDog.addTemperament(tempsFromDB)
     const dogDreated = await Dog.findAll({include: Temperament})
@@ -210,64 +285,24 @@ router.get('/dogs/:idRaza', (req, res) => {
 
 router.get('/temperaments', async (req, res) => {
   
+  try {
     const AllTemperaments = await Temperament.findAll();
-  
-  if(!AllTemperaments.length) {
-
-    const Temperamentos = [];
-    const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)
-  
-    if(data.length){
-      let Temp ;
-      data.map(tem => {
-        Temp += (tem.temperament);
-      })
-      let result = Temp.split(',')
-      let reduce = result.join('')
-
-      // let palabra = 'HolaComoEstasHoyMartesPrimeroDeJulio ';
-      let resultado = [];
-      // let len = palabra.length;
-      let word ;
-      
-      for (let i = 0; i < reduce.length; i++) {
-        if(reduce[i].charCodeAt() < 95 && reduce[i - 1].charCodeAt() === 45 ) {
-          word = word + reduce[i];
-        }
-        else if(reduce[i].charCodeAt() >= 95 || reduce[i].charCodeAt() === 45 ) {
-          word = word + reduce[i];
-        }
-        else if(reduce[i].charCodeAt() < 95 && reduce[i].charCodeAt() > 64) {
-          resultado.push(word)
-          word = reduce[i]
-        }
-        console.log();
-      }
-      resultado.shift()
-
-      let set = new Set(resultado);
-      let Temperamento = [...set];
-
-      // const ability = await Ability.create(req.body);
-      
-      
-      for (let i = 0; i < Temperamento.length; i++) {
+    if(!AllTemperaments.length) {
+      for (let i = 0; i < Temperaments.length; i++) {
+        // const Temperament
+        await Temperament.create({
+          name: Temperaments[i]
+        })
         
-        const Tem = await Temperament.create(
-          {
-            name: Temperamento[i]
-            }
-          )
-          Temperamentos.push(Tem)
       }
-      
-      // return res.json(resultado);
-    }else {
-      return res.status(404).send({msg_error: 'No hay temperamentos encontrados'});
+      const Temps = await Temperament.findAll();
+      Temps.length ? res.json(Temps) : res.status(400).send({msg: 'No temperaments fond'})
+    } else {
+      res.json(AllTemperaments)
     }
-    return res.status(201).json(Temperamentos);
-  }else {
-    return res.json(AllTemperaments);
+  } catch (error) {
+    console.log(error);
   }
+  
 })
 module.exports = router;

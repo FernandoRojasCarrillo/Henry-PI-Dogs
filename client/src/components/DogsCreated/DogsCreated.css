@@ -1,5 +1,5 @@
 .container_dogs_created {
-  background-image: url('../Favorites/backbround_img.jpeg');
+  background-image: url('../../Images/backbround_img.jpeg');
   position: relative;
   display: flex;
   /* justify-content: center;
@@ -21,4 +21,21 @@
   min-height: 83vh;
   width: 95vw;
   background-color: rgb(0 0 0 / 50%);
+}
+
+.dogs_created_Favorite {
+  position: absolute;
+  top: -5px;
+  left: 37vw;
+  font-size: 9vh;
+  font-family: revert-layer;
+  color: rgb(255 255 255 / 80%);
+}
+
+@media screen and (max-width: 500px) {
+  .dogs_created_Favorite {
+    top: 7px;
+    left: 20vw;
+    font-size: 10vw;
+  }
 }

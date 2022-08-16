@@ -17,7 +17,9 @@ import
     ADD_NEW_BREED,
     ADD_TO_FAVORITES,
     REMOVE_TO_FAVORITES,
-    CLEAR_DOG_DETAIL
+    CLEAR_DOG_DETAIL,
+    GO_AHEAD_DETAIL,
+    GO_BEGIND_DETAIL,
   } 
 from '../actions';
 
@@ -187,7 +189,7 @@ export default function Reducer(state=inisialState, action) {
     case FILTER_BY_BREED :
       const DogsFilter = []
       const allDogs = [];
-      state.BackupDogs.map((dog) => {
+      state.BackupDogs.forEach((dog) => {
         if(dog.breed === action.payload) {
           DogsFilter.push(dog)
           allDogs.push(dog)
@@ -214,8 +216,7 @@ export default function Reducer(state=inisialState, action) {
       const dogsFilter = [];
       const AllDogs = [];
       const input = action.payload.toLowerCase();
-      state.BackupDogs.map((dog) => {
-
+      state.BackupDogs.forEach((dog) => {
         let val = dog.temperament ? dog.temperament.split(',') : ''
         let valor = [];
         for (let i = 0; i < val.length; i++) {
@@ -225,18 +226,19 @@ export default function Reducer(state=inisialState, action) {
           dogsFilter.push(dog)
           AllDogs.push(dog)
         }
-
       })
 
       const showFilter = [];
-      while(dogsFilter.length){
-        let ArrayOfDogs = [];
-        let c = 8; 
-        while(c > 0 && dogsFilter.length > 0) {
-          c --
-          ArrayOfDogs.push(dogsFilter.shift());
+      if(dogsFilter.length) {
+        while(dogsFilter.length){
+          let ArrayOfDogs = [];
+          let c = 8; 
+          while(c > 0 && dogsFilter.length > 0) {
+            c --
+            ArrayOfDogs.push(dogsFilter.shift());
+          }
+          showFilter.push(ArrayOfDogs);
         }
-        showFilter.push(ArrayOfDogs);
       }
 
       return {
@@ -244,7 +246,7 @@ export default function Reducer(state=inisialState, action) {
         AllDogs: [...AllDogs],
         Current: 1,
         AuxDogs: [...showFilter],
-        ShowDogs: [...showFilter[0]]
+        ShowDogs: showFilter.length ? [...showFilter[0]] : state.ShowDogs
       }
     case ADD_NEW_BREED:
       return {
@@ -276,6 +278,34 @@ export default function Reducer(state=inisialState, action) {
       return {
         ...state,
         Favorites: state.Favorites.filter((dog) => dog.id !== action.payload )
+      }
+    case GO_AHEAD_DETAIL:
+      let NextDog = [];
+      for (let i = 0; i < state.AllDogs.length; i++) {
+        if(state.AllDogs[state.AllDogs.length - 1].id === action.payload) {
+          NextDog.push(state.AllDogs[0]);
+        }
+        else if(state.AllDogs[i].id === action.payload ) {
+          NextDog.push(state.AllDogs[i+1]);
+        }
+      }
+      return {
+        ...state,
+        getDogDetail: NextDog.length ? [...NextDog] : state.getDogDetail
+      }
+    case GO_BEGIND_DETAIL:
+      let PreviousDog = [];
+      for (let i = 0; i < state.AllDogs.length; i++) {
+        if(state.AllDogs[0].id === action.payload) {
+          PreviousDog.push(state.AllDogs[state.AllDogs.length - 1]);
+        }
+        else if(state.AllDogs[i].id === action.payload ) {
+          PreviousDog.push(state.AllDogs[i-1]);
+        }
+      }
+      return {
+        ...state,
+        getDogDetail: PreviousDog.length ? [...PreviousDog] : state.getDogDetail
       }
     default:
       return state;

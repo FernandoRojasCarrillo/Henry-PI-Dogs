@@ -1,6 +1,6 @@
 .app-container-img {
   align-items: center;
-  background-image: url('./background_img2.jpg');
+  background-image: url('../../Images/background_img2.jpg');
   background-position: contain;
   background-size: cover;
   background-repeat: no-repeat;
@@ -10,6 +10,13 @@
   margin: 0;
 }
 
+.Padding_top {
+  padding: 0;
+}
+
+.Up_Background_menu {
+  display: none;
+}
 
 .app-container-back {
   background-color: rgb(0 0 0 /10%);
@@ -287,7 +294,7 @@ li:hover > ul {
 .left_menu {
   top: 0;
   left: 0;
-  position: absolute;
+  position: fixed;
   height: 200vh;
   width: 100vw;
   background-color: rgb(0 0 0 / 50%);
@@ -296,12 +303,12 @@ li:hover > ul {
 .container_temps {
   display: grid;
   position: relative;
-  padding: 40px 20px 20px 20px;
-  grid-template-columns: repeat(4, 1fr);
+  padding: 10px 30px 10px 10px;
+  grid-template-columns: repeat(3, 1fr);
   top: 0;
   left: 0;
-  height: 188vh;
-  width: 50vw;
+  height: 95vh;
+  width: 30vw;
   background-color: rgb(255 255 255 / 85%);
 }
 
@@ -311,8 +318,6 @@ li:hover > ul {
   min-width: 100px;
   border-radius: 5px;
   border: none;
-  border-bottom: 2px solid rgb(0 0 0 / 50%);
-  border-right: 2px solid rgb(0 0 0 / 50%);
   background-color: transparent;
   cursor: pointer;
 }
@@ -329,14 +334,20 @@ li:hover > ul {
   font-size: 16px;
   font-weight: bold;
   height: 30px;
-  width: 80px;
+  width: 30px;
   border: none;
-  background-color: rgb(255 255 255 / 70%);
-  border-radius: 8px;
+  background-color: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.filterBy:active {
+  background-color: rgb(0 0 0 / 70%);
+  color: rgb(255 255 255 / 70%)
 }
 
 .container_error {
-  background-image: url('./img-background-error.jpg');
+  background-image: url('../../Images/img-background-error.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -358,11 +369,15 @@ li:hover > ul {
   color: rgb(255 255 255 / 70%);
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
+  .Padding_top {
+    padding: 9vh 0 0 0;
+    margin: 0;
+  }
   
   .app-container-img {
     align-items: center;
-    background-image: url('./background_img2.jpg');
+    background-image: url('../../Images/background_img2.jpg');
     background-position: center;
   }
 
@@ -379,6 +394,19 @@ li:hover > ul {
     display: none;
   }
   
+  .Up_Background_menu {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 100vw;
+    margin: 0;
+    border-radius: 0 0 10px 10px;
+    background-color: rgb(255 255 255 / 40%);
+    backdrop-filter: blur(5px);
+  }
+
   .paginado {
     display: flex;
     min-height: 40px;
@@ -420,6 +448,19 @@ li:hover > ul {
     min-height: 74vh; 
     width: 75vw;
     padding: 20px 30px 0 30px;
+  }
+
+  .container_error {
+    height: 200px;
+    width: 300px;
+    border-radius: 10px;
+  }
+  
+  .error_message {
+    height: 170px;
+    width: 285px;
+    font-size: 15px;
+    border-radius: 10px;
   }
 
   .btn-active {

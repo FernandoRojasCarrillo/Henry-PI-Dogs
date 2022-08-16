@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import './NavigationPanel.css';
 
 export default function NavigationPanel() {
@@ -14,8 +15,13 @@ export default function NavigationPanel() {
 
   return (
     <div className={ change === false ? 'navigation_panel_active' : 'navigation_panel'} >
-      <button className={ change === false ? 'block' : Location.pathname === "/home" ? 'Btn_home' : 'Btn'} onClick={() => HandleCLick()}>Menu</button>
+      <div className={ change === false ? 'block' : Location.pathname === "/home" ? 'Btn_home' : 'Btn'} onClick={() => HandleCLick()}>
+        <AiOutlineMenuUnfold 
+          style={{height: '40px', width: '40px', color: 'rgb(255 255 255 / 80%'}}
+        />
+      </div>
       <div className={ change === true ? 'panel' : 'active_panel'} >
+
         <div className='navigation' >
           <Link to={'/home'} >
             <button className={ change === true ? 'block' : 'butons'} >Home</button>

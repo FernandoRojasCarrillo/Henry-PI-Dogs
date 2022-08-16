@@ -26,6 +26,11 @@ export default function Favorites() {
           : <div className='message' >There is not dogs added</div>
         }
       </div>
+      <h1
+        className='message_Favorite'
+      >
+        Favorites
+      </h1>
       <NavigationPanel/>
     </div>
   )

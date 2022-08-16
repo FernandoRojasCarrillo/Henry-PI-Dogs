@@ -3,10 +3,11 @@
   flex-wrap: wrap;
   min-height: 100vh;
   padding: 20px 20px 40px 20px;
-  background-image: url('./Background_image.jpg');
+  background-image: url('../../Images/Background_image.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
   justify-content: center;
   border-radius: 5px;
 }
@@ -153,14 +154,23 @@
   display: flex;
   flex-wrap: wrap;
   width: 40vw;
-  min-height: 100vh;
-  padding: 10px;
+  min-height: 70vh;
+  padding: 50px 10px 10px 10px;
   background-color: rgb(255 255 255 / 80%);
   border-radius: 10px;
   position: absolute;
   top: 0;
   left: 280px;
   box-shadow: 5px 10px 20px 5px rgb(0 0 0 / 50%);
+}
+
+.close_tbn_temperaments {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 20px;
+  right: 20px;
+  cursor: pointer
 }
 
 .temperament {
@@ -192,7 +202,7 @@
 }
 
 .message_success {
-  position: absolute;
+  position: fixed;
   display: flex;
   top: 0;
   left: 0;
@@ -203,6 +213,14 @@
   background-color: rgb(0 0 0 / 50%);
 }
 
+.check_icon {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  top: 50px;
+  left: 15vw;
+}
+
 .message {
   position: relative;
   display: flex;
@@ -210,7 +228,7 @@
   align-items:center;
   height: 400px;
   width: 500px;
-  font-size: 28px;
+  font-size: 30px;
   border-radius: 20px;
   background-color: rgb(255 255 255 / 50%);
 }
@@ -220,11 +238,11 @@
   display: flex;
   justify-content: center;
   align-items:center;
-  top: 20px;
-  right: 20px;
+  bottom: 10vh;
+  left: 13vw;
   font-size: 20px;
-  height:30px;
-  width: 40px;
+  height:40px;
+  width: 150px;
   border: none;
   border-radius: 5px;
   background-color: rgb(0 0 0 / 70%);
@@ -296,4 +314,88 @@
 
 .danger {
   color: rgb(200 60 0 );
+}
+
+@media screen and (max-width: 500px) {
+  .formulario {
+    background-position: right;
+    border-radius: 0.1px;
+  }
+
+  .container-form {
+    min-height: 60vh;
+    width: 260px;
+    margin-top: 10vh;
+    padding-left: 50px;
+    background-color: rgb(255 255 255 / 35%);
+    backdrop-filter: blur(0)
+  }
+
+  .container_temperaments {
+    width: 70vw;
+    min-height: 85vh;
+    left: 50px;
+    padding: 50px 10px 10px 10px;
+  }
+
+  .tbn_select_image {
+    width: 80vw;
+    margin-left: 1vw;
+    font-weight: bold;
+    background-color: rgb(255 255 255 / 70%);
+  }
+
+  .input {
+    width: 80vw;
+    font-weight: bold;
+    padding-left: 3vw;
+    border-radius: 5px;
+    border-bottom: 2px solid rgb(0 0 0 / 90%);
+  }
+
+  .form_label {
+    color: rgb(0 0 0 / 90%);
+    font-size:18px;
+  }
+
+  .container_images {
+    left: 3vw;
+    max-width: 83vw;
+  }
+
+  .img_selected{
+    height: 80px;
+    width: 120px;
+  }
+
+  .check_icon {
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    top: 10px;
+    left: 28vw;
+  }
+  
+  .message {
+    height: 300px;
+    width: 300px;
+    font-size: 25px;
+  }
+
+  .btn_message_success {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    bottom: 7vh;
+    left: 20vw;
+    font-size: 20px;
+    height:40px;
+    width: 150px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(0 0 0 / 70%);
+    color: rgb( 255 255 255 / 70%);
+    cursor: pointer;
+  }
 }

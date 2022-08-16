@@ -18,6 +18,8 @@ export const FILTER_BY_TEMPERAMENT = 'FILTER_BY_TEMPERAMENT';
 export const CHANGE_LOADING = 'CHANGE_LOADING';
 export const ADD_TO_FAVORITES = 'ADD_TO_FAVORITES';
 export const REMOVE_TO_FAVORITES = 'REMOVE_TO_FAVORITES';
+export const GO_AHEAD_DETAIL = 'GO_AHEAD_DETAIL';
+export const GO_BEGIND_DETAIL = 'GO_BEGIND_DETAIL';
 
 export function getAllDogs () {
   return function (dispatch) {
@@ -179,6 +181,21 @@ export function AddToFavorites(dog) {
 export function RemoveToFavorites(id) {
   return {
     type: REMOVE_TO_FAVORITES,
+    payload: id
+  }
+}
+
+export function GoAheadDetail(id) {
+  console.log(id);
+  return {
+    type: GO_AHEAD_DETAIL,
+    payload: id
+  }
+}
+
+export function GoBehindDetail(id) {
+  return {
+    type: GO_BEGIND_DETAIL,
     payload: id
   }
 }
