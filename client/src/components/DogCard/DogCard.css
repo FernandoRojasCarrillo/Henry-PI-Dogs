@@ -18,9 +18,10 @@
 .container-img {
   position: relative;
   display: flex;
+  justify-content: center;
   width: 403px;
   height: 300px;
-  background-color: rgb(0 0 0/70%);
+  background-color: rgb(255 255 255 / 30%);
   border-radius: 15px 15px 0 0;
 }
 
@@ -41,10 +42,10 @@
 
 .image {
   /* position: relative; */
-  position: absolute;
+  /* position: absolute; */
   cursor: pointer;
-  width: 403px;
-  height: 303px;
+  max-width: 403px;
+  height: 300px;
   border-radius: 15px 15px 0 0;
 }
 
@@ -75,7 +76,7 @@
 
 .container-info {
   padding: 20px;
-  bottom: 0;
+  bottom: 3px;
   left: 0;
   display: none;
   position: absolute;
@@ -97,15 +98,18 @@
 }
 
 .btn_delete {
+  display: none;
   position: absolute;
-  top: 3px;
-  right: 5px;
-  height: 30px;
-  width: 30px;
+  top: 10px;
+  right: 10px;
+  height: 25px;
+  width: 25px;
   border: none;
-  background-color: rgb(0 0 0 / 70%);
-  clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
   cursor: pointer;
+}
+
+.container-img:hover .btn_delete {
+  display: block;
 }
 
 .btn_favorites:hover {
@@ -113,7 +117,7 @@
 }
 
 .btn_delete:hover {
-  background-color: rgb(255 0 0 );
+  color: rgb(255 0 0 );
 }
 
 .btn_favorites:active {
@@ -188,7 +192,7 @@ li:hover > ul {
   }
 
   .image {
-    width: 303px;
+    max-width: 303px;
     height: 230px;
     border-radius: 10px 10px 0 0;
   }

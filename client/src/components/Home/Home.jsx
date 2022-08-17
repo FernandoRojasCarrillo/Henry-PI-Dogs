@@ -8,7 +8,7 @@ import NavigationPanel from '../NavigationPanel/NavogationPanel.jsx'
 import 
 {
   getAllDogs, GetAndShowAllDogs, MoveForward, MoveBachward, FilterByAlphabeticalOder, FilterByWeigth, 
-  FilterByTemperament, FilterByBreed, GetAllBreeds, GetAllTemperament, ClearAllDogs
+  FilterByTemperament, FilterByBreed, GetAllBreeds, GetAllTemperament, ClearAllDogs, GetCarruselDogs
 }  
 from '../../redux/actions';
 import { Link } from 'react-router-dom';
@@ -39,6 +39,8 @@ export default function Home(){
       dispatch(getAllDogs())
       dispatch(GetAllBreeds())
       dispatch(GetAllTemperament())
+    } else {
+      dispatch(GetCarruselDogs())
     }
   },[dispatch, Current])
 
@@ -131,7 +133,7 @@ export default function Home(){
                     {
                       Dogs.length && Dogs.map((d, i) => (
                         <>
-                          <button className={ value + 1 <= i+1 ? 'block' :  Current === i+1 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(i+1))} >{i+1}</button>
+                          <button key={i} className={ value + 1 <= i+1 ? 'block' :  Current === i+1 ? 'btns btn-active' : 'btns'} onClick={() => dispatch(GetAndShowAllDogs(i+1))} >{i+1}</button>
                         </>
                       ))
                     }
@@ -172,16 +174,16 @@ export default function Home(){
         </div>
         <div className={ filterByBreed === true ? 'Block' : "container_breeds"}>
           {
-            Breeds.map((breed) => 
-              <button className='btn_breed' onClick={() => BtnFilterByBreed(breed)}>{breed}</button> 
+            Breeds.map((breed, i) => 
+              <button key={i} className='btn_breed' onClick={() => BtnFilterByBreed(breed)}>{breed}</button> 
             )
           }
         </div>
         <div className={ filterByTemperament === true ? 'Block' : 'left_menu'} >
           <div className="container_temps">
             {
-              Temperaments.map((temp) =>
-                <button key={temp.id} className='btn_temps' onClick={() => BtnFilterByTemp(temp.name)} >{temp.name}</button>
+              Temperaments.map((temp, i) =>
+                <button key={i} className='btn_temps' onClick={() => BtnFilterByTemp(temp.name)} >{temp.name}</button>
               )
             }
             <input onClick={()=>setFilterByTemperament(true)} type='button' className='filterBy' value='X' />
@@ -232,7 +234,7 @@ export default function Home(){
                   width: '30px',
                   position: 'fixed',
                   top: '15px',
-                  left: '110px',
+                  left: '70px',
                   color: 'rgb(255 255 255 / 80%)',
                   Cursor: 'pointer'
                 }}

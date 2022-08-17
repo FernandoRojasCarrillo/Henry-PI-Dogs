@@ -112,24 +112,21 @@ export default function CreateDog() {
       DogInfo: Dog
     }
 
-    console.log(NewDog);
-
     dispatch(CreateNewDog(NewDog))
 
-    // document.getElementById('fileInput').value = null;
+    document.getElementById('file').value = null;
 
-    // setDogCreated({
-    //   image: null,
-    //   name: '',
-    //   min_height: '',
-    //   max_height: '',
-    //   min_weight: '',
-    //   max_weight: '',
-    //   life_span: '',
-    //   breed_group: '',
-    //   temperaments: [],
-    //   new_dog: ''
-    // })
+    setDogCreated({
+      name: '',
+      min_height: '',
+      max_height: '',
+      min_weight: '',
+      max_weight: '',
+      life_span: '',
+      breed_group: '',
+      temperaments: [],
+      new_dog: ''
+    })
     setSuccessMessage(false)
     dispatch(ClearAllDogs())
     dispatch(getAllDogs())
@@ -137,17 +134,16 @@ export default function CreateDog() {
 
   const HandlerSelect = (e) => {
     setFile(e.target.files[0]);
-    console.log(e.target.files[0]);
   }
 
   return (
     <div className='formulario' >
       <form className='container-form' >
         <label
-          for='file' 
+          htmlFor='file' 
           className='tbn_select_image' 
         >
-          Select image
+          Choose an Image
         </label>
         <input id='file' name='file' onChange={(e)=>HandlerSelect(e)} type='file' />
 
@@ -272,8 +268,8 @@ export default function CreateDog() {
           <input className='button_breeds' type='button' onClick={(e) => HandleClickBtnBreed(e)} value='Breeds' />
             <div className={ buttonBreed === true ? 'Block' : 'container_Breeds'} >
               {
-                Breeds.map((breed) => 
-                  <input type='button' className={ buttonBreed === true ? 'Block' : 'breeds'} onClick={(e) => HandleClickBreed(e) } value={breed} />
+                Breeds.map((breed, i) => 
+                  <input key={i} type='button' className={ buttonBreed === true ? 'Block' : 'breeds'} onClick={(e) => HandleClickBreed(e) } value={breed} />
                 )
               }
             </div>
@@ -284,8 +280,8 @@ export default function CreateDog() {
             <div className={ buttonTemp === true ? 'Block' : 'container_temperaments'} >
               <MdCloseFullscreen onClick={()=>setButtonTemp(true)} className='close_tbn_temperaments' />
               {
-                Temperaments.map((tem) => 
-                  <input type='button' className={ buttonTemp === true ? 'Block' : 'temperament'} onClick={(e) => HandleClickTemp(e)} value={tem.name}  />
+                Temperaments.map((tem, i) => 
+                  <input key={i} type='button' className={ buttonTemp === true ? 'Block' : 'temperament'} onClick={(e) => HandleClickTemp(e)} value={tem.name}  />
                 ) 
               }
             </div>

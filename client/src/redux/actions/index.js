@@ -20,6 +20,8 @@ export const REMOVE_TO_FAVORITES = 'REMOVE_TO_FAVORITES';
 export const GO_AHEAD_DETAIL = 'GO_AHEAD_DETAIL';
 export const GO_BEGIND_DETAIL = 'GO_BEGIND_DETAIL';
 export const DELETE_DOG = 'GO_BEGIND_DETAIL';
+export const GET_FAVORITES = 'GET_FAVORITES';
+export const GET_CARRUSEL_DOGS = 'GET_CARRUSEL_DOGS';
 
 export function getAllDogs () {
   return function (dispatch) {
@@ -59,8 +61,6 @@ export function CreateNewDog (NewDog) {
       breed_group: NewDog.DogInfo.breed_group,
       temperament: NewDog.DogInfo.temperament
     }
-
-    console.log(newDog);
 
     return await axios.post('http://localhost:3000/dogs', newDog );
   }
@@ -195,7 +195,6 @@ export function RemoveToFavorites(id) {
 }
 
 export function GoAheadDetail(id) {
-  console.log(id);
   return {
     type: GO_AHEAD_DETAIL,
     payload: id
@@ -209,12 +208,23 @@ export function GoBehindDetail(id) {
   }
 }
 
+export function GetFavotrites(id) {
+  return {
+    type: GET_FAVORITES,
+    payload: id
+  }
+}
+
+export function GetCarruselDogs() {
+  return {
+    type: GET_CARRUSEL_DOGS,
+  }
+}
+
 export function DeleteDog(id_dog, image) {
   return async function (dispatch) {
     try {
 
-      console.log(id_dog);
-      console.log(id_dog);
       if(image) {
         try {
           const public_id = image?.split('/')[7].split('.')[0]
@@ -225,8 +235,10 @@ export function DeleteDog(id_dog, image) {
       }
       
       await axios.delete(`http://localhost:3000/dogs/${id_dog}`)
+      const { data } = await axios.get('http://localhost:3000/dogsFromDB')
       return dispatch({
         type: DELETE_DOG,
+        payload: data
       })
     } catch (error) {
       console.log(error);

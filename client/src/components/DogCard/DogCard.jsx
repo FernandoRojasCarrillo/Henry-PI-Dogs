@@ -1,7 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { AddToFavorites, RemoveToFavorites, DeleteDog } from '../../redux/actions';
+import { 
+  AddToFavorites, 
+  RemoveToFavorites, 
+  // DeleteDog 
+} 
+from '../../redux/actions';
 import { FaTrash } from 'react-icons/fa';
 import './DogCard.css';
 
@@ -24,9 +29,21 @@ export default function DogCard({id, image, name, weight, temperaments, dog, fav
         <Link to={`/detail/${id}`}>
           <div className={image ? 'block' : 'text_default'} > Image by default</div>
         </Link>
-        <FaTrash 
-          onClick={()=>dispatch(DeleteDog(id, image))}
-          className='Trash_can' 
+        {/* {
+          Location.pathname === "/created" ?
+          <FaTrash 
+            onClick={()=>dispatch(DeleteDog(id, image))}
+            className='Trash_can' 
+          />
+          : <div></div>
+        } */}
+        <FaTrash
+          onClick={() => dispatch(RemoveToFavorites(id))} 
+          className={ 
+            Location.pathname === "/home" || 
+            Location.pathname === "/created" ? 'block' : 
+            "btn_delete"
+          }
         />
       </div>
       <ul className='container-titulo'>
@@ -45,13 +62,7 @@ export default function DogCard({id, image, name, weight, temperaments, dog, fav
             fav_button === true ? 'fav_active' : "btn_favorites"
           }
         ></button>
-        <button 
-          onClick={() => dispatch(RemoveToFavorites(id))} 
-          className={ 
-            Location.pathname === "/home" || 
-            Location.pathname === "/created" ? 'block' : 
-            "btn_delete"}
-        ></button>
+        
       </ul>
     </div>
   )

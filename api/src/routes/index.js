@@ -40,7 +40,7 @@ router.post('/Image', fileUpload, async (req, res) => {
   
     res.send(Image)
   } catch (error) {
-    console.log(error);
+    res.send({msg: 'error', error})
   }
 })
 
@@ -49,7 +49,6 @@ router.delete('/Image', async (req, res) => {
     
     const { public_id } = req.query;
     const result = await cloudinary.v2.uploader.destroy(public_id);
-    console.log(result);
 
     res.status(200).send(result)
   } catch (error) {
@@ -120,8 +119,7 @@ router.get('/dogs', async (req, res, next) => {
     };
      
   } catch (error) {
-    console.log(error);
-    return res.json({mesage: 'error',});
+    return res.json({mesage: 'error', error});
   }
   if(DogsSearchByName.length) {
     return res.json(DogsSearchByName);
@@ -132,10 +130,10 @@ router.get('/dogs', async (req, res, next) => {
 
 router.post('/dogs', async (req, res) => {
   try {
-    const { image, name, height, weight, life_span, breed_group, temperament } = req.body;
+    const { name, height, weight, life_span, breed_group, temperament } = req.body;
     if(!name || !temperament || !height || !weight || !breed_group || !life_span) return res.status(404).send({msg_error: 'Faltan datos obligatorios'});
     const newDog = await Dog.create({
-      image: image ? image : null,
+      image: req.body.image ? req.body.image : 'URL',
       name: name,
       height: height,
       weight: weight,
@@ -147,8 +145,7 @@ router.post('/dogs', async (req, res) => {
     const dogDreated = await Dog.findAll({include: Temperament})
     res.status(201).send(dogDreated);
   } catch (error) {
-    console.log(error);
-    res.status(404).send('There is an Error');
+    res.status(404).send({msg:'There is an Error', error});
   }
 })
 
@@ -202,8 +199,7 @@ router.get('/dogs', async (req, res) => {
     return res.json(dogs)
     // return res.json(img)
   } catch (error) {
-    console.log(error)
-    return res.status(404).json({mesange: 'error'})
+    return res.status(404).json({mesange: 'error', error})
   }
 })
 
@@ -256,7 +252,7 @@ router.get('/dogs/:idRaza', (req, res) => {
       }     
     }
   })
-  .catch((err) => console.log(err));
+  .catch((err) => res.send(err));
 })
 
 router.get('/temperaments', async (req, res) => {
@@ -277,7 +273,7 @@ router.get('/temperaments', async (req, res) => {
       res.json(AllTemperaments)
     }
   } catch (error) {
-    console.log(error);
+    res.send({msg: 'Error', error})
   }
   
 })

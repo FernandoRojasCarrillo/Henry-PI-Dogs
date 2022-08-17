@@ -1,6 +1,7 @@
 import 
   { 
     GET_ALL_DOGS, 
+    GET_CARRUSEL_DOGS, 
     GET_ALL_DOGS_FROM_DB,
     GET_AND_SHOW_ALL_DOGS,
     MOVE_FORWARD,
@@ -20,6 +21,7 @@ import
     GO_AHEAD_DETAIL,
     GO_BEGIND_DETAIL,
     DELETE_DOG,
+    GET_FAVORITES,
   } 
 from '../actions';
 
@@ -29,6 +31,7 @@ const inisialState = {
   AllDogsFromDataBase: [],
   Favorites: [],
   BackupDogs: [],
+  BackupCarruselDogs: [],
   AuxDogs: [],
   ShowDogs: [],
   getDogDetail: [],
@@ -40,7 +43,6 @@ export default function Reducer(state=inisialState, action) {
   switch (action.type) {
     case GET_ALL_DOGS:
       let Dogs = action.payload[0].name !== 'error' ? [...action.payload] : []
-      console.log(Dogs);
       let Show = [];
       while(Dogs.length){
         let ArrayOfDogs = [];
@@ -53,21 +55,28 @@ export default function Reducer(state=inisialState, action) {
       }
       return{
         ...state,
-        Current: 1,
+        Current: state.Current !== 0 ? state.Current : 1,
         AllDogs: action.payload[0].name === 'error' ? action.payload : [...action.payload] ,
         BackupDogs: action.payload.length > state.BackupDogs.length ? [...action.payload] : state.BackupDogs ,
         AuxDogs: Show.length ? [...Show] : [],
         ShowDogs: Show.length ? [...Show[0]] : action.payload , 
+        BackupCarruselDogs: action.payload , 
+      }
+      case GET_CARRUSEL_DOGS:
+        return {
+        ...state,
+        BackupCarruselDogs: [...state.AllDogs]
       }
     case GET_ALL_DOGS_FROM_DB:
       return {
         ...state,
-        AllDogsFromDataBase: action.payload
+        AllDogsFromDataBase: action.payload,
+        BackupCarruselDogs: action.payload.length ? action.payload : []
       }
     case GET_DOG_BY_ID:
       return {
         ...state,
-        getDogDetail: state.AllDogs.filter((dog) => dog.id.toString() === action.payload.toString() )
+        getDogDetail: state.BackupCarruselDogs.filter((dog) => dog.id.toString() === action.payload.toString() )
       }
     case GET_AND_SHOW_ALL_DOGS:
       return {
@@ -275,14 +284,20 @@ export default function Reducer(state=inisialState, action) {
         ...state,
         Favorites: state.Favorites.filter((dog) => dog.id !== action.payload )
       }
+    case GET_FAVORITES:
+      return {
+        ...state,
+        BackupCarruselDogs: state.Favorites.length ? [...state.Favorites] : []
+      }
     case GO_AHEAD_DETAIL:
       let NextDog = [];
-      for (let i = 0; i < state.AllDogs.length; i++) {
-        if(state.AllDogs[state.AllDogs.length - 1].id === action.payload) {
-          NextDog.push(state.AllDogs[0]);
+      for (let i = 0; i < state.BackupCarruselDogs.length; i++) {
+        if(state.BackupCarruselDogs[state.BackupCarruselDogs.length - 1].id === action.payload && NextDog.length === 0) {
+          NextDog = []
+          NextDog.push(state.BackupCarruselDogs[0]);
         }
-        else if(state.AllDogs[i].id === action.payload ) {
-          NextDog.push(state.AllDogs[i+1]);
+        else if(state.BackupCarruselDogs[i].id === action.payload ) {
+          NextDog.push(state.BackupCarruselDogs[i+1]);
         }
       }
       return {
@@ -291,12 +306,13 @@ export default function Reducer(state=inisialState, action) {
       }
     case GO_BEGIND_DETAIL:
       let PreviousDog = [];
-      for (let i = 0; i < state.AllDogs.length; i++) {
-        if(state.AllDogs[0].id === action.payload) {
-          PreviousDog.push(state.AllDogs[state.AllDogs.length - 1]);
+      for (let i = 0; i < state.BackupCarruselDogs.length; i++) {
+        if(state.BackupCarruselDogs[0].id === action.payload && PreviousDog.length === 0) {
+          PreviousDog = []
+          PreviousDog.push(state.BackupCarruselDogs[state.BackupCarruselDogs.length - 1]);
         }
-        else if(state.AllDogs[i].id === action.payload ) {
-          PreviousDog.push(state.AllDogs[i-1]);
+        else if(state.BackupCarruselDogs[i].id === action.payload ) {
+          PreviousDog.push(state.BackupCarruselDogs[i-1]);
         }
       }
       return {
@@ -305,7 +321,8 @@ export default function Reducer(state=inisialState, action) {
       }
     case DELETE_DOG:
       return {
-        ...state
+        ...state,
+        AllDogsFromDataBase: action.payload
       }
     default:
       return state;

@@ -7,7 +7,7 @@ export default function Loading(){
         <div>Loading</div>
       </div>
       <div className='loup' >
-        <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>    
+        <div className="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>    
       </div>
     </div>
   )

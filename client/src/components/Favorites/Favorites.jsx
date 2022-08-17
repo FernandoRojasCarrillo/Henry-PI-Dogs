@@ -1,5 +1,6 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetFavotrites } from '../../redux/actions';
 import DogCard from '../DogCard/DogCard';
 import NavigationPanel from '../NavigationPanel/NavogationPanel';
 import './Favorites.css';
@@ -7,6 +8,10 @@ import './Favorites.css';
 export default function Favorites() {
 
   const Favorites = useSelector((state) => state.Favorites);
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(GetFavotrites())
+  },[dispatch])
 
   return (
     <div className="favorites" >

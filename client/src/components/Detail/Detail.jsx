@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ClearDogDetail, GetDogsById, GoAheadDetail, GoBehindDetail, getAllDogs } from '../../redux/actions';
+import { ClearDogDetail, GetDogsById, GoAheadDetail, GoBehindDetail } from '../../redux/actions';
 import { useHistory, useParams } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import NavigationPanel from '../NavigationPanel/NavogationPanel';
@@ -17,7 +17,6 @@ export default function Detail() {
   const getDogDetail = useSelector(state => state.getDogDetail);
 
   useEffect(() => {
-    dispatch(getAllDogs())
     dispatch(GetDogsById(dogId))
     return () => {
       dispatch(ClearDogDetail())
@@ -27,36 +26,36 @@ export default function Detail() {
   return (
     <div>
       {
-        getDogDetail.length ? getDogDetail.map((dog) => 
+        getDogDetail.length ?  
           <div className='main-container-detail' >
               <div className='container-detail' >
-              <img className='img' src={ `${dog.image}` } alt={ `${dog.name}`} /> 
+              <img className='img' src={ getDogDetail[0] && `${getDogDetail[0].image}` } alt={ getDogDetail[0] &&  `${getDogDetail[0].name}`} /> 
                 <div className='Cont_info' >
                   <ul>
-                    <li className='Detail_Name'>{ dog.name}</li>
-                    <li className='Detail_titles' >{ dog.temperament ? 'Temperament' : ''}</li>
-                    <li className='Detail_Info' >{ dog.temperament}</li>
+                    <li className='Detail_Name'>{ getDogDetail[0] && getDogDetail[0].name}</li>
+                    <li className='Detail_titles' >{ getDogDetail[0] && getDogDetail[0].temperament ? 'Temperament' : ''}</li>
+                    <li className='Detail_Info' >{ getDogDetail[0] && getDogDetail[0].temperament}</li>
                     <li className='Detail_titles' >Height</li>
-                    <li className='Detail_Info' >{ dog.height}</li>
+                    <li className='Detail_Info' >{ getDogDetail[0] && getDogDetail[0].height}</li>
                     <li className='Detail_titles' >weight</li>
-                    <li className='Detail_Info' >{ dog.weight}</li>
+                    <li className='Detail_Info' >{ getDogDetail[0] && getDogDetail[0].weight}</li>
                     <li className='Detail_titles' >Life Expectancy</li>
-                    <li className='Detail_Info' >{ dog.life_span}</li>
-                    <li className='Detail_titles' >{dog.criadoPor && `Criado por`}</li>
-                    <li className='Detail_Info' >{ dog.criadoPor && dog.criadoPor}</li>
+                    <li className='Detail_Info' >{ getDogDetail[0] && getDogDetail[0].life_span}</li>
+                    <li className='Detail_titles' >{ getDogDetail[0] && getDogDetail[0].criadoPor && `Criado por`}</li>
+                    <li className='Detail_Info' >{ getDogDetail[0] && getDogDetail[0].criadoPor && getDogDetail[0].criadoPor}</li>
                   </ul>
                 </div>
               </div>
                 <MdArrowBackIosNew 
-                  onClick={()=>dispatch(GoBehindDetail(dog.id))}
+                  onClick={()=>dispatch(GoBehindDetail(getDogDetail[0] && getDogDetail[0].id))}
                   className='Arrows Arrows_left' 
                 />
                 <MdArrowForwardIos 
-                  onClick={()=>dispatch(GoAheadDetail(dog.id))}
+                  onClick={()=>dispatch(GoAheadDetail(getDogDetail[0] && getDogDetail[0].id))}
                   className='Arrows Arrows_right' 
                 />
           </div>
-        ) : 
+         : 
         <div className='main-container-detail' >
           <Loading/>
         </div>
