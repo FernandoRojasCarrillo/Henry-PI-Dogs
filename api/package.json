@@ -4,15 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "mocha -w ./tests/**/*.spec.js"
-  },
-  "author": "Henry",
-  "license": "ISC",
-  "engines": {
-    "node": ">=12.18.3",
-    "npm": ">=6.14.6"
+    "start": "node index.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
