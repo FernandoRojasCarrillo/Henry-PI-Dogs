@@ -28,7 +28,7 @@ export const GET_CARRUSEL_DOGS = 'GET_CARRUSEL_DOGS';
 export function getAllDogs () {
   return async function (dispatch) {
     try {
-      const { data } = await axios.get('/dogs')
+      const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/dogs')
       return dispatch({
         type: GET_ALL_DOGS,
         payload: data
@@ -41,7 +41,7 @@ export function getAllDogs () {
 
 export function getAllDogsFromDB () {
   return async function (dispatch) {
-    const { data } = await axios.get('/dogsFromDB')
+    const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/dogsFromDB')
     return dispatch({
       type: GET_ALL_DOGS_FROM_DB,
       payload: data
@@ -52,7 +52,7 @@ export function getAllDogsFromDB () {
 export function CreateNewDog (NewDog) {
   return async function (dispatch) {
 
-    const { data } = await axios.post(`/Image`,NewDog.DogImage)
+    const { data } = await axios.post(`https://api-dogs-backend.herokuapp.com/Image`,NewDog.DogImage)
 
     const newDog = {
       image: data,
@@ -64,14 +64,14 @@ export function CreateNewDog (NewDog) {
       temperament: NewDog.DogInfo.temperament
     }
 
-    return await axios.post('/dogs', newDog );
+    return await axios.post('https://api-dogs-backend.herokuapp.com/dogs', newDog );
   }
 }
 
 export function SearchByName(name) {
   return async function (dispatch) {
     try {
-      const { data } = await axios.get(`/dogs?name=${name}`)
+      const { data } = await axios.get(`https://api-dogs-backend.herokuapp.com/dogs?name=${name}`)
       return dispatch({
         type: GET_ALL_DOGS,
         payload: data
@@ -138,7 +138,7 @@ export function FilterByWeigth(value) {
 export function GetAllTemperament(){
   return async function (dispatch) {
     try {
-      const { data } = await axios.get('/temperaments')
+      const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/temperaments')
       return dispatch ({
         type: GET_ALL_TEMPERAMENT,
         payload: data
@@ -151,7 +151,7 @@ export function GetAllTemperament(){
 
 export function GetAllBreeds() {
   return async function (dispatch) {
-    const { data } = await axios.get('/dogs')
+    const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/dogs')
     return dispatch ({
       type: GET_ALL_BREEDS,
       payload: data
@@ -229,14 +229,14 @@ export function DeleteDog(id_dog, image) {
       if(image) {
         try {
           const public_id = image?.split('/')[7].split('.')[0]
-          axios.delete(`/Image?public_id=${public_id}`)
+          axios.delete(`https://api-dogs-backend.herokuapp.com/Image?public_id=${public_id}`)
         } catch (error) {
           console.log(error);
         }
       }
       
-      await axios.delete(`/dogs/${id_dog}`)
-      const { data } = await axios.get('/dogsFromDB')
+      await axios.delete(`https://api-dogs-backend.herokuapp.com/dogs/${id_dog}`)
+      const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/dogsFromDB')
       return dispatch({
         type: DELETE_DOG,
         payload: data
