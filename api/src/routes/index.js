@@ -3,7 +3,6 @@ const axios = require('axios');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs-extra');
-const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary');
 const { Temperament, Dog, Image, Op, API_KEY } = require('../db.js');
 const { dirname } = require('path');
@@ -57,6 +56,9 @@ router.delete('/Image', async (req, res) => {
 })
 
 
+router.get('/', (req, res) => {
+  res.send('<h1>Hello World!</h1>')
+})
 
 const createDog = ( id, image=null , extention,  name, temperament,height, weight, breed,life_span ) => {
 
@@ -184,7 +186,7 @@ router.get('/dogs', async (req, res) => {
         criadoPor: d.criadoPor
       }
       dogs.push(Dog)
-    }) : false;
+    }) : null;
 
     if(data.length) {
       data.map(dog => {

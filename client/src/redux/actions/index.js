@@ -1,4 +1,6 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config()
 export const GET_ALL_DOGS = 'GET_ALL_DOGS';
 export const GET_ALL_DOGS_FROM_DB = 'GET_ALL_DOGS_FROM_DB';
 export const GET_DOG_BY_ID = 'GET_DOG_BY_ID';
@@ -24,22 +26,22 @@ export const GET_FAVORITES = 'GET_FAVORITES';
 export const GET_CARRUSEL_DOGS = 'GET_CARRUSEL_DOGS';
 
 export function getAllDogs () {
-  return function (dispatch) {
-    axios('http://localhost:3000/dogs')
-    .then((response) => {
-
-        return dispatch({
-          type: GET_ALL_DOGS,
-          payload: response.data
-        })
-    })
-    .catch(err => console.log(err));
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.get('/dogs')
+      return dispatch({
+        type: GET_ALL_DOGS,
+        payload: data
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
 export function getAllDogsFromDB () {
   return async function (dispatch) {
-    const { data } = await axios('http://localhost:3000/dogsFromDB')
+    const { data } = await axios.get('/dogsFromDB')
     return dispatch({
       type: GET_ALL_DOGS_FROM_DB,
       payload: data
@@ -50,7 +52,7 @@ export function getAllDogsFromDB () {
 export function CreateNewDog (NewDog) {
   return async function (dispatch) {
 
-    const { data } = await axios.post(`http://localhost:3000/Image`,NewDog.DogImage)
+    const { data } = await axios.post(`/Image`,NewDog.DogImage)
 
     const newDog = {
       image: data,
@@ -62,24 +64,21 @@ export function CreateNewDog (NewDog) {
       temperament: NewDog.DogInfo.temperament
     }
 
-    return await axios.post('http://localhost:3000/dogs', newDog );
+    return await axios.post('/dogs', newDog );
   }
 }
 
 export function SearchByName(name) {
   return async function (dispatch) {
-
-    fetch(`http://localHost:3000/dogs?name=${name}`)
-    .then(response => response.json())
-    .then(json => {
+    try {
+      const { data } = await axios.get(`/dogs?name=${name}`)
       return dispatch({
         type: GET_ALL_DOGS,
-        payload: json
+        payload: data
       })
-    })
-    .catch(err =>{
-      console.log(err)
-    });
+    } catch (error) {
+      console.log(error)
+    }
   }
   
 }
@@ -137,20 +136,22 @@ export function FilterByWeigth(value) {
 }
 
 export function GetAllTemperament(){
-  return function (dispatch) {
-    axios('http://localhost:3000/temperaments')
-    .then(response => {
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.get('/temperaments')
       return dispatch ({
         type: GET_ALL_TEMPERAMENT,
-        payload: response.data
+        payload: data
       })
-    })
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
 export function GetAllBreeds() {
   return async function (dispatch) {
-    const { data } = await axios.get('http://localhost:3000/dogs')
+    const { data } = await axios.get('/dogs')
     return dispatch ({
       type: GET_ALL_BREEDS,
       payload: data
@@ -228,14 +229,14 @@ export function DeleteDog(id_dog, image) {
       if(image) {
         try {
           const public_id = image?.split('/')[7].split('.')[0]
-          axios.delete(`http://localhost:3000/Image?public_id=${public_id}`)
+          axios.delete(`/Image?public_id=${public_id}`)
         } catch (error) {
           console.log(error);
         }
       }
       
-      await axios.delete(`http://localhost:3000/dogs/${id_dog}`)
-      const { data } = await axios.get('http://localhost:3000/dogsFromDB')
+      await axios.delete(`/dogs/${id_dog}`)
+      const { data } = await axios.get('/dogsFromDB')
       return dispatch({
         type: DELETE_DOG,
         payload: data
