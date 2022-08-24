@@ -19,7 +19,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   };
   const ButtonFavorites = () => {
     const botMessage = createChatBotMessage(
-      'You will find the favorites button in the menu or you can click the button below',
+      'To go to the favorite section Click the button "Favorites" you can find it in the menu or Click the button below ',
       { widget: "ButtonFavorites" }
     );
 
@@ -30,7 +30,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   };
   const AnswerCreateNewDog = () => {
     const botMessage = createChatBotMessage(
-      'To create a new dog you can click the button "Create new Dog" you will find it in the menu or you click the button below ',
+      'To create a new dog you have to fill out a form with all the data of the dog. Click the button below to go to the form page',
       { widget: "AnswerCreateNewDog" }
     );
 
@@ -41,7 +41,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   };
   const ButtonDogsCreated = () => {
     const botMessage = createChatBotMessage(
-      'You can find the dogs that have been created by clicking the button below',
+      'You can find the dogs that have been created by click the button "Dogs created" in the menu or you can click the button below',
       { widget: "ButtonDogsCreated" }
     );
 
@@ -53,7 +53,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   
   const ErrorMessage = () => {
     const botMessage = createChatBotMessage(
-      "I'm sorry, I don't have an answer to your question. Be sure to type consistent questions and spell them correctly. Down below there are some frequent questions that may help you ",
+      "I'm sorry, I don't have an answer to your question. Be sure to spell your questions correctly. Down below there are some frequent questions that may help you ",
       { widget: "FrequentQuestions" }
     );
 

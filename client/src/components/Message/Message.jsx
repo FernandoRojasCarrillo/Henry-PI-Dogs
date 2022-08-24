@@ -32,7 +32,7 @@ export default function Message({setState, state, id, image}) {
             onClick={()=>HandleChick()}
             className="btn_click"
           >
-            I'm sure
+            Okey
           </button>
         </div>
         <TiDeleteOutline className='X_icon' />

@@ -17,8 +17,10 @@
 }
 
 .img {
-  height: 90vh;
-  max-width: 60vw;;
+  height: 43vw;
+  /* min-height: 1vh; */
+  max-width: 60vw;
+  min-width: 1vw;
   border-radius: 20px;
 }
 
@@ -27,26 +29,27 @@
 }
 
 .Detail_Name {
-  font-size: 25px;
+  font-size: 3vw ;
   color: rgb(255 255 255 / 80%);
 }
 
 .Detail_titles {
-  font-size: 20px;
+  font-size: 2vw;
   color: rgb(0 0 0 / 90%);
   font-weight: bold;
 }
 
 .Detail_Info {
-  font-size: 17px;
+  font-size: 1.7vw;
   color: rgb(0 0 0 / 70%);
 }
 
 .container-detail {
   display: flex;
   position: relative;
-  height: 95vh;
+  height: 45vw;
   width: 90vw;
+  padding: 0 15px;
   align-items:center;
   justify-content: center;
   background-color: rgb(255 255 255 / 50%);
@@ -112,7 +115,16 @@ li {
   }
 
   .Detail_Name {
+    font-size: 9vw;
     color: rgb(0 100 255 / 80%);
+  }
+  
+  .Detail_titles {
+    font-size: 7vw;
+  }
+  
+  .Detail_Info {
+    font-size: 5vw;
   }
 
   ul {

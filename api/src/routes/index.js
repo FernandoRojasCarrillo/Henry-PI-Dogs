@@ -60,22 +60,6 @@ router.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
 
-const createDog = ( id, image=null , extention,  name, temperament,height, weight, breed, life_span, fav_button ) => {
-
-  const Dog = {
-    id,
-    image: image ? `https://cdn2.thedogapi.com/images/${image}.${extention}` : null,
-    name,
-    temperament,
-    weight,
-    height,
-    breed,
-    life_span,
-    fav_button
-  }
-  return Dog;
-}
-
 router.get('/getAllApiDogs', async (req, res) => {
   try {
     const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds`);
@@ -96,47 +80,15 @@ router.get('/getAllApiDogs', async (req, res) => {
   }
 })
 
-
-// router.post('/favorites', async (req, res) => {
-//   try {
-//     const{ image, name, temperament, weight, height, breed, life_span } = req.body;
-//     await Favorites.create({
-//       image: image,
-//       name: name,
-//       height: height,
-//       weight: weight,
-//       life_span: life_span,
-//       breed_group: breed,
-//       temperaments: temperament
-//     });
-//     res.send('Dog added to Favorites successfully')
-//   } catch (error) {
-//     res.send('There is an error')
-//   }
-// })
-
-// router.get('/favorites', async (req, res) => {
-//   try {
-//     const FavoritesDogs = await Favorites.findAll();
-//     FavoritesDogs.length ? res.json(FavoritesDogs) : res.status(400).send('No dogs founded');
-//   } catch (error) {
-//     res.status(400).send('There is an error');
-//   }
-// })
-
-
-
-
 router.get('/dogs', async (req, res, next) => {
   const { name }  = req.query;
   if(!name) return next()
   const DogsSearchByName = [];
   
   try {
-    // const { data } = await axios(`https://api.thedogapi.com/v1/breeds/search?q=${name}`);
 
-    const filterDogs = await Dog.findAll( {where: {name: {[Op.iLike]: `${name}%`}}, include: Temperament});
-    filterDogs.length ? 
+    const filterDogs = await Dog.findAll( {where: {name: {[Op.iLike]: `${name}%`}}, include: Temperament, order: [ ['name', 'ASC'] ] });
+    filterDogs.length && 
     filterDogs.map((d) => {
       let Temp = [];
       if(d.Temperaments) {
@@ -158,32 +110,15 @@ router.get('/dogs', async (req, res, next) => {
         criadoPor: d.criadoPor
       }
       DogsSearchByName.push(Dog);
-    }) : false;
-
-    let imageExtention = 'jpg';
+    })
     
-    // data.length && data.forEach(dog => {
-    //   DogsSearchByName.push(
-    //     createDog(
-    //       dog.id, 
-    //       dog.reference_image_id ? dog.reference_image_id : null,
-    //       imageExtention, 
-    //       dog.name, 
-    //       dog.temperament, 
-    //       dog.weight.imperial, 
-    //       dog.height.imperial, 
-    //       dog.breed_group, 
-    //       dog.life_span
-    //     )
-    //   );
-    // })
   } catch (error) {
     return res.status(400).json({mesage: 'There is an error', error});
   }
   if(DogsSearchByName.length) {
     return res.json(DogsSearchByName);
   }else{
-    return res.json({mesage: 'error',});
+    return res.json([{mesage: 'error', name: 'error'}]);
   }
 })
 

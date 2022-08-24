@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import './NavigationPanel.css';
+import { getAllDogs, getAllDogsFromDB } from '../../redux/actions';
+import { useDispatch } from 'react-redux';
 
 export default function NavigationPanel() {
 
   const [ change, setChange ] = useState(true);
   const Location = useLocation();
+  const dispatch = useDispatch();
   
   const HandleCLick = () => {
     setChange(!change);
@@ -23,7 +26,7 @@ export default function NavigationPanel() {
       <div className={ change === true ? 'panel' : 'active_panel'} >
 
         <div className='navigation' >
-          <Link to={'/home'} >
+          <Link onClick={()=>dispatch(getAllDogs())} to={'/home'} >
             <button className={ change === true ? 'block' : 'butons'} >Home</button>
           </Link>
           <Link to={'/favorites'} >
@@ -33,7 +36,7 @@ export default function NavigationPanel() {
             <button className={ change === true ? 'block' : 'butons'} >Formulario</button>
           </Link>
           <Link to={'/created'} >
-            <button className={ change === true ? 'block' : 'butons'} >Dogs Created</button>
+            <button className={ change === true ? 'block' : 'butons'} onClick={()=>dispatch(getAllDogsFromDB())} >Dogs Created</button>
           </Link>
         </div>
         <button onClick={() => HandleCLick()} className='btn_close'>X</button>

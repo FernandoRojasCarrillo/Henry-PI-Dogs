@@ -21,7 +21,7 @@ import ButtonDogsCreated from "./witgets/Buttons/ButtonDogsCreated";
       },
       {
         widgetName: "ButtonFavorites",
-        widgetFunc: (props) => <ButtonFavorites {...props} />,
+        widgetFunc: (props) => <ButtonFavorites  {...props} />,
       },
       {
         widgetName: "AnswerCreateNewDog",

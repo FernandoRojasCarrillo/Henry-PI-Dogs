@@ -129,26 +129,25 @@
   width: 100px;
   margin: 5px 0 0 12px;
   border: none;
-  background-color:transparent;
+  background-color: transparent;
   font-size: 17px;
   font-weight: bold;
   cursor: pointer;
 }
 
 .buttons-order {
+  position: absolute;
+  top: -3.7vh;
   background-color: transparent;
   margin-top: 45px;
-  height: 100px;
+  height: 90px;
   width: 125px;
-}
-
-.buttons-order {
+  padding: 0.5vh 0;
   display: none;
   position: absolute;
 }
 
 .btn-order {
-  position: absolute;
   padding: 5px;
   height: 40px;
   width: 100%;
@@ -171,17 +170,13 @@
   cursor: pointer;
 }
 
-.Weight {
-  margin-top: 40px;
-}
-
 .buttons-order-name {
   display: none;
   position: absolute;
 }
 
 .W {
-  margin-top: 40px;
+  margin-top: 0;
 }
 
 
@@ -346,27 +341,29 @@ li:hover > ul {
   color: rgb(255 255 255 / 70%)
 }
 
-.container_error {
-  background-image: url('../../Images/img-background-error.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  border-radius: 20px;
-  height: 450px;
-  width: 650px;
+.error_message {
+  position: relative;
+  display: flex;
+  height: 14vw;
+  padding: 0.5vw 0.5vw 5vw 0.5vw ;
+  width: 40vw;
+  border-radius: 1vw;
+  margin-top: 5vw;
+  justify-content: center;
+  align-items: flex-end;
+  background-image: linear-gradient(to bottom , rgb( 255 255 255 / 50%), rgb(255 255 255 / 20%) );
+  font-size: 2.2vw;
+  font-weight: bold;
+  color: rgb(0 0 0 / 70%);
 }
 
-.error_message {
-  display: flex;
-  height: 419px;
-  width: 650px;
-  border-radius: 17.5px;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 30px;
-  background-image: linear-gradient(to bottom , rgb( 0 0 0 / 50%), rgb(0 0 0 / 20%) );
-  font-size: 30px;
-  color: rgb(255 255 255 / 70%);
+.Sad_Face {
+  position: absolute;
+  height: 8vw;
+  width: 8vw;
+  top: 1.5vw;
+  left: 16vw;
+  color: rgb( 255 30 0 / 80%);
 }
 
 @media screen and (max-width: 500px) {
@@ -457,10 +454,22 @@ li:hover > ul {
   }
   
   .error_message {
-    height: 170px;
-    width: 285px;
-    font-size: 15px;
+    position: fixed;
+    top: 20vw;
+    left: 3vw;
+    height: 35vw;
+    width: 90vw;
+    font-size: 20px;
     border-radius: 10px;
+  }
+
+  .Sad_Face {
+    position: absolute;
+    height: 20vw;
+    width: 20vw;
+    top: 5vw;
+    left: 35vw;
+    color: rgb( 255 30 0 / 80%);
   }
 
   .btn-active {

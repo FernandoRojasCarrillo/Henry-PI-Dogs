@@ -24,6 +24,7 @@ export const GO_BEGIND_DETAIL = 'GO_BEGIND_DETAIL';
 export const DELETE_DOG = 'DELETE_DOG';
 export const GET_FAVORITES = 'GET_FAVORITES';
 export const GET_CARRUSEL_DOGS = 'GET_CARRUSEL_DOGS';
+export const CHANGE_CHAT_BOT = 'CHANGE_CHAT_BOT';
 
 const API_URL = 'https://api-dogs-backend.herokuapp.com';
 // const API_URL = 'http://localhost:3001';
@@ -265,6 +266,13 @@ export function DeleteDog(id_dog, image) {
       type: DELETE_DOG,
       payload: id_dog
     })
+  }
+}
+
+
+export function ChangeChatBot() {
+  return {
+    type: CHANGE_CHAT_BOT,
   }
 }
 

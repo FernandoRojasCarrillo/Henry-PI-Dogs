@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { ImSearch } from 'react-icons/im';
 import { MdCloseFullscreen } from 'react-icons/md';
 import { IoReloadOutline } from 'react-icons/io5';
+import { BiSad } from 'react-icons/bi';
 import FilterComponent from '../FilterComponent/FIlterComponent';
 import Search from '../Search/Search';
 
@@ -97,7 +98,8 @@ export default function Home(){
 
             <div className='container-order' >
               <ul className={'order-name' } >
-                <li><button className='oder-by'>Order By</button>
+                <li>
+                  <button className='oder-by'>Order By</button>
                   <ul className='buttons-order' >
                     <li><button className='btn-order' >Order by Name</button>
                       <ul className='buttons-order-name' >
@@ -157,11 +159,12 @@ export default function Home(){
                     dog={dog}
                     fav_button={dog.fav_button}
                   />
-                ): <div className='container_error' >
-                    <div className='error_message' >
-                      <span>No dogs with that name have been found</span>
-                    </div>
-                  </div> 
+                ):  <div className='error_message' >
+                      <span>
+                        <BiSad className='Sad_Face' />
+                        No dogs found with that name
+                      </span>
+                    </div> 
               :
               <>
                 {

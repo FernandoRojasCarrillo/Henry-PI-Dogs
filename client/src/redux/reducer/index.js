@@ -22,11 +22,13 @@ import
     GO_BEGIND_DETAIL,
     DELETE_DOG,
     GET_FAVORITES,
+    CHANGE_CHAT_BOT,
   } 
 from '../actions';
 
 const inisialState = {
   Current: 0,
+  ChatBot: false,
   AllDogs: [],
   AllDogsFromDataBase: [],
   Favorites: [],
@@ -53,13 +55,14 @@ export default function Reducer(state=inisialState, action) {
         }
         Show.push(ArrayOfDogs);
       }
+      const showDogs = Show.length ? [...Show[0]] : action.payload;
       return{
         ...state,
         Current: state.Current !== 0 ? state.Current : 1,
         AllDogs: action.payload[0].name === 'error' ? action.payload : [...action.payload] ,
         BackupDogs: action.payload.length > state.BackupDogs.length ? [...action.payload] : state.BackupDogs ,
         AuxDogs: Show.length ? [...Show] : [],
-        ShowDogs: Show.length ? [...Show[0]] : action.payload , 
+        ShowDogs: state.ShowDogs.length ? state.ShowDogs : showDogs, 
         BackupCarruselDogs: action.payload , 
       }
       case GET_CARRUSEL_DOGS:
@@ -110,7 +113,9 @@ export default function Reducer(state=inisialState, action) {
           }
         }
       }
-      let dogs = action.payload === 'A-Z' ? Array : Array.reverse();
+      let dogs = action.payload === 'A-Z' ? [...Array] : [...Array.reverse()];
+      let DogsFilterByName = [...dogs]
+
       let show = [];
       while(dogs.length){
         let ArrayOfDogs = [];
@@ -123,9 +128,10 @@ export default function Reducer(state=inisialState, action) {
       }
       return {
         ...state,
-        AllDogs: state.AllDogs,
+        AllDogs: [...DogsFilterByName],
         Current: state.Current,
         AuxDogs: [...show],
+        BackupCarruselDogs: [...DogsFilterByName],
         ShowDogs: [...show[state.Current - 1]]
       }
     case FILTER_BY_WEIGTH:
@@ -143,7 +149,8 @@ export default function Reducer(state=inisialState, action) {
         }
       }
 
-      let DogsSort = action.payload === 'Asc' ? Array2 : Array2.reverse();
+      let DogsSort = action.payload === 'Asc' ? [...Array2] : [...Array2.reverse()];
+      let DogsFilterByWeigth = [...DogsSort];
       let ShowSort = [];
       while(DogsSort.length){
         let ArrayOfDogs = [];
@@ -156,9 +163,10 @@ export default function Reducer(state=inisialState, action) {
       }
       return {
         ...state,
-        AllDogs: state.AllDogs,
+        AllDogs: [...DogsFilterByWeigth],
         Current: state.Current,
         AuxDogs: [...ShowSort],
+        BackupCarruselDogs: [...DogsFilterByWeigth],
         ShowDogs: [...ShowSort[state.Current - 1]]
       }
     case CLEAR_ALL_DOGS:
@@ -199,7 +207,7 @@ export default function Reducer(state=inisialState, action) {
       const DogsFilter = []
       const allDogs = [];
       state.BackupDogs.forEach((dog) => {
-        if(dog.breed === action.payload) {
+        if(dog.breed_group === action.payload) {
           DogsFilter.push(dog)
           allDogs.push(dog)
         }
@@ -219,6 +227,7 @@ export default function Reducer(state=inisialState, action) {
         AllDogs: [...allDogs],
         Current: 1,
         AuxDogs: [...ShowFilter],
+        BackupCarruselDogs: [...allDogs],
         ShowDogs: [...ShowFilter[0]]
       }
     case FILTER_BY_TEMPERAMENT:
@@ -253,6 +262,7 @@ export default function Reducer(state=inisialState, action) {
       return {
         ...state,
         AllDogs: [...AllDogs],
+        BackupCarruselDogs: [...AllDogs],
         Current: 1,
         AuxDogs: [...showFilter],
         ShowDogs: showFilter.length ? [...showFilter[0]] : state.ShowDogs
@@ -326,6 +336,11 @@ export default function Reducer(state=inisialState, action) {
       return {
         ...state,
         AllDogsFromDataBase: state.AllDogsFromDataBase.filter((dog) => parseInt(dog.id) !== parseInt(action.payload))
+      }
+    case CHANGE_CHAT_BOT:
+      return {
+        ...state,
+        ChatBot: !state.ChatBot
       }
     default:
       return state;

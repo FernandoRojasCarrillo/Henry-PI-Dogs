@@ -84,6 +84,10 @@
   margin: 0 0 3.6vw 0;
 }
 
+.container-titulo:hover .container_Info {
+  display: block;
+}
+
 .btn_favorites {
   position: absolute;
   top: 0;
@@ -160,11 +164,15 @@
   font-size: 1.5vw;
 }
 
-li:hover > ul {
-  display: block;
+.block {
+  display: none;
 }
 
-.block {
+.btn_delete_mobile {
+  display: none;
+}
+
+.Trash_can_mobile {
   display: none;
 }
 
@@ -191,7 +199,7 @@ li:hover > ul {
   }
 
   .Trash_can {
-    display: block;
+    display: none;
   }
 
   .image {
@@ -220,6 +228,10 @@ li:hover > ul {
     width: 263px;
     min-height: 100px;
     color: rgba(255 255 255 / 70%);
+  }
+
+  .container-titulo:hover .container_Info {
+    display: none;
   }
 
   .tageta-informacion {
@@ -254,14 +266,23 @@ li:hover > ul {
   }
 
   .btn_delete {
-    height: 15px;
-    width: 15px;
+    display: none;
+  }
+
+  .btn_delete_mobile {
+    position: absolute;
+    display: block;
+    height: 8vw;
+    width: 8vw;
+    right: 10px;
+  }
+
+  .Trash_can_mobile {
+    position: absolute;
+    display: block;
+    height: 7vw;
+    width: 7vw;
+    right: 10px;
   }
 }
 
-/* ul {
-  list-style-type: none;
-  font-size: 15px;
-  color: rgb(255 255 255/50%)
-
-} */

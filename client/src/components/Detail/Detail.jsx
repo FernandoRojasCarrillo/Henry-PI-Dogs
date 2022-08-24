@@ -29,7 +29,7 @@ export default function Detail() {
         getDogDetail.length ?  
           <div className='main-container-detail' >
               <div className='container-detail' >
-              <img className='img' src={ getDogDetail[0] && `${getDogDetail[0].image}` } alt={ getDogDetail[0] &&  `${getDogDetail[0].name}`} /> 
+                <img className='img' src={ getDogDetail[0] && `${getDogDetail[0].image}` } alt={ getDogDetail[0] &&  `${getDogDetail[0].name}`} /> 
                 <div className='Cont_info' >
                   <ul>
                     <li className='Detail_Name'>{ getDogDetail[0] && getDogDetail[0].name}</li>

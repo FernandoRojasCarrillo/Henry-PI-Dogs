@@ -53,7 +53,8 @@ export default function DogCard({id, image, name, weight, temperaments, dog, fav
         } 
         <TiDelete
           onClick={() => DeleteFavorite()} 
-          className={ Location.pathname === "/favorites" ? "btn_delete" : 'block'}/>
+          className={ Location.pathname === "/favorites" ? "btn_delete" : 'block'}
+        />
       </div>
       <ul className='container-titulo'>
         <li className='targeta-titulo'>{ name }
@@ -71,6 +72,14 @@ export default function DogCard({id, image, name, weight, temperaments, dog, fav
             !fav_button ? "btn_favorites" : 'fav_active' 
           }
         ></button>
+        <MdDeleteForever 
+            onClick={()=>DeleteDog()}
+            className={ Location.pathname === "/created" ? "Trash_can_mobile" : 'block'}
+          />
+        <TiDelete
+          onClick={() => DeleteFavorite()} 
+          className={ Location.pathname === "/favorites" ? "btn_delete_mobile" : 'block'}
+        />
       </ul>
       
     </div>
