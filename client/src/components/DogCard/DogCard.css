@@ -1,10 +1,10 @@
 .container-card {
-  height: 353px;
+  position: relative;
+  height: 26.6vw;
   padding: 0;
-  width: 402px;
-  background-color: rgb(0 0 0/10%);
-  backdrop-filter: blur(8px);
-  border-radius: 19px 19px 19px 19px;
+  width: 29vw;
+  background-color: transparent;
+  border-radius: 16px 16px 20px 20px;
   margin: 0 5px 40px 5px;
 }
 
@@ -16,11 +16,11 @@
 }
 
 .container-img {
-  position: relative;
   display: flex;
   justify-content: center;
-  width: 403px;
-  height: 300px;
+  width: 29vw;
+  height: 23vw;
+  margin: 0;
   background-color: rgb(255 255 255 / 30%);
   border-radius: 15px 15px 0 0;
 }
@@ -28,12 +28,12 @@
 .Trash_can {
   display: none;
   position: absolute;
-  top: 20px;
-  right: 20px;
-  height: 20px;
-  width: 20px;
+  top: 15px;
+  right: 15px;
+  height: 2.2vw;
+  width: 2.2vw;
   cursor: pointer;
-  color: rgb(0 0 0 / 70%);
+  color: rgb(0 0 0 / 80%);
 }
 
 .container-img:hover .Trash_can {
@@ -41,11 +41,9 @@
 }
 
 .image {
-  /* position: relative; */
-  /* position: absolute; */
   cursor: pointer;
-  max-width: 403px;
-  height: 300px;
+  max-width: 29vw;
+  height: 23vw;
   border-radius: 15px 15px 0 0;
 }
 
@@ -63,35 +61,35 @@
 }
 
 .container-titulo {
-  display: block;
-  /* border: 2px solid rgb(0 0 0); */
-  height: 50px;
-  width: 403px;
+  height: 3.6vw;
+  width: 29vw;
   display: flex;
   align-items:center;
   justify-content:center;
   border-radius: 0 0 20px 20px;
   background-color: rgb(255 255 255 / 50%);
+  backdrop-filter: blur(3px)
 }
 
-.container-info {
-  padding: 20px;
-  bottom: 3px;
+.container_Info {
+  padding: 1.5vw;
+  bottom: 0;
   left: 0;
   display: none;
   position: absolute;
   background-color: rgb(255 255 255 / 50%);
-  width: 363px;
-  min-height: 100px;
+  width: 26vw;
+  min-height: 8vw;
   border-radius: 20px 20px 0 0;
+  margin: 0 0 3.6vw 0;
 }
 
 .btn_favorites {
   position: absolute;
   top: 0;
   right: 0;
-  height: 55px;
-  width: 55px;
+  height: 4vw;
+  width: 4vw;
   background-color: rgb(0 0 0 / 70%);
   clip-path: polygon(52% 28%, 65% 23%, 75% 31%, 73% 46%, 67% 54%, 52% 63%, 39% 55%, 32% 46%, 30% 31%, 40% 23%);
   cursor: pointer;
@@ -102,8 +100,8 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  height: 25px;
-  width: 25px;
+  height: 2.2vw;
+  width: 2.2vw;
   border: none;
   cursor: pointer;
 }
@@ -129,8 +127,8 @@
   position: absolute;
   top: 0;
   right: 0;
-  height: 55px;
-  width: 55px;
+  height: 4vw;
+  width: 4vw;
   clip-path: polygon(52% 28%, 65% 23%, 75% 31%, 73% 46%, 67% 54%, 52% 63%, 39% 55%, 32% 46%, 30% 31%, 40% 23%);
   cursor: pointer;
 }
@@ -144,7 +142,7 @@
 }
 
 .targeta-titulo {
-  font-size: 20px;
+  font-size: 1.7vw;
   height: 100%;
   width: 100%;
   justify-content: center;
@@ -159,7 +157,7 @@
   color: rgb(0 0 0 / 90%);
   margin: 4px 0;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.5vw;
 }
 
 li:hover > ul {
@@ -178,12 +176,17 @@ li:hover > ul {
     border-radius: 15px;
   }
 
+  .container-card:hover {
+    transform: none;
+    transition: none;
+    box-shadow: none;
+  }
+
   .container-img {
     position: relative;
     display: flex;
     width: 303px;
     height: 230px;
-    background-color: rgb(0 0 0/70%);
     border-radius: 10px 10px 0 0;
   }
 
@@ -205,13 +208,18 @@ li:hover > ul {
 
   .container-titulo {
     width: 303px;
+    height: 50px;
     border-radius: 0 0 10px 10px;
+  }
+
+  .targeta-titulo {
+    font-size: 20px;
   }
 
   .container-info {
     width: 263px;
     min-height: 100px;
-    color: rgba(255 255 255/70%);
+    color: rgba(255 255 255 / 70%);
   }
 
   .tageta-informacion {
@@ -219,13 +227,30 @@ li:hover > ul {
   }
 
   .btn_favorites {
-    height: 45px;
-    width: 45px;
+    height: 15vw;
+    width: 15vw;
+  }
+
+  .btn_favorites:hover {
+    background-color: rgb(0 0 0 / 70%);
+  }
+  
+  .btn_favorites:active {
+    background-color: rgb(255 255 255 / 70%);
   }
 
   .fav_active {
-    height: 45px;
-    width: 45px;
+    height: 15vw;
+    width: 15vw;
+    cursor: none
+  }
+
+  .fav_active:hover {
+    background-color: rgb(255 0 0 / 70% );
+  }
+
+  .fav_active:active {
+    background-color: rgb(255 255 255 / 70%);
   }
 
   .btn_delete {

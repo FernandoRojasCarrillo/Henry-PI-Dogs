@@ -26,7 +26,7 @@ export default function LandingPage(){
         <img className={ changeImgPhone ? 'Landing_Images_Phone' : 'block_img_landing'} src={img3} alt='Dog_image' />
         <img className={ !changeImgPhone ? 'Landing_Images_Phone' : 'block_img_landing'} src={img4} alt='Dog_image' />
         <h1 className='wellcome_messsage' >WELCOME  EVERYONE</h1>
-        <span className='landing-button' ><Link to={'/home'}><span>Lets go</span></Link></span>
+        <Link to={'/home'}><button className='landing-button' >Lets go</button></Link>
         <MdArrowBackIosNew 
           onClick={()=>HandleClick()}
           className='Arrows Arrows_left' />

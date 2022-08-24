@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ClearDogDetail, GetDogsById, GoAheadDetail, GoBehindDetail } from '../../redux/actions';
+import { ClearDogDetail, GetDogsById, GoAheadDetail,  } from '../../redux/actions';
 import { useHistory, useParams } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import NavigationPanel from '../NavigationPanel/NavogationPanel';
@@ -47,7 +47,7 @@ export default function Detail() {
                 </div>
               </div>
                 <MdArrowBackIosNew 
-                  onClick={()=>dispatch(GoBehindDetail(getDogDetail[0] && getDogDetail[0].id))}
+                  // onClick={()=>dispatch(GoBehindDetail(getDogDetail[0] && getDogDetail[0].id))}
                   className='Arrows Arrows_left' 
                 />
                 <MdArrowForwardIos 

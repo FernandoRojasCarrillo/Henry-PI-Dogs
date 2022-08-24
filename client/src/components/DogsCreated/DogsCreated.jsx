@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllDogsFromDB } from '../../redux/actions';
 import DogCard from '../DogCard/DogCard';
+import Message from '../Message/Message';
 import NavigationPanel from '../NavigationPanel/NavogationPanel';
 import './DogsCreated.css';
 
 export default function DogsCreated() {
+
+  const [ state, setState ] = useState(false);
+  const [ id, setId ] = useState(null);
+  const [ image, setImage ] = useState(null);
 
   const dispatch = useDispatch();
   const AllDogsFromDataBase = useSelector((state) => state.AllDogsFromDataBase);
@@ -27,6 +32,9 @@ export default function DogsCreated() {
               weight={dog.weight}
               temperaments={dog.temperament}
               dog={dog}
+              setState={setState}
+              setId={setId}
+              setImage={setImage}
             />
           )) : <div className='message' >Not dogs created</div>
         }
@@ -37,6 +45,12 @@ export default function DogsCreated() {
         Dogs Created
       </h1>
       <NavigationPanel/>
+      <Message
+        setState={setState}
+        state={state}
+        id={id}
+        image={image}
+      />
     </div>
   )
 }

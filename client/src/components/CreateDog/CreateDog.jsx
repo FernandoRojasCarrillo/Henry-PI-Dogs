@@ -7,6 +7,7 @@ import NavigationPanel from '../NavigationPanel/NavogationPanel';
 import { Link } from 'react-router-dom';
 import { FcCheckmark } from 'react-icons/fc';
 import { MdCloseFullscreen } from 'react-icons/md';
+import { GiCheckMark } from 'react-icons/gi';
 
 
 
@@ -61,7 +62,8 @@ export default function CreateDog() {
     setDogCreated({
       ...DogCreated,
       breed_group: e.target.value
-    })
+    });
+    setButtonBreed(true)
   }
 
   const CreateDog = (e) => {
@@ -114,8 +116,7 @@ export default function CreateDog() {
 
     dispatch(CreateNewDog(NewDog))
 
-    document.getElementById('file').value = null;
-
+    
     setDogCreated({
       name: '',
       min_height: '',
@@ -127,6 +128,7 @@ export default function CreateDog() {
       temperaments: [],
       new_dog: ''
     })
+    document.getElementById('file').value = null;
     setSuccessMessage(false)
     dispatch(ClearAllDogs())
     dispatch(getAllDogs())
@@ -141,9 +143,20 @@ export default function CreateDog() {
       <form className='container-form' >
         <label
           htmlFor='file' 
-          className='tbn_select_image' 
+          className={ File ? 'tbn_select_image image_celected' : 'tbn_select_image' }
         >
           Choose an Image
+          {
+            File ?
+            <GiCheckMark
+              style={{
+                position: 'absolute',
+                right: '15px',
+                color: 'rgb(0 255 0 / 70%)',
+              }}
+            />
+            : <div></div>
+          }
         </label>
         <input id='file' name='file' onChange={(e)=>HandlerSelect(e)} type='file' />
 

@@ -1,10 +1,8 @@
 const { DataTypes } = require('sequelize');
-// Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
+
 module.exports = (sequelize) => {
-  // defino el modelo
   sequelize.define(
-    'Dog', 
+    'Favorites',
     {
       id: {
         type: DataTypes.BIGINT,
@@ -37,12 +35,8 @@ module.exports = (sequelize) => {
       },
       fav_button: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
-      },
-      dog_created: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: true
       }
     }
-  );
-};
+  )
+}

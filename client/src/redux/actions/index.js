@@ -21,14 +21,17 @@ export const ADD_TO_FAVORITES = 'ADD_TO_FAVORITES';
 export const REMOVE_TO_FAVORITES = 'REMOVE_TO_FAVORITES';
 export const GO_AHEAD_DETAIL = 'GO_AHEAD_DETAIL';
 export const GO_BEGIND_DETAIL = 'GO_BEGIND_DETAIL';
-export const DELETE_DOG = 'GO_BEGIND_DETAIL';
+export const DELETE_DOG = 'DELETE_DOG';
 export const GET_FAVORITES = 'GET_FAVORITES';
 export const GET_CARRUSEL_DOGS = 'GET_CARRUSEL_DOGS';
+
+const API_URL = 'https://api-dogs-backend.herokuapp.com';
+// const API_URL = 'http://localhost:3001';
 
 export function getAllDogs () {
   return async function (dispatch) {
     try {
-      const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/dogs')
+      const { data } = await axios.get(`${API_URL}/dogs`)
       return dispatch({
         type: GET_ALL_DOGS,
         payload: data
@@ -41,7 +44,7 @@ export function getAllDogs () {
 
 export function getAllDogsFromDB () {
   return async function (dispatch) {
-    const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/dogsFromDB')
+    const { data } = await axios.get(`${API_URL}/dogsFromDB`)
     return dispatch({
       type: GET_ALL_DOGS_FROM_DB,
       payload: data
@@ -52,7 +55,7 @@ export function getAllDogsFromDB () {
 export function CreateNewDog (NewDog) {
   return async function (dispatch) {
 
-    const { data } = await axios.post(`https://api-dogs-backend.herokuapp.com/Image`,NewDog.DogImage)
+    const { data } = await axios.post(`${API_URL}/Image`,NewDog.DogImage)
 
     const newDog = {
       image: data,
@@ -64,14 +67,14 @@ export function CreateNewDog (NewDog) {
       temperament: NewDog.DogInfo.temperament
     }
 
-    return await axios.post('https://api-dogs-backend.herokuapp.com/dogs', newDog );
+    return await axios.post(`${API_URL}/dogs`, newDog );
   }
 }
 
 export function SearchByName(name) {
   return async function (dispatch) {
     try {
-      const { data } = await axios.get(`https://api-dogs-backend.herokuapp.com/dogs?name=${name}`)
+      const { data } = await axios.get(`${API_URL}/dogs?name=${name}`)
       return dispatch({
         type: GET_ALL_DOGS,
         payload: data
@@ -138,7 +141,7 @@ export function FilterByWeigth(value) {
 export function GetAllTemperament(){
   return async function (dispatch) {
     try {
-      const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/temperaments')
+      const { data } = await axios.get(`${API_URL}/temperaments`)
       return dispatch ({
         type: GET_ALL_TEMPERAMENT,
         payload: data
@@ -151,7 +154,7 @@ export function GetAllTemperament(){
 
 export function GetAllBreeds() {
   return async function (dispatch) {
-    const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/dogs')
+    const { data } = await axios.get(`${API_URL}/dogs`)
     return dispatch ({
       type: GET_ALL_BREEDS,
       payload: data
@@ -180,18 +183,31 @@ export function FilterByBreed(val) {
     payload: val
   }
 }
-
-export function AddToFavorites(dog) {
-  return {
-    type: ADD_TO_FAVORITES,
-    payload: dog
+export function AddToFavorites(dog, val) {
+  return async function(dispatch) {
+    try {
+      await axios.put(`${API_URL}/favorites/${dog.id}`, {value: val})
+      return dispatch({
+        type: ADD_TO_FAVORITES,
+        payload: dog
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
-export function RemoveToFavorites(id) {
-  return {
-    type: REMOVE_TO_FAVORITES,
-    payload: id
+export function RemoveToFavorites(id, val ) {
+  return async function(dispatch) {
+    try {
+      axios.put(`${API_URL}/favorites/${id}`, {value: val})
+    } catch (error) {
+      console.log(error);
+    }
+    return dispatch({
+      type: REMOVE_TO_FAVORITES,
+      payload: id
+    })
   }
 }
 
@@ -210,9 +226,16 @@ export function GoBehindDetail(id) {
 }
 
 export function GetFavotrites(id) {
-  return {
-    type: GET_FAVORITES,
-    payload: id
+  return async function(dispatch) {
+    try {
+      const {data} = await axios.get(`${API_URL}/favorites`)
+      return dispatch({
+        type: GET_FAVORITES,
+        payload: data
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
@@ -225,25 +248,23 @@ export function GetCarruselDogs() {
 export function DeleteDog(id_dog, image) {
   return async function (dispatch) {
     try {
-
       if(image) {
         try {
           const public_id = image?.split('/')[7].split('.')[0]
-          axios.delete(`https://api-dogs-backend.herokuapp.com/Image?public_id=${public_id}`)
+          axios.delete(`${API_URL}/Image?public_id=${public_id}`)
         } catch (error) {
           console.log(error);
         }
       }
       
-      await axios.delete(`https://api-dogs-backend.herokuapp.com/dogs/${id_dog}`)
-      const { data } = await axios.get('https://api-dogs-backend.herokuapp.com/dogsFromDB')
-      return dispatch({
-        type: DELETE_DOG,
-        payload: data
-      })
+      axios.delete(`${API_URL}/dogs/${id_dog}`)
     } catch (error) {
       console.log(error);
     }
+    return dispatch({
+      type: DELETE_DOG,
+      payload: id_dog
+    })
   }
 }
 

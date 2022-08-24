@@ -126,8 +126,8 @@ export default function Home(){
               ShowDogs.length ?
               (
                 // Pagination Buttons
-                <div className='paginado' >
-                  <button className={ value === 1 ? 'block' : 'btn-buttons1' } onClick={() => dispatch(MoveBachward())}></button>
+                <div className={ value === 1 ? 'block' : 'paginado' } >
+                  <button className='btn-buttons1' onClick={() => dispatch(MoveBachward())}></button>
                   <div className='container-paginado ' >
                     <button className='btn_pagina_phone' >{Current}</button>
                     {

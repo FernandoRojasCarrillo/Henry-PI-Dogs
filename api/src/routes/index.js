@@ -4,7 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs-extra');
 const cloudinary = require('cloudinary');
-const { Temperament, Dog, Image, Op, API_KEY } = require('../db.js');
+const { Temperament, Dog, Favorites, Op, API_KEY } = require('../db.js');
 const { dirname } = require('path');
 const router = Router();
 const Temperaments = require('./Temperaments.js');
@@ -60,7 +60,7 @@ router.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
 
-const createDog = ( id, image=null , extention,  name, temperament,height, weight, breed,life_span ) => {
+const createDog = ( id, image=null , extention,  name, temperament,height, weight, breed, life_span, fav_button ) => {
 
   const Dog = {
     id,
@@ -71,10 +71,59 @@ const createDog = ( id, image=null , extention,  name, temperament,height, weigh
     height,
     breed,
     life_span,
-    fav_button: false
+    fav_button
   }
   return Dog;
 }
+
+router.get('/getAllApiDogs', async (req, res) => {
+  try {
+    const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds`);
+    data.length && data.forEach( async (dog) => {
+      await Dog.create({
+        image: dog.image && dog.image.url,
+        name: dog.name && dog.name,
+        height: dog.weight && dog.weight.metric,
+        weight: dog.height && dog.height.metric,
+        life_span: dog.life_span && dog.life_span,
+        breed_group: dog.breed_group && dog.breed_group,
+        temperaments: dog.temperament && dog.temperament
+      });
+    })
+    res.send('Dogs created')
+  } catch (error) {
+    res.send('There is an error')
+  }
+})
+
+
+// router.post('/favorites', async (req, res) => {
+//   try {
+//     const{ image, name, temperament, weight, height, breed, life_span } = req.body;
+//     await Favorites.create({
+//       image: image,
+//       name: name,
+//       height: height,
+//       weight: weight,
+//       life_span: life_span,
+//       breed_group: breed,
+//       temperaments: temperament
+//     });
+//     res.send('Dog added to Favorites successfully')
+//   } catch (error) {
+//     res.send('There is an error')
+//   }
+// })
+
+// router.get('/favorites', async (req, res) => {
+//   try {
+//     const FavoritesDogs = await Favorites.findAll();
+//     FavoritesDogs.length ? res.json(FavoritesDogs) : res.status(400).send('No dogs founded');
+//   } catch (error) {
+//     res.status(400).send('There is an error');
+//   }
+// })
+
 
 
 
@@ -84,7 +133,7 @@ router.get('/dogs', async (req, res, next) => {
   const DogsSearchByName = [];
   
   try {
-    const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}&api_key=${API_KEY}`);
+    // const { data } = await axios(`https://api.thedogapi.com/v1/breeds/search?q=${name}`);
 
     const filterDogs = await Dog.findAll( {where: {name: {[Op.iLike]: `${name}%`}}, include: Temperament});
     filterDogs.length ? 
@@ -105,23 +154,31 @@ router.get('/dogs', async (req, res, next) => {
         breed_group: d.breed_group,
         life_span: d.life_span,
         temperament: temp ,
-        fav_button: false,
+        fav_button: d.fav_button,
         criadoPor: d.criadoPor
       }
       DogsSearchByName.push(Dog);
     }) : false;
 
-    if(data.length) {
-      for (let i = 0; i < data.length; i++) {
-        let imageExtention = 'jpg';
-        DogsSearchByName.push(createDog(data[i].id, data[i].reference_image_id ? data[i].reference_image_id : null,imageExtention, data[i].name, data[i].temperament, data[i].weight.imperial, data[i].height.imperial, data[i].breed_group, data[i].life_span));
-      }
-    }else{
-      return res.status(404).send([{ name: 'error', msg_error: 'No se encontraron dogs por ese nombre'}]);
-    };
-     
+    let imageExtention = 'jpg';
+    
+    // data.length && data.forEach(dog => {
+    //   DogsSearchByName.push(
+    //     createDog(
+    //       dog.id, 
+    //       dog.reference_image_id ? dog.reference_image_id : null,
+    //       imageExtention, 
+    //       dog.name, 
+    //       dog.temperament, 
+    //       dog.weight.imperial, 
+    //       dog.height.imperial, 
+    //       dog.breed_group, 
+    //       dog.life_span
+    //     )
+    //   );
+    // })
   } catch (error) {
-    return res.json({mesage: 'error', error});
+    return res.status(400).json({mesage: 'There is an error', error});
   }
   if(DogsSearchByName.length) {
     return res.json(DogsSearchByName);
@@ -140,7 +197,8 @@ router.post('/dogs', async (req, res) => {
       height: height,
       weight: weight,
       life_span: life_span,
-      breed_group: breed_group
+      breed_group: breed_group,
+      dog_created: true
     });
     const tempsFromDB = await Temperament.findAll({where: {name: {[Op.in] : temperament}}});
     await newDog.addTemperament(tempsFromDB)
@@ -151,9 +209,51 @@ router.post('/dogs', async (req, res) => {
   }
 })
 
+router.get('/favorites', async (req, res) => {
+  try {
+    const FavDogs = await Dog.findAll({
+      where: {
+        fav_button: true
+      }
+    })
+    res.json(FavDogs)
+  } catch (error) {
+    res.status(400).send('No dogs in the facorite section');
+  }
+})
+
+router.put('/favorites/:dog_id', async (req, res) => {
+  try {
+    const { dog_id } = req.params;
+    const { value } = req.body;
+    await Dog.update(
+      {
+        fav_button: value
+      },
+      {
+        where: {
+          id: dog_id
+        }
+      }
+    )
+    res.send('Dog updated successfully')
+  } catch (error) {
+    res.status(400).send('There is an error');
+  }
+})
+
+router.delete('/favorites/:dog_id', async (req, res) => {
+  try {
+    const { dog_id } = req.params;
+    await Favorites.destroy({where: {id: dog_id}})
+    res.send('Dog deleted succesfully');
+  } catch (error) {
+    res.send('There is an error');
+  }
+})
+
 router.delete('/dogs/:id_dog', async (req, res) => {
   try {
-    
     const { id_dog } = req.params;
     await Dog.destroy({ where: { id: id_dog } })
     res.send({msg: 'Dog delete successfuly'});
@@ -164,10 +264,9 @@ router.delete('/dogs/:id_dog', async (req, res) => {
 
 router.get('/dogs', async (req, res) => {
   try {
-    const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`);
-    let dogs = [];
-    const DbDogs = await Dog.findAll({include: Temperament});
-    DbDogs.length ? DbDogs.map( (d) => {
+    let AllDogs = [];
+    const DogsCreated = await Dog.findAll({ where: { dog_created: true }, include: Temperament, order: [ ['name', 'ASC'] ] });
+    DogsCreated.length ? DogsCreated.map( (d) => {
       let Temp = [];
       d.Temperaments.map(t => {
         Temp.push(t.name)
@@ -182,31 +281,37 @@ router.get('/dogs', async (req, res) => {
         breed_group: d.breed_group,
         life_span: d.life_span,
         temperament: temp,
-        fav_button: false,
+        fav_button: d.fav_button,
         criadoPor: d.criadoPor
       }
-      dogs.push(Dog)
+      AllDogs.push(Dog)
     }) : null;
 
-    if(data.length) {
-      data.map(dog => {
-        let img = dog.image.url.slice(-3)
-        dogs.push(createDog(dog.id, dog.reference_image_id, img, dog.name, dog.temperament, dog.weight.metric, dog.height.metric, dog.breed_group, dog.life_span))
-      })
-      
-    }else{
-      return res.status(404).send({msg_error: 'Error no hay datos'})
-    }
-    
-    return res.json(dogs)
-    // return res.json(img)
+    const AllDataBaseDogs = await Dog.findAll({ where: { dog_created: false }, order: [ ['name', 'ASC'] ] });
+    AllDataBaseDogs.length ? AllDataBaseDogs.map( (d) => {
+      const Dog = {
+        id: d.id,
+        image: d.image ? d.image : null,
+        name: d.name,
+        weight: d.weight,
+        height: d.height,
+        breed_group: d.breed_group,
+        life_span: d.life_span,
+        temperament: d.temperaments,
+        fav_button: d.fav_button,
+        criadoPor: d.criadoPor
+      }
+      AllDogs.push(Dog)
+    }) : null;
+
+    return res.json(AllDogs)
   } catch (error) {
     return res.status(404).json({mesange: 'error', error})
   }
 })
 
 router.get('/dogsFromDB', async (req, res) => {
-  const DogsFromDataBase = await Dog.findAll({include: Temperament});
+  const DogsFromDataBase = await Dog.findAll({ where: { dog_created: true}, include: Temperament});
   const DogsFromDB = [];
   DogsFromDataBase.length ? DogsFromDataBase.map( (dog) => {
     let Temp = [];

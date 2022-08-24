@@ -182,10 +182,10 @@ export default function Reducer(state=inisialState, action) {
       let breeds = [] ;
       for (let i = 0; i < action.payload.length; i++) {
         
-        if(!action.payload[i].breed || action.payload[i].breed === ""){
+        if(!action.payload[i].breed_group || action.payload[i].breed_group === ""){
           continue;
         }
-        breeds.push(action.payload[i].breed);
+        breeds.push(action.payload[i].breed_group);
       }
       
       let set = new Set(breeds);
@@ -278,8 +278,10 @@ export default function Reducer(state=inisialState, action) {
         AuxDogs: state.AuxDogs,
       }
     case REMOVE_TO_FAVORITES:
-      const ChangeDogToNormal = state.AllDogs.find((dog) => dog.id === action.payload);
+      const ChangeDogToNormalAllDogs = state.AllDogs.find((dog) => parseInt(dog.id) === parseInt(action.payload));
+      const ChangeDogToNormal = state.Favorites.find((dog) => parseInt(dog.id) === parseInt(action.payload));
       ChangeDogToNormal.fav_button = false;
+      if(ChangeDogToNormalAllDogs) ChangeDogToNormalAllDogs.fav_button = false
       return {
         ...state,
         Favorites: state.Favorites.filter((dog) => dog.id !== action.payload )
@@ -287,7 +289,8 @@ export default function Reducer(state=inisialState, action) {
     case GET_FAVORITES:
       return {
         ...state,
-        BackupCarruselDogs: state.Favorites.length ? [...state.Favorites] : []
+        Favorites: action.payload,
+        BackupCarruselDogs: action.payload
       }
     case GO_AHEAD_DETAIL:
       let NextDog = [];
@@ -322,7 +325,7 @@ export default function Reducer(state=inisialState, action) {
     case DELETE_DOG:
       return {
         ...state,
-        AllDogsFromDataBase: action.payload
+        AllDogsFromDataBase: state.AllDogsFromDataBase.filter((dog) => parseInt(dog.id) !== parseInt(action.payload))
       }
     default:
       return state;

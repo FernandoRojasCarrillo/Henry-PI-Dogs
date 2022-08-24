@@ -209,8 +209,8 @@ li:hover > ul {
   cursor: pointer;
   align-items: center;
   justify-content:flex-end;
-  height: 40px;
-  width: 40px;
+  height: 3vw;
+  width: 3vw;
   padding: 0 10px 0 10px;
   background-color: rgb( 255 255 255/50%);
   color: rgb( 0 0 0);
@@ -223,8 +223,8 @@ li:hover > ul {
   cursor: pointer;
   align-items: center;
   justify-content:flex-start;
-  height: 40px;
-  width: 40px;
+  height: 3vw;
+  width: 3vw;
   padding: 0 10px 0 10px;
   background-color: rgb( 255 255 255/50%);
   color: rgb( 0 0 0);
@@ -255,15 +255,15 @@ li:hover > ul {
 }
 
 .btns {
-  height: 22px;
-  margin: 5px 30px;
-  width: 35px;
+  height: 1.8vw;
+  margin: 5px 2vw;
+  width: 2.5vw;
   border: none;
   background-color: rgb( 255 255 255/50%);
   cursor: pointer;
   border-radius: 30px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 1.2vw;
   color: rgb(0 0 0 );
 }
 
